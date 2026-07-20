@@ -1,0 +1,16 @@
+# ============================================================
+#  Cron jobs para el servidor (Hostinger u otro VPS)
+#  Instalar con:  crontab -e   y pegar estas lineas.
+#  OJO: la hora del servidor debe estar en zona Colombia (America/Bogota)
+#       o ajusta las horas. Verifica con:  timedatectl
+# ============================================================
+
+# --- Agente en ciclo continuo (reinicia si el proceso se cae) ---
+# Alternativa recomendada: usar systemd o pm2 en vez de cron para el agente.
+# @reboot cd /ruta/al/polymarket_agent && /usr/bin/python3 -m src.agent --loop >> agente.log 2>&1
+
+# --- Reporte DIARIO a las 23:59 hora Colombia ---
+59 23 * * * cd /ruta/al/polymarket_agent && /usr/bin/python3 reports/daily_report.py >> reporte_diario.log 2>&1
+
+# --- Reporte MENSUAL: dia 1 de cada mes a las 00:05 ---
+5 0 1 * * cd /ruta/al/polymarket_agent && /usr/bin/python3 reports/monthly_report.py >> reporte_mensual.log 2>&1
