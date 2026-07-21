@@ -1,21 +1,15 @@
 """
 ================================================================
-  SONDA DE DATOS REALES - Polymarket (SOLO LECTURA, SIN DINERO)
+  SONDA DE DATOS REALES v2 - Polymarket (SOLO LECTURA, SIN DINERO)
 ================================================================
-Se conecta a la API PUBLICA de Polymarket, descarga mercados
-activos y cuenta cuantas oportunidades de ARBITRAJE existen de
-verdad AHORA MISMO (donde comprar YES + NO cuesta menos de $1).
+Ahora mira el LIBRO DE ORDENES real (precio 'ask', lo que de verdad
+pagarias), no solo el precio de referencia. Para los mercados mas
+liquidos, compara el ask de YES + el ask de NO. Si suman menos de $1,
+ahi habria un arbitraje EJECUTABLE.
 
 NO envia ordenes. NO usa tu wallet. NO arriesga nada.
-Sirve para comprobar si la estrategia del agente tiene sentido
-con datos reales, antes de siquiera pensar en dinero real.
-
 No necesita instalar nada. Solo Python 3.
 Como correrlo:   python3 sondeo_real.py
-
-Nota: usa el precio publico (mid/last) de cada resultado. La
-ejecucion real exige mirar el "ask" del libro de ordenes de ambas
-patas; este sondeo es un primer termometro, no una garantia.
 ================================================================
 """
 import json
@@ -23,92 +17,108 @@ import urllib.request
 import urllib.error
 
 GAMMA_URL = "https://gamma-api.polymarket.com/markets"
-COSTO_TOTAL = 0.01     # costo estimado ida y vuelta (2 patas x 0.5%)
-MIN_EDGE = 0.012       # ineficiencia minima para considerarla oportunidad
-PAGINAS = 5            # cuantas paginas de 100 mercados revisar
-POR_PAGINA = 100
+BOOK_URL = "https://clob.polymarket.com/book"
+COSTO_TOTAL = 0.00     # el CLOB de Polymarket hoy no cobra fee de trading
+MIN_EDGE = 0.005       # margen minimo (0.5%) para que valga la pena
+N_MERCADOS = 40        # cuantos mercados (los mas liquidos) revisar a fondo
 
 
-def traer_pagina(offset):
-    url = f"{GAMMA_URL}?active=true&closed=false&limit={POR_PAGINA}&offset={offset}"
+def http_get(url):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.load(r)
 
 
-def parse_precios(m):
-    """Devuelve la lista de precios de los resultados, o None."""
-    raw = m.get("outcomePrices")
-    if raw is None:
-        return None
+def traer_mercados_liquidos():
+    """Trae mercados activos ordenados por liquidez (descendente)."""
+    url = (f"{GAMMA_URL}?active=true&closed=false&limit={N_MERCADOS}"
+           f"&order=liquidity&ascending=false")
+    return http_get(url)
+
+
+def token_ids(m):
+    raw = m.get("clobTokenIds")
     if isinstance(raw, str):
         try:
             raw = json.loads(raw)
         except Exception:
             return None
+    if isinstance(raw, list) and len(raw) == 2:
+        return raw
+    return None
+
+
+def mejor_ask(token_id):
+    """Devuelve el mejor (mas barato) precio de venta del libro, o None."""
     try:
-        return [float(x) for x in raw]
+        libro = http_get(f"{BOOK_URL}?token_id={token_id}")
     except Exception:
         return None
+    asks = libro.get("asks") or []
+    precios = []
+    for a in asks:
+        try:
+            precios.append(float(a["price"]))
+        except Exception:
+            pass
+    return min(precios) if precios else None
 
 
 def main():
-    print("=" * 64)
-    print("  SONDA DE DATOS REALES DE POLYMARKET (SOLO LECTURA)")
+    print("=" * 66)
+    print("  SONDA DE DATOS REALES v2 - LIBRO DE ORDENES (SOLO LECTURA)")
     print("  No se envia ninguna orden. No se arriesga dinero.")
-    print("=" * 64)
-
-    total = 0
-    con_dos = 0
-    oportunidades = []
+    print("=" * 66)
 
     try:
-        for p in range(PAGINAS):
-            mercados = traer_pagina(p * POR_PAGINA)
-            if not mercados:
-                break
-            for m in mercados:
-                total += 1
-                precios = parse_precios(m)
-                if not precios or len(precios) != 2:
-                    continue
-                con_dos += 1
-                suma = sum(precios)
-                edge = (1.0 - suma) - COSTO_TOTAL
-                if edge >= MIN_EDGE:
-                    oportunidades.append({
-                        "mercado": (m.get("question") or "?")[:60],
-                        "yes": precios[0], "no": precios[1],
-                        "suma": round(suma, 4), "edge_neto": round(edge, 4),
-                        "liquidez": m.get("liquidity"),
-                    })
+        mercados = traer_mercados_liquidos()
     except urllib.error.URLError as e:
         print(f"\nNo se pudo conectar a Polymarket: {e}")
-        print("Revisa tu conexion a internet. (En algunos servidores el")
-        print("firewall bloquea la salida; prueba en tu PC o en Hostinger.)")
         return
 
-    oportunidades.sort(key=lambda o: o["edge_neto"], reverse=True)
+    revisados = 0
+    oportunidades = []
+    print(f"Revisando el libro de ordenes de {len(mercados)} mercados liquidos...\n")
 
-    print(f"\nMercados revisados          : {total}")
-    print(f"Mercados binarios (YES/NO)  : {con_dos}")
-    print(f"OPORTUNIDADES de arbitraje  : {len(oportunidades)} "
-          f"(edge neto >= {MIN_EDGE*100:.1f}%)")
-    print("=" * 64)
+    for m in mercados:
+        ids = token_ids(m)
+        if not ids:
+            continue
+        ask_yes = mejor_ask(ids[0])
+        ask_no = mejor_ask(ids[1])
+        if ask_yes is None or ask_no is None:
+            continue
+        revisados += 1
+        suma = ask_yes + ask_no
+        edge = (1.0 - suma) - COSTO_TOTAL
+        pregunta = (m.get("question") or "?")[:55]
+        marca = "  <-- ARBITRAJE" if edge >= MIN_EDGE else ""
+        print(f"  ask YES {ask_yes:.3f} + ask NO {ask_no:.3f} = {suma:.3f} "
+              f"(margen {edge*100:+.2f}%) | {pregunta}{marca}")
+        if edge >= MIN_EDGE:
+            oportunidades.append({"mercado": pregunta, "suma": round(suma, 4),
+                                  "edge": round(edge, 4)})
+
+    print("\n" + "=" * 66)
+    print(f"Mercados con libro revisado : {revisados}")
+    print(f"ARBITRAJES EJECUTABLES      : {len(oportunidades)} "
+          f"(margen >= {MIN_EDGE*100:.1f}%)")
+    print("=" * 66)
 
     if oportunidades:
-        print("Top oportunidades encontradas AHORA:")
-        for o in oportunidades[:15]:
-            print(f"  edge {o['edge_neto']*100:+.2f}% | suma {o['suma']:.3f} | "
-                  f"{o['mercado']}")
+        print("Se encontraron oportunidades REALES ejecutables:")
+        for o in sorted(oportunidades, key=lambda x: x["edge"], reverse=True):
+            print(f"  margen {o['edge']*100:+.2f}% | suma {o['suma']:.3f} | {o['mercado']}")
+        print("\nPERO: aparecen y desaparecen en milisegundos, compiten bots")
+        print("profesionales con mucho mas capital y velocidad. Capturarlas")
+        print("con 50 USDC desde un PC normal es MUY dificil. Sigue en SIM.")
     else:
-        print("Ahora mismo NO hay arbitrajes claros con estos precios publicos.")
-        print("Es lo esperable: los mercados suelen ser eficientes y los bots")
-        print("rapidos cierran las diferencias en segundos. Esto CONFIRMA que")
-        print("hay que ser realista con las expectativas de ganancia.")
-
-    print("\nRecuerda: precio publico != precio ejecutable. Para operar de")
-    print("verdad hay que mirar el 'ask' del libro de ordenes de ambas patas.")
+        print("VEREDICTO: no hay arbitrajes ejecutables ahora mismo.")
+        print("Los mercados liquidos estan bien valorados (ask YES + ask NO >= 1).")
+        print("Esto es honesto y esperable: el 'dinero facil sin riesgo' no")
+        print("esta disponible para un retail con 50 USDC. Conviene NO invertir")
+        print("en este plan y, si quieres seguir, tratarlo como especulacion")
+        print("de alto riesgo con dinero que puedas permitirte perder.")
 
 
 if __name__ == "__main__":
