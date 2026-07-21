@@ -1,0 +1,12 @@
+# Salida generada por el agente (reportes de trading, datos de ejecución)
+reportes/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Secretos / configuración local
+.env
+credentials.json
