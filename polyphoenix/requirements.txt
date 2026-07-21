@@ -1,0 +1,7 @@
+# Núcleo: solo se necesita 'requests' para el modo online (datos reales).
+# El modo offline/paper funciona sin ninguna dependencia externa.
+requests>=2.28
+
+# Reportes a Google Sheets (OPCIONAL). Descomenta si vas a usarlos.
+# google-api-python-client>=2.0
+# google-auth>=2.0
