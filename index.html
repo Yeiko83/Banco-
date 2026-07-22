@@ -502,6 +502,11 @@ footer ul li a:hover{ color:#fff; }
   0%{ filter:drop-shadow(4px 0 0 var(--cyan)) drop-shadow(-4px 0 0 var(--magenta)); opacity:0.35; transform:scale(1.04); }
   100%{ filter:none; opacity:1; transform:scale(1); }
 }
+
+/* ============ Mensaje motivacional del preloader ============ */
+.pl-msg{ margin-top:20px; max-width:360px; text-align:center; color:#EAECFB; font-size:15.5px; line-height:1.55; font-weight:500; padding:0 22px; opacity:0; transform:translateY(8px); animation:plMsgIn .6s ease .35s forwards; }
+.pl-msg .em{ color:var(--yellow); font-weight:700; }
+@keyframes plMsgIn{ to{ opacity:1; transform:translateY(0); } }
 </style>
 </head>
 <body class="loading">
@@ -516,6 +521,7 @@ footer ul li a:hover{ color:#fff; }
     <div class="mouth" id="mouth" aria-hidden="true"><div class="lip"></div><div class="tongue"></div></div>
   </div>
   <div class="p-mark" id="pMark"></div>
+  <p class="pl-msg" id="plMsg"></p>
 </div>
 
 <div class="scroll-progress" id="scrollProgress"></div>
@@ -957,6 +963,30 @@ function buildLetterMark(){
 }
 buildLetterMark();
 
+/* ===================== MENSAJE MOTIVACIONAL (cambia cada vez) ===================== */
+(function(){
+  const el = document.getElementById('plMsg');
+  if(!el) return;
+  const MENSAJES = [
+    'Sonríe: es el mejor diseño que puedes lucir hoy. <span class="em">😊</span>',
+    'Ser feliz no cuesta nada… y rinde <span class="em">muchísimo</span>.',
+    'Un gran día empieza con una buena actitud (y una buena impresión 😉).',
+    'Haz hoy algo por lo que tu <span class="em">yo del futuro</span> te dé las gracias.',
+    'La felicidad también se imprime: <span class="em">compártela</span>.',
+    'Rodéate de gente que te sume y de colores que te alegren.',
+    'Cada día es una hoja en blanco: <span class="em">dibújalo bonito</span>.',
+    'Tu energía positiva es tu mejor carta de presentación.',
+    'Respira, sonríe y sigue. Lo estás haciendo mejor de lo que crees.',
+    'La actitud es el color que le pones a la vida — <span class="em">elígela vibrante</span>.',
+    'Pequeños detalles, grandes sonrisas.',
+    'Sé como la tinta: <span class="em">deja huella</span> por donde pases.',
+    'Ser feliz es una decisión que puedes tomar <span class="em">ahora mismo</span>.',
+    'Sueña en grande, imprime tus ideas y hazlas realidad.',
+    'Hoy es un gran día para crear algo increíble. 🚀'
+  ];
+  el.innerHTML = MENSAJES[Math.floor(Math.random() * MENSAJES.length)];
+})();
+
 function revealHero(){
   if(hasAnime && !prefersReduced){
     anime({ targets:'.hero .reveal', opacity:[0,1], translateY:[26,0], duration:800, delay:anime.stagger(160), easing:'easeOutCubic' });
@@ -973,7 +1003,7 @@ function endPreloader(){
     document.getElementById('preloader').classList.add('hide');
     document.body.classList.remove('loading');
     revealHero();
-  }, 1150);
+  }, 2100);
 }
 window.addEventListener('load', () => setTimeout(endPreloader, 1750));
 setTimeout(endPreloader, 4200); // respaldo
