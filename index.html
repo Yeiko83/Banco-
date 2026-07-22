@@ -503,6 +503,53 @@ footer ul li a:hover{ color:#fff; }
   100%{ filter:none; opacity:1; transform:scale(1); }
 }
 
+/* ============ Slogan del hero ============ */
+.hero-slogan{ font-family:var(--font-body); font-style:italic; font-weight:600; font-size:19px; color:#E8EBFB; margin:-4px 0 18px; }
+
+/* ============ ADAPTACIÓN A TABLET Y CELULAR ============ */
+@media (max-width:900px){
+  .section{ padding:72px 0; }
+  .nav{ padding:12px 22px; }
+  .hero-slogan{ font-size:17px; }
+}
+@media (max-width:768px){
+  html, body{ overflow-x:hidden; }
+  .wrap{ padding:0 22px; }
+  .hero{ padding-top:78px; }
+  .hero .wrap{ text-align:center; }
+  .hero .eyebrow{ margin:0 auto; }
+  .hero-ctas, .hero-stats{ justify-content:center; }
+  .promo-slider{ max-width:100%; width:100%; margin:28px auto 0; transform:rotate(0deg); }
+  .hero-badge{ display:none; }        /* evitan desbordes en pantallas chicas */
+  .spin-disc{ width:130px; height:130px; top:-26px; right:-16px; }
+  .spin-disc.d2{ width:88px; height:88px; bottom:-24px; left:-16px; }
+  .marquee-track .mi{ font-size:17px; padding:0 22px; }
+  /* testimonios: apilados y sin recortes en móvil */
+  .testi-stage{ min-height:0; }
+  .testi-card{ position:relative; display:none; padding:30px 26px; }
+  .testi-card.active{ display:flex; }
+  .testi-quote{ font-size:16px; }
+  .cta-band h2{ font-size:clamp(28px,8vw,46px); }
+  .digital .halftone{ opacity:0.14; }
+  .to-top{ bottom:84px; right:18px; }
+  .float-wa{ bottom:18px; right:18px; width:54px; height:54px; }
+}
+@media (max-width:460px){
+  .wrap{ padding:0 16px; }
+  .hero{ padding-top:70px; }
+  .hero-slogan{ font-size:15.5px; }
+  .promo-cap h3{ font-size:22px; }
+  .promo-arrow{ width:38px; height:38px; }
+  .eye{ width:56px; height:56px; }
+  .eye .pupil{ width:24px; height:24px; }
+  .pl-msg{ font-size:14px; max-width:300px; }
+  .hero-stats{ gap:10px; }
+  .stat-chip{ min-width:calc(50% - 8px); flex:1 1 calc(50% - 8px); padding:14px 16px; }
+  .stat-chip strong{ font-size:24px; }
+  .sec-head h2{ font-size:26px; }
+  .ticket-main{ padding:32px 24px 28px; }
+}
+
 /* ============ Mensaje motivacional del preloader ============ */
 .pl-msg{ margin-top:20px; max-width:360px; text-align:center; color:#EAECFB; font-size:15.5px; line-height:1.55; font-weight:500; padding:0 22px; opacity:0; transform:translateY(8px); animation:plMsgIn .6s ease .35s forwards; }
 .pl-msg .em{ color:var(--yellow); font-weight:700; }
@@ -556,6 +603,7 @@ footer ul li a:hover{ color:#fff; }
     <div class="reveal in">
       <span class="eyebrow on-dark"><span class="dot"></span>Facatativá · Bogotá — Litografía y publicidad</span>
       <h1>Calidad que <span class="accent">impacta</span></h1>
+      <p class="hero-slogan">Que tu proyecto sea <span class="accent">la mejor impresión</span>.</p>
       <p class="lead">Imprimimos, marcamos y dotamos tu negocio: de la tarjeta de presentación al uniforme de tu equipo. Producción propia, entregas oportunas y precios que bajan mientras más pides.</p>
       <div class="hero-ctas">
         <a href="https://wa.me/573125620570" target="_blank" class="btn btn-primary magnetic">Solicitar cotización</a>
@@ -848,6 +896,7 @@ footer ul li a:hover{ color:#fff; }
     <div class="footer-grid">
       <div class="footer-brand">
         <img src="assets/logo-tck.png" alt="TECINTEK">
+        <p style="color:#fff; font-weight:700; margin-bottom:10px;">Que tu proyecto sea la mejor impresión.</p>
         <p>Publicidad, oficina, dotaciones e insumos. Producción propia en Facatativá al servicio de Bogotá y la región.</p>
       </div>
       <div>
