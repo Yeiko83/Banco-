@@ -589,6 +589,29 @@ footer ul li a:hover{ color:#fff; }
 .cart-actions .btn{ flex:1; justify-content:center; min-width:150px; }
 .cart-empty{ color:var(--ink-soft); padding:24px 0; text-align:center; font-size:14px; }
 @media (max-width:768px){ .cart-fab{ bottom:142px; right:18px; } }
+
+/* ---- Ícono de cuenta en el header ---- */
+.acct-icon{ width:42px; height:42px; border-radius:50%; border:2px solid var(--line); background:#fff; display:flex; align-items:center; justify-content:center; position:relative; transition:border-color .2s ease, transform .2s ease; flex:none; }
+.acct-icon:hover{ border-color:var(--navy); transform:translateY(-2px); }
+.acct-icon svg{ width:20px; height:20px; stroke:var(--ink); fill:none; stroke-width:2; }
+.acct-icon.is-reg{ border-color:var(--cyan); background:rgba(20,154,215,0.08); }
+.acct-icon.is-reg::after{ content:""; position:absolute; top:1px; right:1px; width:10px; height:10px; border-radius:50%; background:#25D366; border:2px solid #fff; }
+
+/* ---- Menú de cuenta ---- */
+.acct-menu{ position:fixed; top:70px; right:24px; z-index:9995; width:260px; background:#fff; border-radius:16px; box-shadow:var(--shadow-lg); border:1px solid var(--line); padding:18px; opacity:0; visibility:hidden; transform:translateY(-8px); transition:opacity .22s ease, transform .22s ease, visibility .22s ease; }
+.acct-menu.open{ opacity:1; visibility:visible; transform:translateY(0); }
+.acct-head b{ display:block; font-family:var(--font-body); font-size:15px; }
+.acct-head span{ font-size:12px; color:var(--ink-soft); word-break:break-all; }
+.acct-perms{ font-size:12px; color:var(--ink); margin:12px 0; padding:10px 12px; background:var(--cloud); border-radius:10px; }
+.acct-item{ display:block; width:100%; text-align:left; background:none; border:none; padding:11px 4px; font-size:13.5px; font-weight:600; color:var(--ink); border-top:1px solid var(--line); }
+.acct-item:hover{ color:var(--red); }
+
+/* ---- Políticas y banner de tienda ---- */
+.policy-box{ display:none; font-size:11.5px; line-height:1.6; color:var(--ink-soft); background:var(--cloud); border-radius:10px; padding:14px; margin-top:12px; max-height:150px; overflow:auto; }
+#regForm label.check a{ color:var(--red); text-decoration:underline; }
+.store-banner{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; background:linear-gradient(120deg, var(--navy), var(--navy-deep)); color:#fff; border-radius:18px; padding:20px 26px; margin-bottom:30px; box-shadow:var(--shadow-md); }
+.store-banner b{ display:block; font-size:16px; margin-bottom:3px; }
+.store-banner span{ font-size:13px; color:#C7CCE6; }
 </style>
 </head>
 <body class="loading">
@@ -620,12 +643,21 @@ footer ul li a:hover{ color:#fff; }
       <a href="#contacto">Contacto</a>
     </nav>
     <div class="nav-cta">
+      <button class="acct-icon" id="accountBtn" aria-label="Mi cuenta / Registrarme"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></button>
       <a href="assets/catalogo-tecintek.pdf" target="_blank" class="btn btn-ghost">Catálogo PDF</a>
       <a href="https://wa.me/573125620570" target="_blank" class="btn btn-primary magnetic">Cotizar ahora</a>
     </div>
     <button class="burger" id="burger" aria-label="Abrir menú"><span></span><span></span><span></span></button>
   </div>
 </header>
+
+<!-- Menú de cuenta (al estar registrado) -->
+<div class="acct-menu" id="accountMenu" aria-hidden="true">
+  <div class="acct-head"><b id="acctName">Cliente</b><span id="acctEmail"></span></div>
+  <div class="acct-perms" id="acctPerms"></div>
+  <button class="acct-item" id="acctOrder">🛒 Ver mi orden de compra</button>
+  <button class="acct-item" id="acctLogout">Cerrar sesión</button>
+</div>
 
 <!-- ================= HERO ================= -->
 <section class="hero" id="inicio">
@@ -787,6 +819,10 @@ footer ul li a:hover{ color:#fff; }
         <button class="filter-btn" data-filter="dotaciones">Dotaciones</button>
         <button class="filter-btn" data-filter="insumos">Insumos</button>
       </div>
+    </div>
+    <div class="store-banner" id="storeBanner">
+      <div><b>🛒 Regístrate para ver precios y armar tu pedido</b><span>Acceso a precios, disponibilidad y órdenes de compra en línea.</span></div>
+      <button class="btn btn-primary magnetic" id="bannerReg">Crear cuenta</button>
     </div>
     <div class="product-grid" id="productGrid"></div>
     <p style="margin-top:26px; font-size:13.5px; color:var(--ink-soft);">¿Buscas el catálogo con especificaciones completas? <a href="assets/catalogo-tecintek.pdf" target="_blank" style="color:var(--red); font-weight:700;">Descárgalo en PDF →</a></p>
@@ -998,8 +1034,13 @@ footer ul li a:hover{ color:#fff; }
       <input type="email" id="regEmail" required placeholder="tucorreo@ejemplo.com">
       <label>WhatsApp</label>
       <input type="tel" id="regPhone" required placeholder="Ej: 300 123 4567">
-      <label class="check"><input type="checkbox" id="regConsent" checked> Autorizo recibir promociones y ofertas de TECINTEK por WhatsApp.</label>
-      <label class="check small"><input type="checkbox" id="regData" required checked> Acepto el tratamiento de mis datos personales (Ley 1581 de 2012).</label>
+      <label class="check"><input type="checkbox" id="regConsent" checked> Autorizo recibir promociones y ofertas por <b>WhatsApp</b>.</label>
+      <label class="check"><input type="checkbox" id="regEmailConsent" checked> Autorizo recibir promociones y novedades por <b>correo electrónico</b>.</label>
+      <label class="check small"><input type="checkbox" id="regData" required checked> He leído y acepto la <a href="#" id="policyToggle">Política de Tratamiento de Datos</a> (Ley 1581 de 2012).</label>
+      <div class="policy-box" id="policyBox">
+        <b>Política de Tratamiento de Datos — TECINTEK S.A.S.</b><br>
+        TECINTEK S.A.S., responsable del tratamiento, recolecta tus datos (nombre, correo y teléfono) para gestionar tu registro, mostrarte precios, procesar tus órdenes de compra y —solo si lo autorizas— enviarte promociones por WhatsApp y correo electrónico. Puedes consultar, actualizar, eliminar tus datos o revocar esta autorización en cualquier momento escribiendo a tecintek@gmail.com. Al registrarte aceptas esta política conforme a la Ley 1581 de 2012 y el Decreto 1377 de 2013.
+      </div>
       <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:20px;">Crear mi cuenta</button>
     </form>
   </div>
@@ -1582,6 +1623,7 @@ if(!prefersReduced){
       email: document.getElementById('regEmail').value.trim(),
       phone: document.getElementById('regPhone').value.trim(),
       promos: document.getElementById('regConsent').checked,
+      promosEmail: !!(document.getElementById('regEmailConsent') && document.getElementById('regEmailConsent').checked),
       date: new Date().toISOString()
     };
     localStorage.setItem(KEY, JSON.stringify(user));
@@ -1652,6 +1694,59 @@ if(!prefersReduced){
   });
 
   updateAccountUI(); updateCartUI();
+})();
+
+/* ===================== ÍCONO DE CUENTA + MENÚ + BANNER + POLÍTICAS ===================== */
+(function(){
+  const KEY = 'tecintek_user';
+  function getU(){ try{ return JSON.parse(localStorage.getItem(KEY)); }catch(e){ return null; } }
+  const btn = document.getElementById('accountBtn');
+  const menu = document.getElementById('accountMenu');
+  const banner = document.getElementById('storeBanner');
+
+  function refresh(){
+    const u = getU();
+    if(banner) banner.style.display = u ? 'none' : '';
+    if(btn) btn.classList.toggle('is-reg', !!u);
+    if(u && menu){
+      const n = document.getElementById('acctName'); if(n) n.textContent = 'Hola, ' + u.name;
+      const em = document.getElementById('acctEmail'); if(em) em.textContent = u.email || '';
+      const pm = document.getElementById('acctPerms');
+      if(pm) pm.innerHTML = 'Promos WhatsApp: ' + (u.promos ? '✅' : '❌') + '<br>Promos correo: ' + (u.promosEmail ? '✅' : '❌');
+    }
+  }
+
+  if(btn) btn.addEventListener('click', e => {
+    e.stopPropagation();
+    if(!getU()){ document.getElementById('regModal').classList.add('open'); return; }
+    if(menu) menu.classList.toggle('open');
+  });
+  document.addEventListener('click', e => {
+    if(menu && menu.classList.contains('open') && !menu.contains(e.target) && e.target !== btn && (!btn || !btn.contains(e.target))) menu.classList.remove('open');
+  });
+
+  const bannerReg = document.getElementById('bannerReg');
+  if(bannerReg) bannerReg.addEventListener('click', () => document.getElementById('regModal').classList.add('open'));
+
+  const acctOrder = document.getElementById('acctOrder');
+  if(acctOrder) acctOrder.addEventListener('click', () => { if(menu) menu.classList.remove('open'); document.getElementById('cartModal').classList.add('open'); });
+
+  const logout = document.getElementById('acctLogout');
+  if(logout) logout.addEventListener('click', () => {
+    localStorage.removeItem(KEY);
+    if(menu) menu.classList.remove('open');
+    if(typeof renderProducts === 'function'){ const f = document.querySelector('.filter-btn.active'); renderProducts(f ? f.dataset.filter : 'todos'); }
+    const al = document.getElementById('accountLink'); if(al) al.textContent = 'Precios';
+    refresh();
+  });
+
+  const pt = document.getElementById('policyToggle');
+  if(pt) pt.addEventListener('click', e => { e.preventDefault(); const pb = document.getElementById('policyBox'); if(pb) pb.style.display = (pb.style.display === 'block' ? 'none' : 'block'); });
+
+  const regForm = document.getElementById('regForm');
+  if(regForm) regForm.addEventListener('submit', () => setTimeout(refresh, 60));
+
+  refresh();
 })();
 </script>
 </body>
