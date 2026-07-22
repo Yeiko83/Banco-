@@ -471,6 +471,37 @@ footer ul li a:hover{ color:#fff; }
 
 /* ============ Confeti CMYK ============ */
 .confetti-piece{ position:fixed; width:9px; height:9px; z-index:9999; pointer-events:none; border-radius:2px; will-change:transform,opacity; }
+
+/* ============ Trama halftone CMYK animada (sección digital) ============ */
+.digital{ position:relative; overflow:hidden; }
+.digital .halftone{ position:absolute; inset:0; z-index:0; opacity:0.20; pointer-events:none;
+  background-image:
+    radial-gradient(circle, var(--cyan) 1.4px, transparent 1.7px),
+    radial-gradient(circle, var(--magenta) 1.4px, transparent 1.7px),
+    radial-gradient(circle, var(--yellow) 1.4px, transparent 1.7px);
+  background-size:26px 26px, 26px 26px, 26px 26px;
+  background-position:0 0, 9px 9px, 18px 4px;
+  animation:halftoneDrift 16s linear infinite; }
+@keyframes halftoneDrift{ to{ background-position:26px 26px, 35px 35px, 44px 30px; } }
+.digital .wrap{ position:relative; z-index:1; }
+
+/* ============ Banda de contadores "taller en vivo" ============ */
+#taller{ background:var(--ink); }
+#taller .sec-head{ text-align:center; margin-bottom:34px; }
+#taller .stat p{ color:#AEB4D6; }
+
+/* ============ Botón volver arriba ============ */
+.to-top{ position:fixed; bottom:98px; right:26px; z-index:190; width:48px; height:48px; border-radius:50%; background:var(--navy); border:none; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-md); opacity:0; transform:translateY(14px); pointer-events:none; transition:opacity .3s ease, transform .3s ease, background .2s ease; }
+.to-top.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
+.to-top:hover{ background:var(--red); }
+.to-top svg{ width:20px; height:20px; stroke:#fff; fill:none; stroke-width:2.6; }
+
+/* ============ Efecto "registro de impresión" en fotos de la galería ============ */
+.gallery-item.printed img{ animation:regPrint .75s ease; }
+@keyframes regPrint{
+  0%{ filter:drop-shadow(4px 0 0 var(--cyan)) drop-shadow(-4px 0 0 var(--magenta)); opacity:0.35; transform:scale(1.04); }
+  100%{ filter:none; opacity:1; transform:scale(1); }
+}
 </style>
 </head>
 <body class="loading">
@@ -721,6 +752,7 @@ footer ul li a:hover{ color:#fff; }
 
 <!-- ================= DIGITAL ================= -->
 <section class="section digital" id="digital">
+  <div class="halftone" aria-hidden="true"></div>
   <div class="wrap grid2">
     <div class="tag-cloud reveal">
       <span class="tag-pill">📣 Medios digitales</span>
@@ -749,6 +781,20 @@ footer ul li a:hover{ color:#fff; }
       <div class="process-step"><span class="num">03</span><h3>Producimos en máquina propia</h3><p>Offset, plotter de corte, sublimación, DTF UV o bordado, según el pedido.</p></div>
       <div class="process-step"><span class="num">04</span><h3>Entrega oportuna</h3><p>Recoges en Calle 10 #26-66 Local 1, o coordinamos envío en Facatativá y Bogotá.</p></div>
     </div>
+  </div>
+</section>
+
+<!-- ================= TALLER EN VIVO (contadores) ================= -->
+<section class="section-tight" id="taller">
+  <div class="wrap">
+    <div class="sec-head center reveal"><span class="eyebrow on-dark"><span class="dot"></span>Taller en marcha</span></div>
+    <div class="stats">
+      <div class="stat"><h2 data-count="1240">0</h2><p>Piezas impresas / mes</p></div>
+      <div class="stat"><h2 data-count="320">0</h2><p>Clientes felices</p></div>
+      <div class="stat"><h2 data-count="31">0</h2><p>Productos en catálogo</p></div>
+      <div class="stat"><h2>2-3<span style="font-size:20px;"> días</span></h2><p>Entrega promedio</p></div>
+    </div>
+    <p style="text-align:center; margin-top:22px; font-size:12px; color:#8C93BE;">* Cifras de muestra — ajústalas a tus números reales.</p>
   </div>
 </section>
 
@@ -841,6 +887,8 @@ footer ul li a:hover{ color:#fff; }
 <a href="https://wa.me/573125620570" target="_blank" class="float-wa" aria-label="Escribir por WhatsApp">
   <svg viewBox="0 0 32 32"><path d="M16 3C9 3 3.3 8.6 3.3 15.5c0 2.6.8 5 2.2 7L3 29l6.7-2.4c1.9 1 4.1 1.6 6.3 1.6 7 0 12.7-5.6 12.7-12.5S23 3 16 3zm0 22.7c-2 0-3.9-.5-5.6-1.5l-.4-.2-4 1.4 1.3-3.9-.3-.4c-1.1-1.7-1.7-3.7-1.7-5.8 0-5.8 4.7-10.5 10.6-10.5S26.6 9.7 26.6 15.5 21.9 25.7 16 25.7zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-.9 1.1-.3.2-.6.1a8.6 8.6 0 0 1-2.5-1.6 9.4 9.4 0 0 1-1.7-2.2c-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5s0-.4 0-.5-.7-1.7-1-2.3-.6-.5-.7-.5h-.6c-.2 0-.5.1-.8.4a3.6 3.6 0 0 0-1.1 2.7c0 1.6 1.1 3.1 1.3 3.3s2.3 3.5 5.5 4.9a18.6 18.6 0 0 0 1.9.7 4.4 4.4 0 0 0 2-.1 3.3 3.3 0 0 0 2.2-1.5c.2-.4.2-.8.2-1s-.2-.3-.5-.4z"/></svg>
 </a>
+
+<button class="to-top" id="toTop" aria-label="Volver arriba"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 
 <div class="lightbox" id="lightbox" aria-hidden="true">
   <button class="lb-btn lb-close" id="lbClose" aria-label="Cerrar">&times;</button>
@@ -1294,6 +1342,45 @@ if(!prefersReduced){
     });
   });
 }
+
+/* ===================== CONTADORES "TALLER EN VIVO" ===================== */
+(function(){
+  const band = document.getElementById('taller');
+  if(!band) return;
+  const obs = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if(!e.isIntersecting) return;
+      band.querySelectorAll('[data-count]').forEach(el => {
+        const t = parseInt(el.dataset.count, 10);
+        if(typeof anime !== 'undefined'){
+          const o = { v:0 };
+          anime({ targets:o, v:t, round:1, duration:1700, easing:'easeOutExpo',
+            update:() => { el.textContent = o.v.toLocaleString('es-CO'); } });
+        } else { el.textContent = t.toLocaleString('es-CO'); }
+      });
+      obs.disconnect();
+    });
+  }, {threshold:0.4});
+  obs.observe(band);
+})();
+
+/* ===================== BOTÓN VOLVER ARRIBA ===================== */
+(function(){
+  const tt = document.getElementById('toTop');
+  if(!tt) return;
+  window.addEventListener('scroll', () => tt.classList.toggle('show', window.scrollY > 600), {passive:true});
+  tt.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+})();
+
+/* ===================== EFECTO "REGISTRO DE IMPRESIÓN" EN GALERÍA ===================== */
+(function(){
+  const items = document.querySelectorAll('.gallery-item');
+  if(!items.length) return;
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting){ e.target.classList.add('printed'); obs.unobserve(e.target); }
+  }), {threshold:0.3});
+  items.forEach(el => obs.observe(el));
+})();
 </script>
 </body>
 </html>
