@@ -1,398 +1,949 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tecintek | Agencia de Publicidad y Marketing Digital en Bogotá</title>
-    <meta name="description" content="Tecintek: agencia de publicidad y marketing digital en Bogotá. Diseño web premium, redes sociales, branding y estrategias de alto impacto para hacer crecer tu marca.">
-    <meta name="keywords" content="agencia de publicidad Bogotá, marketing digital Bogotá, diseño web Bogotá, redes sociales, branding, publicidad digital Colombia">
-    <meta name="author" content="Tecintek">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://tecintek.com/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TECINTEK — Publicidad, Litografía y Dotaciones en Facatativá y Bogotá</title>
+<meta name="description" content="TECINTEK: litografía y publicidad en Facatativá. Tarjetas, volantes, pendones, gorras, camisetas, mugs y dotaciones. Impresión full color, entregas oportunas. Cotiza por WhatsApp.">
+<meta name="keywords" content="litografía Facatativá, imprenta Bogotá, publicidad, tarjetas de presentación, volantes, pendones, dotaciones, gorras, camisetas, mugs personalizados">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TECINTEK — Publicidad, Litografía y Dotaciones">
+<meta property="og:description" content="Impresión full color, dotaciones y publicidad en Facatativá y Bogotá. Cotiza por WhatsApp.">
+<meta property="og:locale" content="es_CO">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "PrintShop",
+  "name": "TECINTEK S.A.S.",
+  "description": "Litografía y publicidad: impresión, dotaciones e insumos.",
+  "image": "assets/logo-tck.png",
+  "telephone": "+573125620570",
+  "email": "tecintek@gmail.com",
+  "url": "https://tecintek.com/",
+  "areaServed": ["Facatativá", "Bogotá", "Cundinamarca"],
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Calle 10 #26-66 Local 1",
+    "addressLocality": "Facatativá",
+    "addressRegion": "Cundinamarca",
+    "addressCountry": "CO"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<style>
+:root{
+  /* exact colors sampled from the TECINTEK logo file */
+  --cyan:#149AD7;
+  --magenta:#E0378A;
+  --yellow:#FEDA02;
+  --navy:#2D4585;
+  --navy-deep:#1A2757;
+  --red:#E00C1B;
+  --ink:#161A2E;
+  --ink-soft:#5B6178;
+  --paper:#FFFFFF;
+  --cloud:#F4F6FB;
+  --line:#E7E9F2;
+  --font-display:'Anton', sans-serif;
+  --font-body:'Poppins', sans-serif;
+  --font-mono:'JetBrains Mono', monospace;
+  --shadow-sm: 0 2px 8px rgba(22,26,46,0.06);
+  --shadow-md: 0 10px 30px -8px rgba(22,26,46,0.18);
+  --shadow-lg: 0 24px 60px -16px rgba(22,26,46,0.28);
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--font-body);
+  background:var(--paper);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body.loading{ overflow:hidden; height:100vh; }
+img{max-width:100%; display:block;}
+a{color:inherit; text-decoration:none;}
+ul{list-style:none;}
+button{font-family:inherit; cursor:pointer;}
+section{position:relative;}
+::selection{background:var(--yellow); color:var(--navy-deep);}
 
-    <!-- Open Graph (para que se vea bien al compartir en WhatsApp/Facebook) -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Tecintek | Agencia de Publicidad Digital Premium">
-    <meta property="og:description" content="Diseño web, marketing y redes sociales que hacen crecer tu marca. Escríbenos por WhatsApp.">
-    <meta property="og:locale" content="es_CO">
-    <meta name="twitter:card" content="summary_large_image">
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+}
 
-    <!-- Datos estructurados: le dicen a Google que eres un negocio local (ayuda a rankear) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "Tecintek",
-      "description": "Agencia de publicidad y marketing digital en Bogotá: diseño web, redes sociales y branding.",
-      "areaServed": "Bogotá, Colombia",
-      "address": { "@type": "PostalAddress", "addressLocality": "Bogotá", "addressCountry": "CO" },
-      "priceRange": "$$",
-      "url": "https://tecintek.com/",
-      "telephone": "+573125620570",
-      "email": "tecintek@gmail.com",
-      "sameAs": []
-    }
-    </script>
+.wrap{ max-width:1240px; margin:0 auto; padding:0 32px; }
 
-    <!-- Recursos con CDNs REALES (los anteriores eran enlaces rotos) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        :root {
-            --primary: #0A1628;
-            --primary-2: #0f1f38;
-            --secondary: #D4AF37;
-            --accent: #00D4FF;
-            --gold-gradient: linear-gradient(135deg, #D4AF37, #F5D76E, #D4AF37);
-        }
-        body { font-family: 'Inter', sans-serif; background: var(--primary); color: #fff; overflow-x: hidden; }
-        a { text-decoration: none; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--primary); }
-        ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        section { padding: 100px 0; }
-        .section-title { font-family: 'Orbitron', sans-serif; font-size: 2.6rem; font-weight: 900; text-align: center; margin-bottom: 15px; }
-        .section-title .gold { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .section-subtitle { text-align: center; color: rgba(255,255,255,0.55); max-width: 620px; margin: 0 auto 60px; line-height: 1.7; }
+h1,h2,h3,.display{ font-family:var(--font-display); text-transform:uppercase; letter-spacing:0.005em; line-height:0.95; color:var(--ink); }
 
-        /* NAVBAR */
-        .navbar { position: fixed; top: 0; left: 0; width: 100%; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: rgba(10, 22, 40, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(212, 175, 55, 0.2); transition: 0.4s; }
-        .navbar.scrolled { padding: 12px 50px; background: rgba(10, 22, 40, 0.97); }
-        .logo { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nav-links { display: flex; gap: 35px; list-style: none; align-items: center; }
-        .nav-links a { color: rgba(255,255,255,0.7); font-weight: 500; font-size: 0.9rem; transition: 0.3s; position: relative; letter-spacing: 1px; }
-        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--gold-gradient); transition: 0.3s; }
-        .nav-links a:hover { color: #fff; }
-        .nav-links a:hover::after { width: 100%; }
-        .nav-cta { background: var(--gold-gradient); color: var(--primary) !important; padding: 10px 25px; border-radius: 50px; font-weight: 700 !important; transition: 0.3s; }
-        .nav-cta:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); }
-        .hamburger { display: none; font-size: 1.8rem; cursor: pointer; color: #fff; background: none; border: none; }
+.eyebrow{ font-family:var(--font-mono); font-weight:700; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--red); display:inline-flex; align-items:center; gap:10px; background:rgba(224,12,27,0.08); padding:8px 16px; border-radius:999px; }
+.eyebrow.on-dark{ color:#fff; background:rgba(255,255,255,0.14); }
+.eyebrow .dot{ width:7px; height:7px; border-radius:50%; background:var(--red); }
+.eyebrow.on-dark .dot{ background:var(--yellow); }
 
-        /* HERO */
-        #hero { position: relative; width: 100%; min-height: 100vh; overflow: hidden; display: flex; align-items: center; }
-        #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
-        .hero-overlay { position: absolute; inset: 0; background: radial-gradient(circle at 50% 40%, rgba(10,22,40,0.35), rgba(10,22,40,0.9)); z-index: 2; }
-        .hero-content { position: relative; z-index: 3; width: 100%; text-align: center; padding: 0 20px; }
-        .hero-badge { display: inline-block; padding: 8px 25px; border: 1px solid var(--secondary); border-radius: 50px; font-size: 0.8rem; font-weight: 600; color: var(--secondary); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 30px; animation: pulse-border 2s ease-in-out infinite; }
-        @keyframes pulse-border { 0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); } 50% { box-shadow: 0 0 40px rgba(212, 175, 55, 0.6); } }
-        .hero-title { font-family: 'Orbitron', sans-serif; font-size: 4.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 25px; }
-        .hero-title .gold { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-subtitle { font-size: 1.2rem; color: rgba(255,255,255,0.65); max-width: 620px; margin: 0 auto 40px; line-height: 1.8; }
-        .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-        .btn { padding: 16px 38px; border-radius: 50px; font-weight: 700; transition: 0.4s; display: inline-flex; align-items: center; gap: 12px; font-size: 1rem; border: none; cursor: pointer; }
-        .btn-gold { background: var(--gold-gradient); color: var(--primary); box-shadow: 0 5px 30px rgba(212, 175, 55, 0.3); }
-        .btn-gold:hover { transform: translateY(-5px); box-shadow: 0 10px 50px rgba(212, 175, 55, 0.5); }
-        .btn-outline { border: 2px solid rgba(255,255,255,0.2); color: #fff; background: transparent; }
-        .btn-outline:hover { border-color: var(--secondary); background: rgba(212, 175, 55, 0.1); transform: translateY(-5px); }
+/* ============ Preloader ============ */
+.preloader{ position:fixed; inset:0; z-index:9999; background:linear-gradient(135deg, var(--navy-deep), var(--navy) 60%, #24316b); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; transition:opacity 0.6s ease, visibility 0.6s ease; }
+.preloader.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+.p-ring{ width:86px; height:86px; }
+.p-ring svg{ width:100%; height:100%; animation:pSpin 1.3s linear infinite; }
+@keyframes pSpin{ to{ transform:rotate(360deg); } }
+.p-mark{ display:flex; gap:3px; }
+.p-mark .pl{ font-family:var(--font-display); font-size:32px; color:#fff; opacity:0; }
+.p-bar{ width:220px; height:4px; border-radius:4px; background:rgba(255,255,255,0.16); overflow:hidden; }
+.p-bar span{ display:block; height:100%; width:0%; border-radius:4px; background:linear-gradient(90deg,var(--cyan),var(--magenta),var(--yellow)); animation:loadBar 1.5s ease forwards 0.15s; }
+@keyframes loadBar{ to{ width:100%; } }
 
-        /* SERVICIOS */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .card { background: var(--primary-2); border: 1px solid rgba(212, 175, 55, 0.15); border-radius: 20px; padding: 40px 32px; transition: 0.4s; }
-        .card:hover { transform: translateY(-10px); border-color: var(--secondary); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
-        .card .icon { font-size: 2.4rem; color: var(--secondary); margin-bottom: 20px; }
-        .card h3 { font-size: 1.3rem; margin-bottom: 12px; }
-        .card p { color: rgba(255,255,255,0.55); line-height: 1.7; font-size: 0.95rem; }
+.scroll-progress{ position:fixed; top:0; left:0; height:4px; width:0%; background:linear-gradient(90deg,var(--cyan),var(--magenta),var(--yellow),var(--red)); z-index:200; }
 
-        /* PORTAFOLIO */
-        #portafolio { background: var(--primary-2); }
-        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
-        .portfolio-item { position: relative; border-radius: 18px; overflow: hidden; height: 240px; display: flex; align-items: flex-end; padding: 25px; background-size: cover; background-position: center; border: 1px solid rgba(212,175,55,0.15); }
-        .portfolio-item::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,22,40,0.95), rgba(10,22,40,0.1)); transition: 0.4s; }
-        .portfolio-item:hover::before { background: linear-gradient(to top, rgba(10,22,40,0.98), rgba(212,175,55,0.2)); }
-        .portfolio-item .caption { position: relative; z-index: 2; }
-        .portfolio-item .caption span { color: var(--secondary); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; }
-        .portfolio-item .caption h4 { font-size: 1.2rem; margin-top: 6px; }
-        .p1 { background: linear-gradient(135deg, #16233d, #23375f); }
-        .p2 { background: linear-gradient(135deg, #2a2035, #4a2f5f); }
-        .p3 { background: linear-gradient(135deg, #12303a, #1f5563); }
-        .p4 { background: linear-gradient(135deg, #3a2a12, #63481f); }
+/* ============ Header ============ */
+header{ position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+.nav{ display:flex; align-items:center; justify-content:space-between; padding:14px 32px; max-width:1240px; margin:0 auto; }
+.brand{ display:flex; align-items:center; gap:10px; }
+.brand img{ height:38px; width:auto; }
+nav.links{ display:flex; gap:30px; align-items:center; }
+nav.links a{ font-size:13px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; color:var(--ink-soft); position:relative; padding:6px 0; transition:color 0.2s ease; }
+nav.links a::after{ content:""; position:absolute; left:0; bottom:0; width:0; height:3px; border-radius:2px; background:linear-gradient(90deg,var(--cyan),var(--magenta)); transition:width 0.25s ease; }
+nav.links a:hover{ color:var(--ink); }
+nav.links a:hover::after{ width:100%; }
 
-        /* STATS */
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; text-align: center; }
-        .stat h2 { font-family: 'Orbitron', sans-serif; font-size: 3rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .stat p { color: rgba(255,255,255,0.55); letter-spacing: 1px; }
+.nav-cta{ display:flex; align-items:center; gap:14px; }
+.btn{ font-weight:700; font-size:13.5px; letter-spacing:0.02em; padding:13px 24px; border-radius:999px; border:2px solid transparent; display:inline-flex; align-items:center; gap:8px; transition:transform 0.18s ease, box-shadow 0.25s ease; position:relative; }
+.btn-primary{ background:linear-gradient(120deg, var(--red), #ff3d4e); color:#fff; box-shadow:0 10px 24px -8px rgba(224,12,27,0.55); }
+.btn-primary:hover{ transform:translateY(-3px) scale(1.02); box-shadow:0 16px 32px -8px rgba(224,12,27,0.6); }
+.btn-ghost{ background:#fff; border-color:var(--line); color:var(--ink); }
+.btn-ghost:hover{ border-color:var(--navy); transform:translateY(-2px); }
+.btn-white{ background:#fff; color:var(--red); box-shadow:0 10px 24px -8px rgba(0,0,0,0.25); }
+.btn-white:hover{ transform:translateY(-3px) scale(1.02); }
+.btn-outline-light{ background:transparent; border-color:rgba(255,255,255,0.5); color:#fff; }
+.btn-outline-light:hover{ background:rgba(255,255,255,0.12); border-color:#fff; }
+.magnetic{ will-change:transform; }
 
-        /* CONTACTO */
-        #contacto { background: var(--primary-2); }
-        .contact-wrap { max-width: 640px; margin: 0 auto; background: var(--primary); border: 1px solid rgba(212,175,55,0.2); border-radius: 24px; padding: 50px 40px; }
-        .form-group { margin-bottom: 22px; }
-        .form-group label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: rgba(255,255,255,0.7); letter-spacing: 1px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 14px 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); color: #fff; font-family: inherit; font-size: 1rem; transition: 0.3s; }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--secondary); background: rgba(212,175,55,0.05); }
-        .form-group textarea { resize: vertical; min-height: 120px; }
-        .contact-direct { text-align: center; margin-top: 30px; color: rgba(255,255,255,0.6); }
-        .contact-direct a { color: var(--secondary); font-weight: 600; }
+.burger{ display:none; flex-direction:column; gap:5px; background:none; border:none; }
+.burger span{ width:24px; height:2.5px; background:var(--ink); border-radius:2px; }
 
-        /* WHATSAPP FLOAT */
-        .whatsapp-float { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: #fff; z-index: 1000; box-shadow: 0 8px 30px rgba(37,211,102,0.5); transition: 0.3s; }
-        .whatsapp-float:hover { transform: scale(1.1); }
+/* ============ Hero ============ */
+.hero{ position:relative; padding:96px 0 0; overflow:hidden; background:radial-gradient(1100px 600px at 15% -10%, #24316b 0%, var(--navy-deep) 45%, var(--navy-deep) 100%); }
+.hero-blobs{ position:absolute; inset:0; z-index:0; pointer-events:none; filter:blur(50px); opacity:0.55; }
+.hero-blobs .b{ position:absolute; border-radius:50%; }
+.hero-blobs .b1{ width:420px; height:420px; background:var(--cyan); top:-120px; right:8%; }
+.hero-blobs .b2{ width:380px; height:380px; background:var(--magenta); bottom:-140px; left:2%; }
+.hero-blobs .b3{ width:300px; height:300px; background:var(--yellow); top:30%; right:32%; opacity:0.7; }
 
-        /* FOOTER */
-        footer { padding: 40px 0; text-align: center; border-top: 1px solid rgba(212,175,55,0.15); }
-        footer .logo { font-size: 1.4rem; margin-bottom: 12px; }
-        .social { display: flex; gap: 20px; justify-content: center; margin: 20px 0; }
-        .social a { width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(212,175,55,0.3); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.7); transition: 0.3s; }
-        .social a:hover { background: var(--secondary); color: var(--primary); border-color: var(--secondary); }
-        footer p { color: rgba(255,255,255,0.4); font-size: 0.85rem; }
+.hero .wrap{ position:relative; z-index:1; display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center; padding-bottom:70px; }
+.hero h1{ font-size:clamp(46px, 6vw, 82px); margin:20px 0 22px; color:#fff; }
+.hero h1 .accent{ background:linear-gradient(90deg, var(--cyan), var(--yellow), var(--magenta)); background-size:250% auto; -webkit-background-clip:text; background-clip:text; color:transparent; animation:gradientShift 6s ease infinite; }
+@keyframes gradientShift{ 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+.hero p.lead{ font-size:17.5px; color:#C7CCE6; max-width:48ch; line-height:1.7; margin-bottom:34px; }
+.hero-ctas{ display:flex; gap:16px; flex-wrap:wrap; margin-bottom:40px; }
 
-        @media (max-width: 768px) {
-            .navbar { padding: 15px 25px; }
-            .nav-links { position: fixed; top: 62px; right: 0; flex-direction: column; background: rgba(10,22,40,0.98); width: 240px; padding: 30px; gap: 24px; transform: translateX(100%); transition: 0.4s; height: calc(100vh - 62px); }
-            .nav-links.open { transform: translateX(0); }
-            .hamburger { display: block; }
-            .hero-title { font-size: 2.8rem; }
-            .section-title { font-size: 2rem; }
-        }
-    </style>
+.hero-stats{ display:flex; gap:16px; flex-wrap:wrap; }
+.stat-chip{ background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.16); backdrop-filter:blur(6px); border-radius:16px; padding:16px 20px; min-width:130px; }
+.stat-chip strong{ display:block; font-family:var(--font-display); font-size:28px; color:#fff; }
+.stat-chip span{ font-size:11px; color:#AEB4D6; text-transform:uppercase; letter-spacing:0.05em; font-weight:600; }
+
+.hero-visual{ position:relative; }
+.hero-photo-card{ position:relative; border-radius:28px; overflow:hidden; box-shadow:var(--shadow-lg); transform:rotate(1.5deg); border:6px solid #fff; }
+.hero-photo-card img{ width:100%; display:block; aspect-ratio:4/3.3; object-fit:cover; }
+.hero-badge{ position:absolute; background:#fff; border-radius:16px; padding:14px 18px; box-shadow:var(--shadow-md); display:flex; align-items:center; gap:10px; font-weight:700; font-size:13px; }
+.hero-badge .ic{ width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex:none; }
+.hero-badge.b-top{ top:-22px; left:-22px; }
+.hero-badge.b-top .ic{ background:linear-gradient(135deg,var(--cyan),#0d78ab); }
+.hero-badge.b-bottom{ bottom:-22px; right:-22px; }
+.hero-badge.b-bottom .ic{ background:linear-gradient(135deg,var(--magenta),#a91f5f); }
+
+.wave-divider{ position:relative; height:90px; margin-top:60px; }
+.wave-divider svg{ width:100%; height:100%; display:block; }
+
+/* ============ Sections generic ============ */
+.section{ padding:96px 0; }
+.section-tight{ padding:70px 0; }
+.sec-head{ margin-bottom:48px; max-width:66ch; }
+.sec-head.center{ margin-left:auto; margin-right:auto; text-align:center; }
+.sec-head h2{ font-size:clamp(32px,4.2vw,52px); margin-top:16px; }
+.sec-head p{ color:var(--ink-soft); margin-top:16px; font-size:16px; line-height:1.65; }
+
+/* ============ Category cards (bold color blocks) ============ */
+.cat-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:22px; }
+.cat-card{ position:relative; border-radius:24px; padding:34px 26px; color:#fff; overflow:hidden; box-shadow:var(--shadow-md); transition:transform 0.28s cubic-bezier(.2,.8,.2,1), box-shadow 0.28s ease; cursor:pointer; will-change:transform; }
+.cat-card:hover{ transform:translateY(-8px) scale(1.02); box-shadow:var(--shadow-lg); }
+.cat-card::after{ content:""; position:absolute; right:-30px; bottom:-30px; width:140px; height:140px; border-radius:50%; background:rgba(255,255,255,0.14); }
+.cat-card.c1{ background:linear-gradient(150deg, var(--cyan), #0d78ab); }
+.cat-card.c2{ background:linear-gradient(150deg, var(--magenta), #a91f5f); }
+.cat-card.c3{ background:linear-gradient(150deg, #ffe45a, var(--yellow) 60%, #e0b800); color:var(--ink); }
+.cat-card.c4{ background:linear-gradient(150deg, var(--navy), var(--navy-deep)); }
+.cat-icon{ width:56px; height:56px; border-radius:16px; background:rgba(255,255,255,0.22); display:flex; align-items:center; justify-content:center; margin-bottom:20px; position:relative; z-index:1; }
+.cat-card.c3 .cat-icon{ background:rgba(22,26,46,0.14); }
+.cat-icon svg{ width:28px; height:28px; stroke:currentColor; fill:none; stroke-width:1.7; }
+.cat-card h3{ font-size:25px; margin-bottom:10px; position:relative; z-index:1; }
+.cat-card p{ font-size:13.5px; line-height:1.55; margin-bottom:20px; opacity:0.92; position:relative; z-index:1; min-height:56px; }
+.cat-count{ font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:0.05em; display:inline-flex; align-items:center; gap:6px; font-weight:700; position:relative; z-index:1; }
+.cat-card:hover .cat-count{ gap:10px; }
+
+/* ============ Featured ============ */
+.featured{ background:linear-gradient(180deg, var(--cloud), #fff); }
+.grid2{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; }
+.check-list{ display:flex; flex-wrap:wrap; gap:10px 14px; margin:22px 0 28px; }
+.check-list li{ display:flex; align-items:center; gap:8px; font-size:13.5px; color:var(--ink); font-weight:600; background:#fff; border:1px solid var(--line); padding:9px 14px; border-radius:999px; box-shadow:var(--shadow-sm); }
+.check-list li .dot{ width:8px; height:8px; border-radius:50%; background:var(--cyan); flex:none; }
+.check-list li:nth-child(2n) .dot{ background:var(--magenta); }
+.check-list li:nth-child(3n) .dot{ background:var(--yellow); }
+
+.spec-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.spec-card{ background:#fff; border-radius:16px; padding:18px 20px; box-shadow:var(--shadow-sm); border-top:4px solid var(--cyan); transition:transform 0.2s ease, box-shadow 0.2s ease; }
+.spec-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-md); }
+.spec-card:nth-child(2){ border-top-color:var(--magenta); }
+.spec-card:nth-child(3){ border-top-color:var(--yellow); }
+.spec-card:nth-child(4){ border-top-color:var(--navy); }
+.spec-card .tag{ font-family:var(--font-mono); font-size:10px; letter-spacing:0.08em; color:var(--ink-soft); text-transform:uppercase; margin-bottom:6px; display:block; font-weight:700; }
+.spec-card strong{ font-size:17px; display:block; margin-bottom:4px; }
+.spec-card span.note{ font-size:12px; color:var(--ink-soft); }
+
+.featured-photo{ position:relative; border-radius:26px; overflow:hidden; box-shadow:var(--shadow-lg); }
+.featured-photo img{ width:100%; display:block; }
+.featured-photo .swatch-strip{ position:absolute; bottom:0; left:0; right:0; height:12px; display:flex; }
+.featured-photo .swatch-strip i{ flex:1; }
+.featured-photo .swatch-strip i:nth-child(1){ background:var(--cyan); }
+.featured-photo .swatch-strip i:nth-child(2){ background:var(--magenta); }
+.featured-photo .swatch-strip i:nth-child(3){ background:var(--yellow); }
+.featured-photo .swatch-strip i:nth-child(4){ background:var(--navy); }
+
+/* ============ Gallery ============ */
+.gallery-grid{ display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:20px; }
+.gallery-item{ position:relative; border-radius:20px; overflow:hidden; box-shadow:var(--shadow-md); }
+.gallery-item img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.6s cubic-bezier(.2,.7,.3,1); }
+.gallery-item:hover img{ transform:scale(1.07); }
+.gallery-item .tag-chip{ position:absolute; top:16px; left:16px; color:#fff; font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.05em; padding:8px 14px; text-transform:uppercase; border-radius:999px; font-weight:700; box-shadow:var(--shadow-sm); }
+.gallery-item.tall{ grid-row:span 2; aspect-ratio:0.72/1; }
+.gallery-item.wide{ aspect-ratio:1.5/1; }
+.gallery-item.sq{ aspect-ratio:1/1; }
+
+/* ============ Catalog ============ */
+.showcase-head{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:20px; margin-bottom:40px; }
+.filters{ display:flex; gap:10px; flex-wrap:wrap; }
+.filter-btn{ padding:11px 20px; border-radius:999px; border:2px solid var(--line); background:#fff; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.03em; color:var(--ink-soft); transition:all 0.2s ease; }
+.filter-btn:hover{ border-color:var(--navy); color:var(--navy); }
+.filter-btn.active{ background:var(--ink); border-color:var(--ink); color:#fff; }
+
+.product-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; }
+.product-card{ background:#fff; border-radius:20px; overflow:hidden; box-shadow:var(--shadow-sm); border:1px solid var(--line); display:flex; flex-direction:column; transition:transform 0.22s ease, box-shadow 0.22s ease; }
+.product-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-lg); }
+.product-media{ aspect-ratio:4/3; position:relative; overflow:hidden; background:var(--cloud); }
+.product-media img{ width:100%; height:100%; object-fit:cover; transition:transform 0.5s ease; }
+.product-card:hover .product-media img{ transform:scale(1.08); }
+.product-media.plate{ display:flex; align-items:center; justify-content:center; padding:20px; text-align:center; }
+.product-media.plate .plate-label{ font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:#fff; font-weight:700; }
+.product-media .cat-flag{ position:absolute; top:12px; left:12px; padding:6px 12px; font-family:var(--font-mono); font-size:9.5px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:#fff; border-radius:999px; }
+.product-body{ padding:20px; display:flex; flex-direction:column; gap:8px; flex:1; }
+.product-body h3{ font-family:var(--font-body); font-weight:700; font-size:16px; text-transform:none; color:var(--ink); letter-spacing:0; }
+.product-body p{ font-size:12.5px; color:var(--ink-soft); line-height:1.55; flex:1; }
+.product-foot{ display:flex; align-items:center; justify-content:space-between; padding-top:10px; border-top:1px solid var(--line); font-family:var(--font-mono); font-size:10.5px; color:var(--ink-soft); }
+.product-add{ font-size:10.5px; font-weight:700; color:var(--red); background:none; border:none; padding:0; text-transform:uppercase; letter-spacing:0.04em; }
+
+/* ============ QUOTER — kept close to the version the client liked ============ */
+.quoter{ background:linear-gradient(180deg, #fff, var(--cloud)); }
+.ticket{ background:#fff; border-radius:24px; position:relative; display:grid; grid-template-columns:1fr 260px; box-shadow:var(--shadow-lg); overflow:hidden; }
+.ticket::before{ content:""; position:absolute; top:0; bottom:0; left:calc(100% - 260px); width:0; border-left:2px dashed var(--line); z-index:2; }
+.ticket-top-stripe{ position:absolute; top:0; left:0; right:0; height:8px; background:linear-gradient(90deg,var(--cyan),var(--magenta),var(--yellow),var(--navy)); }
+.ticket-main{ padding:44px 40px 36px; }
+.ticket-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:26px; padding-bottom:18px; border-bottom:2px solid var(--ink); }
+.ticket-head .t-title{ font-family:var(--font-display); font-size:24px; }
+.ticket-head .t-num{ font-family:var(--font-mono); font-size:11px; color:var(--ink-soft); text-align:right; line-height:1.6; }
+.ticket-form label{ display:block; font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.07em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:8px; font-weight:700; }
+.ticket-form select, .ticket-form input[type=number]{ width:100%; padding:13px 14px; border:2px solid var(--line); border-radius:12px; font-family:var(--font-body); font-size:14px; color:var(--ink); margin-bottom:20px; background:var(--cloud); }
+.ticket-form select:focus, .ticket-form input:focus{ outline:none; border-color:var(--cyan); }
+.qty-row{ display:flex; align-items:center; gap:14px; margin-bottom:20px; }
+.qty-row input[type=range]{ flex:1; accent-color:var(--red); }
+.qty-badge{ font-family:var(--font-mono); font-weight:700; font-size:14px; color:var(--ink); border:2px solid var(--line); border-radius:10px; padding:8px 12px; min-width:64px; text-align:center; }
+.savings-meter{ margin-bottom:24px; }
+.savings-track{ height:10px; border-radius:6px; background:var(--cloud); overflow:hidden; }
+.savings-fill{ height:100%; width:8%; border-radius:6px; background:linear-gradient(90deg,var(--cyan),var(--magenta),var(--yellow)); transition:width 0.3s ease; }
+.savings-label{ display:flex; justify-content:space-between; font-size:10.5px; color:var(--ink-soft); margin-top:8px; font-family:var(--font-mono); text-transform:uppercase; letter-spacing:0.04em; font-weight:700; }
+
+.ticket-stub{ background:linear-gradient(165deg, var(--navy-deep), var(--navy)); color:#fff; padding:44px 26px 36px; display:flex; flex-direction:column; justify-content:space-between; position:relative; }
+.stub-punch{ position:absolute; left:-10px; width:20px; height:20px; border-radius:50%; background:var(--cloud); }
+.stub-punch.p1{ top:44px; } .stub-punch.p2{ top:50%; margin-top:-10px; } .stub-punch.p3{ bottom:44px; }
+.stub-eyebrow{ font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--yellow); margin-bottom:12px; font-weight:700; }
+.stub-product{ font-family:var(--font-display); font-size:22px; text-transform:uppercase; line-height:1.05; margin-bottom:10px; }
+.stub-spec{ font-size:12px; color:#C7CCE6; line-height:1.55; margin-bottom:20px; }
+.stub-meta div{ display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:11px; padding:8px 0; border-top:1px solid rgba(255,255,255,0.18); color:#C7CCE6; }
+.stub-meta span:last-child{ color:#fff; font-weight:700; }
+.stub-note{ font-size:10.5px; color:#8C93BE; margin-top:16px; line-height:1.5; }
+
+/* ============ Digital ============ */
+.digital{ background:linear-gradient(135deg, var(--navy-deep), var(--navy) 55%, #22307a); color:#fff; }
+.tag-cloud{ display:flex; flex-wrap:wrap; gap:12px; }
+.tag-pill{ padding:14px 20px; border-radius:16px; font-family:var(--font-display); font-size:15px; letter-spacing:0.01em; color:#fff; display:flex; align-items:center; gap:9px; box-shadow:var(--shadow-md); transition:transform 0.2s ease; }
+.tag-pill:hover{ transform:translateY(-5px) rotate(-1deg); }
+.tag-pill:nth-child(1){ background:linear-gradient(135deg,var(--red),#ff3d4e); }
+.tag-pill:nth-child(2){ background:linear-gradient(135deg,var(--navy),#425aa8); }
+.tag-pill:nth-child(3){ background:linear-gradient(135deg,var(--cyan),#0d78ab); }
+.tag-pill:nth-child(4){ background:linear-gradient(135deg,var(--magenta),#a91f5f); }
+.tag-pill:nth-child(5){ background:linear-gradient(135deg,#ffe45a,var(--yellow)); color:var(--ink); box-shadow:0 10px 24px -8px rgba(254,218,2,0.4); }
+.tag-pill:nth-child(6){ background:linear-gradient(135deg,#333e6e,var(--navy-deep)); }
+.digital h2{ color:#fff; }
+.digital p.lead{ color:#C7CCE6; font-size:16px; line-height:1.7; margin:18px 0 28px; max-width:48ch; }
+
+/* ============ Process ============ */
+.process-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:22px; }
+.process-step{ background:#fff; border-radius:20px; padding:30px 24px; box-shadow:var(--shadow-sm); border:1px solid var(--line); transition:transform 0.2s ease, box-shadow 0.2s ease; }
+.process-step:hover{ transform:translateY(-6px); box-shadow:var(--shadow-md); }
+.process-step .num{ display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:50%; color:#fff; font-family:var(--font-display); font-size:16px; margin-bottom:18px; }
+.process-step:nth-child(1) .num{ background:linear-gradient(135deg,var(--cyan),#0d78ab); }
+.process-step:nth-child(2) .num{ background:linear-gradient(135deg,var(--magenta),#a91f5f); }
+.process-step:nth-child(3) .num{ background:linear-gradient(135deg,#ffe45a,var(--yellow)); color:var(--ink); }
+.process-step:nth-child(4) .num{ background:linear-gradient(135deg,var(--red),#a80812); }
+.process-step h3{ font-size:17px; margin-bottom:10px; text-transform:none; color:var(--ink); font-family:var(--font-body); font-weight:700; }
+.process-step p{ font-size:13px; color:var(--ink-soft); line-height:1.55; }
+
+/* ============ CTA band ============ */
+.cta-band{ padding:90px 0; background:linear-gradient(120deg, var(--red), #ff3d4e 45%, var(--magenta)); background-size:200% 200%; animation:ctaGradient 8s ease infinite; color:#fff; text-align:center; }
+@keyframes ctaGradient{ 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+.cta-band h2{ color:#fff; font-size:clamp(32px,5.5vw,58px); margin-bottom:16px; }
+.cta-band p{ color:rgba(255,255,255,0.92); font-size:16px; margin-bottom:32px; }
+.cta-actions{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+
+/* ============ Footer ============ */
+footer{ background:var(--navy-deep); color:#B9BEDD; padding:70px 0 30px; position:relative; overflow:hidden; }
+footer::before{ content:""; position:absolute; top:0; left:0; right:0; height:6px; background:linear-gradient(90deg,var(--cyan),var(--magenta),var(--yellow),var(--red)); }
+.footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; padding-bottom:40px; border-bottom:1px solid rgba(255,255,255,0.14); }
+.footer-brand img{ height:40px; filter:brightness(0) invert(1); margin-bottom:16px; }
+.footer-brand p{ font-size:13.5px; line-height:1.65; color:#9BA1CC; max-width:32ch; }
+footer h4{ font-family:var(--font-mono); font-size:11px; letter-spacing:0.09em; text-transform:uppercase; color:var(--yellow); margin-bottom:16px; font-weight:700; }
+footer ul li{ margin-bottom:11px; font-size:13.5px; }
+footer ul li a{ color:#C7CCE6; transition:color 0.2s ease; }
+footer ul li a:hover{ color:#fff; }
+.footer-bottom{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; padding-top:26px; font-size:12px; color:#7A81AE; }
+.socials{ display:flex; gap:10px; }
+.socials a{ width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; transition:background 0.2s ease, transform 0.2s ease; }
+.socials a:hover{ background:var(--red); transform:translateY(-3px); }
+.socials svg{ width:16px; height:16px; stroke:#fff; fill:none; stroke-width:1.8; }
+
+.float-wa{ position:fixed; bottom:26px; right:26px; z-index:200; width:60px; height:60px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 14px 30px -8px rgba(37,211,102,0.6); animation:pulse 2.4s ease-in-out infinite; }
+.float-wa svg{ width:28px; height:28px; fill:#fff; }
+@keyframes pulse{ 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.08);} }
+
+.reveal{ opacity:0; transform:translateY(28px); transition:opacity 0.8s ease, transform 0.8s ease; }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+@media (max-width:980px){
+  nav.links, .nav-cta .btn-ghost{ display:none; }
+  .burger{ display:flex; }
+  .hero .wrap{ grid-template-columns:1fr; padding-bottom:50px; }
+  .hero-visual{ max-width:460px; margin:40px auto 0; }
+  .cat-grid{ grid-template-columns:repeat(2,1fr); }
+  .grid2{ grid-template-columns:1fr; }
+  .gallery-grid{ grid-template-columns:1fr 1fr; }
+  .gallery-item.tall{ grid-row:span 1; aspect-ratio:1.3/1; }
+  .product-grid{ grid-template-columns:repeat(2,1fr); }
+  .process-grid{ grid-template-columns:repeat(2,1fr); }
+  .footer-grid{ grid-template-columns:1fr 1fr; }
+  .ticket{ grid-template-columns:1fr; }
+  .ticket::before{ display:none; }
+}
+@media (max-width:600px){
+  .cat-grid, .product-grid, .process-grid, .spec-grid, .gallery-grid{ grid-template-columns:1fr; }
+  .footer-grid{ grid-template-columns:1fr; }
+  .section{ padding:64px 0; }
+}
+
+/* ============ EFECTOS EXTRA (más dinamismo) ============ */
+/* Disco CMYK giratorio detrás de la foto del hero */
+.hero-visual{ perspective:1100px; }
+.spin-disc{ position:absolute; width:190px; height:190px; border-radius:50%; z-index:0; top:-46px; right:-46px;
+  background:conic-gradient(from 0deg, var(--cyan), var(--magenta), var(--yellow), var(--cyan));
+  animation:discSpin 16s linear infinite; opacity:0.92; box-shadow:0 20px 50px -10px rgba(20,154,215,0.4); }
+.spin-disc::after{ content:""; position:absolute; inset:22px; border-radius:50%; background:var(--navy-deep); }
+.spin-disc.d2{ width:120px; height:120px; top:auto; right:auto; bottom:-40px; left:-40px; animation-duration:22s; animation-direction:reverse; opacity:0.8; }
+@keyframes discSpin{ to{ transform:rotate(360deg); } }
+.hero-photo-card{ z-index:2; transition:transform 0.25s ease; }
+
+/* Badges flotando */
+.hero-badge{ animation:floaty 4.2s ease-in-out infinite; z-index:3; }
+.hero-badge.b-bottom{ animation-delay:1.6s; }
+@keyframes floaty{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-10px); } }
+
+/* Brillo que barre los botones */
+.btn{ overflow:hidden; }
+.btn::before{ content:""; position:absolute; top:0; left:-80%; width:45%; height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent); transform:skewX(-20deg); pointer-events:none; }
+.btn:hover::before{ animation:shine 0.85s ease; }
+@keyframes shine{ to{ left:130%; } }
+
+/* Marquesina de servicios en movimiento */
+.marquee{ background:var(--ink); color:#fff; padding:18px 0; overflow:hidden; white-space:nowrap; border-top:3px solid var(--yellow); }
+.marquee-track{ display:inline-flex; gap:0; animation:marq 26s linear infinite; }
+.marquee:hover .marquee-track{ animation-play-state:paused; }
+.marquee-track .mi{ font-family:var(--font-display); font-size:22px; text-transform:uppercase; letter-spacing:0.02em; display:inline-flex; align-items:center; padding:0 34px; }
+.marquee-track .mi::before{ content:"◆"; color:var(--yellow); font-size:12px; margin-right:34px; }
+@keyframes marq{ to{ transform:translateX(-50%); } }
+
+/* Tilt 3D suave en las tarjetas de categoría */
+.cat-card{ transform-style:preserve-3d; }
+</style>
 </head>
-<body>
-    <nav class="navbar" id="navbar">
-        <div class="logo">TECINTEK</div>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="#hero">Inicio</a></li>
-            <li><a href="#servicios">Servicios</a></li>
-            <li><a href="#portafolio">Portafolio</a></li>
-            <li><a href="#planes">Planes</a></li>
-            <li><a href="#contacto" class="nav-cta">Contratar Premium</a></li>
-        </ul>
-        <button class="hamburger" id="hamburger" aria-label="Menú"><i class="fas fa-bars"></i></button>
+<body class="loading">
+
+<div class="preloader" id="preloader">
+  <div class="p-ring">
+    <svg viewBox="0 0 86 86"><circle cx="43" cy="43" r="36" fill="none" stroke="#149AD7" stroke-width="4" stroke-dasharray="56 170" stroke-linecap="round"/><circle cx="43" cy="43" r="36" fill="none" stroke="#E0378A" stroke-width="4" stroke-dasharray="56 170" stroke-dashoffset="-56" stroke-linecap="round"/><circle cx="43" cy="43" r="36" fill="none" stroke="#FEDA02" stroke-width="4" stroke-dasharray="56 170" stroke-dashoffset="-112" stroke-linecap="round"/></svg>
+  </div>
+  <div class="p-mark" id="pMark"></div>
+  <div class="p-bar"><span></span></div>
+</div>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<header>
+  <div class="nav">
+    <a href="#inicio" class="brand"><img src="assets/logo-tck.png" alt="TECINTEK"></a>
+    <nav class="links" id="navLinks">
+      <a href="#lineas">Líneas</a>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#cotizador">Cotizador</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#contacto">Contacto</a>
     </nav>
+    <div class="nav-cta">
+      <a href="assets/catalogo-tecintek.pdf" target="_blank" class="btn btn-ghost">Catálogo PDF</a>
+      <a href="https://wa.me/573125620570" target="_blank" class="btn btn-primary magnetic">Cotizar ahora</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  </div>
+</header>
 
-    <!-- HERO -->
-    <section id="hero">
-        <canvas id="hero-canvas"></canvas>
-        <div class="hero-overlay"></div>
-        <div class="hero-content container">
-            <span class="hero-badge">Agencia de Publicidad Digital · Bogotá</span>
-            <h1 class="hero-title">Experiencias <br><span class="gold">Digitales Premium</span></h1>
-            <p class="hero-subtitle">Impulsamos marcas exclusivas con diseño de vanguardia, contenido de alto impacto y estrategias de marketing que convierten seguidores en clientes.</p>
-            <div class="hero-buttons">
-                <a href="#contacto" class="btn btn-gold">Iniciar Proyecto <i class="fas fa-arrow-right"></i></a>
-                <a href="#portafolio" class="btn btn-outline">Ver Portafolio</a>
-            </div>
+<!-- ================= HERO ================= -->
+<section class="hero" id="inicio">
+  <div class="hero-blobs" aria-hidden="true">
+    <div class="b b1" id="blobC"></div>
+    <div class="b b2" id="blobM"></div>
+    <div class="b b3" id="blobY"></div>
+  </div>
+  <div class="wrap">
+    <div class="reveal in">
+      <span class="eyebrow on-dark"><span class="dot"></span>Facatativá · Bogotá — Litografía y publicidad</span>
+      <h1>Calidad que <span class="accent">impacta</span></h1>
+      <p class="lead">Imprimimos, marcamos y dotamos tu negocio: de la tarjeta de presentación al uniforme de tu equipo. Producción propia, entregas oportunas y precios que bajan mientras más pides.</p>
+      <div class="hero-ctas">
+        <a href="https://wa.me/573125620570" target="_blank" class="btn btn-primary magnetic">Solicitar cotización</a>
+        <a href="#catalogo" class="btn btn-outline-light">Ver catálogo completo</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-chip"><strong data-count="4">0</strong><span>Líneas de servicio</span></div>
+        <div class="stat-chip"><strong data-count="31">0</strong><span>Productos en catálogo</span></div>
+        <div class="stat-chip"><strong>4/4</strong><span>Full color</span></div>
+        <div class="stat-chip"><strong>1+</strong><span>Unidad mínima</span></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal in">
+      <div class="spin-disc" aria-hidden="true"></div>
+      <div class="spin-disc d2" aria-hidden="true"></div>
+      <div class="hero-photo-card">
+        <img src="assets/tarjetas-mockup.jpg" alt="Tarjetas de presentación TECINTEK">
+      </div>
+      <div class="hero-badge b-top"><span class="ic"><svg viewBox="0 0 24 24" stroke="#fff" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></span>Impresión 4 colores</div>
+      <div class="hero-badge b-bottom"><span class="ic"><svg viewBox="0 0 24 24" stroke="#fff" fill="none" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg></span>Entrega oportuna</div>
+    </div>
+  </div>
+  <div class="wave-divider">
+    <svg viewBox="0 0 1200 90" preserveAspectRatio="none">
+      <path d="M0,50 C200,90 400,10 600,50 C800,90 1000,10 1200,50 L1200,90 L0,90 Z" fill="#149AD7"/>
+      <path d="M0,65 C200,35 400,80 600,55 C800,30 1000,75 1200,50 L1200,90 L0,90 Z" fill="#E0378A" opacity="0.9"/>
+      <path d="M0,78 C200,60 400,88 600,72 C800,56 1000,86 1200,70 L1200,90 L0,90 Z" fill="#FEDA02" opacity="0.9"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ================= MARQUESINA ================= -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="mi">Tarjetas</span><span class="mi">Volantes</span><span class="mi">Pendones</span><span class="mi">Gorras</span><span class="mi">Camisetas</span><span class="mi">Mugs</span><span class="mi">Carnets</span><span class="mi">Señalización</span><span class="mi">Afiches</span><span class="mi">Full Color</span>
+    <span class="mi">Tarjetas</span><span class="mi">Volantes</span><span class="mi">Pendones</span><span class="mi">Gorras</span><span class="mi">Camisetas</span><span class="mi">Mugs</span><span class="mi">Carnets</span><span class="mi">Señalización</span><span class="mi">Afiches</span><span class="mi">Full Color</span>
+  </div>
+</div>
+
+<!-- ================= CATEGORIES ================= -->
+<section class="section" id="lineas">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow"><span class="dot"></span>Nuestro mundo</span>
+      <h2>Cuatro líneas, un solo taller</h2>
+      <p>Así organizamos TECINTEK — las mismas cuatro familias de nuestro sello: piezas para promocionar tu marca, papelería para tu oficina, dotación para tu equipo e insumos para producir todo lo anterior.</p>
+    </div>
+    <div class="cat-grid reveal">
+      <div class="cat-card c1" data-target="publicidad">
+        <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M3 11v2a2 2 0 0 0 2 2h1l3 5V6L6 11H5a2 2 0 0 0-2 2z"/><path d="M14 8a4 4 0 0 1 0 8"/><path d="M17 5a8 8 0 0 1 0 14"/></svg></div>
+        <h3>Publicidad</h3>
+        <p>Volantes, afiches, pendones, avisos, gigantografía y campañas en medios digitales.</p>
+        <span class="cat-count">08 productos →</span>
+      </div>
+      <div class="cat-card c2" data-target="oficina">
+        <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M15 2v5h5"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></div>
+        <h3>Oficina</h3>
+        <p>Tarjetas de presentación, membretes, plegables, talonarios, facturas y papelería comercial.</p>
+        <span class="cat-count">10 productos →</span>
+      </div>
+      <div class="cat-card c3" data-target="dotaciones">
+        <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M6 3l6 3 6-3 3 5-3 2v10a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V10L3 8z"/></svg></div>
+        <h3>Dotaciones</h3>
+        <p>Camisetas, polos bordados, gorras, carnets y etiquetas de ropa para tu equipo.</p>
+        <span class="cat-count">06 productos →</span>
+      </div>
+      <div class="cat-card c4" data-target="insumos">
+        <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></div>
+        <h3>Insumos</h3>
+        <p>Botones, sublimación, DTF UV, grabado láser, vinilo textil y señalización.</p>
+        <span class="cat-count">07 productos →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEATURED ================= -->
+<section class="section featured" id="destacado">
+  <div class="wrap">
+    <div class="grid2">
+      <div class="reveal">
+        <span class="eyebrow"><span class="dot"></span>Lo más pedido</span>
+        <h2 style="margin-top:16px;">Cupos de tarjetas &amp; volantes</h2>
+        <p style="color:var(--ink-soft); font-size:16px; line-height:1.7; margin-top:16px;">Nuestro servicio insignia: imprimimos tu tanda de tarjetas de presentación o volantes en máquina offset propia, en tandas compartidas para que el precio sea el más bajo del mercado sin sacrificar acabado.</p>
+        <ul class="check-list">
+          <li><span class="dot"></span>Alta calidad</li>
+          <li><span class="dot"></span>Entrega oportuna</li>
+          <li><span class="dot"></span>Variedad de opciones</li>
+          <li><span class="dot"></span>Máquina 4 colores</li>
+          <li><span class="dot"></span>Colores vivos</li>
+        </ul>
+        <div class="spec-grid">
+          <div class="spec-card"><span class="tag">Mate UV</span><strong>9 x 5,5 cm</strong><span class="note">2 caras · plastificada mate/brillo UV · 300 gr</span></div>
+          <div class="spec-card"><span class="tag">Brillantes</span><strong>9 x 5,5 cm</strong><span class="note">2 caras · plastificada 1 cara · 300 gr</span></div>
+          <div class="spec-card"><span class="tag">Volante 4x0</span><strong>Media carta</strong><span class="note">1 cara · propalcote 150 gr</span></div>
+          <div class="spec-card"><span class="tag">Volante 4x4</span><strong>Media carta</strong><span class="note">2 caras · máquina 4 colores</span></div>
         </div>
-    </section>
-
-    <!-- SERVICIOS -->
-    <section id="servicios" class="container">
-        <h2 class="section-title">Nuestros <span class="gold">Servicios</span></h2>
-        <p class="section-subtitle">Todo lo que tu marca necesita para destacar en el mundo digital, bajo un mismo techo.</p>
-        <div class="grid">
-            <div class="card">
-                <div class="icon"><i class="fas fa-palette"></i></div>
-                <h3>Diseño Web Premium</h3>
-                <p>Sitios web modernos, rápidos y a la medida que transmiten la exclusividad de tu marca y convierten visitas en ventas.</p>
-            </div>
-            <div class="card">
-                <div class="icon"><i class="fas fa-bullhorn"></i></div>
-                <h3>Marketing Digital</h3>
-                <p>Campañas en Google y redes sociales, segmentadas con precisión para llegar a los clientes correctos y medir cada peso invertido.</p>
-            </div>
-            <div class="card">
-                <div class="icon"><i class="fas fa-hashtag"></i></div>
-                <h3>Redes Sociales</h3>
-                <p>Gestión de contenido, comunidad y pauta en Instagram, Facebook y TikTok para mantener tu marca activa y creciendo.</p>
-            </div>
-            <div class="card">
-                <div class="icon"><i class="fas fa-gem"></i></div>
-                <h3>Branding e Identidad</h3>
-                <p>Logotipos, identidad visual y estrategia de marca que hacen que tu negocio se vea profesional y memorable.</p>
-            </div>
+      </div>
+      <div class="reveal">
+        <div class="featured-photo">
+          <img src="assets/volantes-mejores.jpg" alt="Volantes publicitarios TECINTEK">
+          <div class="swatch-strip"><i></i><i></i><i></i><i></i></div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- STATS -->
-    <section class="container" style="padding-top:0;">
-        <div class="stats">
-            <div class="stat"><h2>+50</h2><p>Proyectos entregados</p></div>
-            <div class="stat"><h2>+30</h2><p>Marcas impulsadas</p></div>
-            <div class="stat"><h2>100%</h2><p>Compromiso</p></div>
-            <div class="stat"><h2>24/7</h2><p>Soporte</p></div>
+<!-- ================= GALLERY ================= -->
+<section class="section" id="piezas">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="dot"></span>Del taller, no de un banco de imágenes</span>
+      <h2>Piezas que hemos producido</h2>
+      <p>Fotografías reales de nuestro catálogo y archivo — así se ven las cosas cuando salen de nuestra prensa.</p>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-item tall"><img src="assets/pieza-volante-1.jpg" alt="Volante impreso real"><span class="tag-chip" style="background:var(--cyan);">Volante real</span></div>
+      <div class="gallery-item wide"><img src="assets/carnets-lanyards.jpg" alt="Carnets e identificadores"><span class="tag-chip" style="background:var(--magenta);">Carnets</span></div>
+      <div class="gallery-item sq"><img src="assets/reglas-publicitarias.jpg" alt="Reglas publicitarias"><span class="tag-chip" style="background:var(--yellow); color:var(--ink);">Reglas</span></div>
+      <div class="gallery-item sq"><img src="assets/gorras-fila.jpg" alt="Gorras publicitarias"><span class="tag-chip" style="background:var(--navy);">Gorras</span></div>
+      <div class="gallery-item wide"><img src="assets/pieza-volante-2.jpg" alt="Volante impreso real"><span class="tag-chip" style="background:var(--red);">Volante real</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CATALOG ================= -->
+<section class="section" id="catalogo" style="background:var(--cloud);">
+  <div class="wrap">
+    <div class="showcase-head reveal">
+      <div><span class="eyebrow"><span class="dot"></span>Catálogo completo</span><h2 style="margin-top:16px;">Explora por línea</h2></div>
+      <div class="filters" id="filters">
+        <button class="filter-btn active" data-filter="todos">Todos</button>
+        <button class="filter-btn" data-filter="publicidad">Publicidad</button>
+        <button class="filter-btn" data-filter="oficina">Oficina</button>
+        <button class="filter-btn" data-filter="dotaciones">Dotaciones</button>
+        <button class="filter-btn" data-filter="insumos">Insumos</button>
+      </div>
+    </div>
+    <div class="product-grid" id="productGrid"></div>
+    <p style="margin-top:26px; font-size:13.5px; color:var(--ink-soft);">¿Buscas el catálogo con especificaciones completas? <a href="assets/catalogo-tecintek.pdf" target="_blank" style="color:var(--red); font-weight:700;">Descárgalo en PDF →</a></p>
+  </div>
+</section>
+
+<!-- ================= QUOTER ================= -->
+<section class="section quoter" id="cotizador">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow"><span class="dot"></span>Herramienta</span>
+      <h2>Arma tu orden de trabajo</h2>
+      <p>Elige qué necesitas y cuántas unidades. Te mostramos el estimado de ahorro por volumen y generamos tu orden lista para enviar por WhatsApp.</p>
+    </div>
+    <div class="ticket reveal">
+      <div class="ticket-top-stripe"></div>
+      <div class="ticket-main">
+        <div class="ticket-head">
+          <span class="t-title">Orden de trabajo</span>
+          <span class="t-num">FOLIO <span id="qFolio">OT-0452</span><br>TECINTEK S.A.S.</span>
         </div>
-    </section>
-
-    <!-- PORTAFOLIO -->
-    <section id="portafolio">
-        <div class="container">
-            <h2 class="section-title">Nuestro <span class="gold">Portafolio</span></h2>
-            <p class="section-subtitle">Algunos de los proyectos con los que hemos ayudado a marcas a crecer.</p>
-            <div class="portfolio-grid">
-                <div class="portfolio-item p1"><div class="caption"><span>Diseño Web</span><h4>Tienda Online Premium</h4></div></div>
-                <div class="portfolio-item p2"><div class="caption"><span>Branding</span><h4>Identidad de Marca</h4></div></div>
-                <div class="portfolio-item p3"><div class="caption"><span>Redes Sociales</span><h4>Campaña Viral</h4></div></div>
-                <div class="portfolio-item p4"><div class="caption"><span>Marketing</span><h4>Lanzamiento de Producto</h4></div></div>
-            </div>
+        <div class="ticket-form">
+          <label for="qProduct">¿Qué necesitas?</label>
+          <select id="qProduct"></select>
+          <label for="qQty">Cantidad: <span id="qQtyLabel">100</span> unidades</label>
+          <div class="qty-row">
+            <input type="range" id="qQty" min="1" max="1000" value="100">
+            <span class="qty-badge" id="qQtyBadge">100</span>
+          </div>
+          <div class="savings-meter">
+            <div class="savings-track"><div class="savings-fill" id="savingsFill"></div></div>
+            <div class="savings-label"><span>Precio unitario alto</span><span>Mejor precio por volumen</span></div>
+          </div>
+          <a href="#" target="_blank" class="btn btn-primary magnetic" id="qSend">Enviar orden por WhatsApp</a>
         </div>
-    </section>
-
-    <!-- PROCESO -->
-    <section id="proceso" class="container">
-        <h2 class="section-title">Cómo <span class="gold">Trabajamos</span></h2>
-        <p class="section-subtitle">Un proceso claro para que sepas siempre en qué vamos.</p>
-        <div class="grid">
-            <div class="card"><div class="icon"><i class="fas fa-comments"></i></div><h3>1. Diagnóstico</h3><p>Escuchamos tu marca, tus metas y tu presupuesto. Sin costo.</p></div>
-            <div class="card"><div class="icon"><i class="fas fa-pen-ruler"></i></div><h3>2. Propuesta</h3><p>Te presentamos una estrategia y un plan a la medida, con precios claros.</p></div>
-            <div class="card"><div class="icon"><i class="fas fa-rocket"></i></div><h3>3. Ejecución</h3><p>Creamos, lanzamos y optimizamos. Tú apruebas cada paso.</p></div>
-            <div class="card"><div class="icon"><i class="fas fa-chart-line"></i></div><h3>4. Resultados</h3><p>Medimos y te reportamos. Ajustamos para crecer mes a mes.</p></div>
+      </div>
+      <div class="ticket-stub">
+        <div class="stub-punch p1"></div><div class="stub-punch p2"></div><div class="stub-punch p3"></div>
+        <div>
+          <span class="stub-eyebrow">Resumen</span>
+          <div class="stub-product" id="qResultTitle">Tarjetas de presentación</div>
+          <p class="stub-spec" id="qResultDesc">9x5,5 cm · mate UV o brillantes · propalcote 300 gr</p>
         </div>
-    </section>
-
-    <!-- PLANES -->
-    <section id="planes">
-        <div class="container">
-            <h2 class="section-title">Nuestros <span class="gold">Planes</span></h2>
-            <p class="section-subtitle">Precios de referencia. Ajustamos todo a tu necesidad — pide tu cotización.</p>
-            <div class="grid">
-                <div class="card">
-                    <h3>Inicial</h3>
-                    <p style="font-family:'Orbitron',sans-serif; font-size:1.8rem; color:var(--secondary); margin:10px 0;">Cotiza</p>
-                    <p>Ideal para arrancar: página web de una sección + configuración de redes + logo básico.</p>
-                    <a href="#contacto" class="btn btn-outline" style="margin-top:20px;">Pedir cotización</a>
-                </div>
-                <div class="card" style="border-color:var(--secondary); box-shadow:0 20px 50px rgba(212,175,55,0.15);">
-                    <span style="background:var(--gold-gradient); color:var(--primary); padding:4px 14px; border-radius:50px; font-size:0.7rem; font-weight:700; letter-spacing:1px;">MÁS POPULAR</span>
-                    <h3 style="margin-top:14px;">Crecimiento</h3>
-                    <p style="font-family:'Orbitron',sans-serif; font-size:1.8rem; color:var(--secondary); margin:10px 0;">Cotiza</p>
-                    <p>Sitio web completo + gestión mensual de redes + campañas de pauta + reportes.</p>
-                    <a href="#contacto" class="btn btn-gold" style="margin-top:20px;">Pedir cotización</a>
-                </div>
-                <div class="card">
-                    <h3>Premium</h3>
-                    <p style="font-family:'Orbitron',sans-serif; font-size:1.8rem; color:var(--secondary); margin:10px 0;">Cotiza</p>
-                    <p>Estrategia integral: branding completo, web premium, contenido, pauta y acompañamiento.</p>
-                    <a href="#contacto" class="btn btn-outline" style="margin-top:20px;">Pedir cotización</a>
-                </div>
-            </div>
+        <div class="stub-meta">
+          <div><span>Categoría</span><span id="qResultCat">Oficina</span></div>
+          <div><span>Entrega est.</span><span id="qResultTime">2-3 días</span></div>
         </div>
-    </section>
+        <p class="stub-note">* Estimado orientativo. Precio final y tiempos se confirman por WhatsApp según diseño y acabado.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- TESTIMONIOS -->
-    <section id="testimonios" class="container">
-        <h2 class="section-title">Lo que dicen nuestros <span class="gold">Clientes</span></h2>
-        <p class="section-subtitle">Reemplaza estos con testimonios reales de tus clientes (ver el plan de crecimiento).</p>
-        <div class="grid">
-            <div class="card"><p style="font-style:italic;">"Tecintek llevó mi negocio a otro nivel. Ahora me encuentran en Google y me escriben por WhatsApp todos los días."</p><p style="color:var(--secondary); margin-top:16px; font-weight:600;">— Cliente satisfecho</p></div>
-            <div class="card"><p style="font-style:italic;">"Profesionales, cumplidos y creativos. Mi marca por fin se ve como yo la soñaba."</p><p style="color:var(--secondary); margin-top:16px; font-weight:600;">— Cliente satisfecho</p></div>
-            <div class="card"><p style="font-style:italic;">"La inversión se pagó sola con los nuevos clientes que llegaron el primer mes."</p><p style="color:var(--secondary); margin-top:16px; font-weight:600;">— Cliente satisfecho</p></div>
-        </div>
-    </section>
+<!-- ================= DIGITAL ================= -->
+<section class="section digital" id="digital">
+  <div class="wrap grid2">
+    <div class="tag-cloud reveal">
+      <span class="tag-pill">📣 Medios digitales</span>
+      <span class="tag-pill">📱 Redes sociales</span>
+      <span class="tag-pill">📺 Televisión</span>
+      <span class="tag-pill">🏷️ Marcas publicitarias</span>
+      <span class="tag-pill">🎯 Consumidores</span>
+      <span class="tag-pill">✅ Resultados</span>
+    </div>
+    <div class="reveal">
+      <span class="eyebrow on-dark"><span class="dot"></span>Vive tu experiencia</span>
+      <h2 style="margin-top:16px;">También llevamos tu marca a lo digital</h2>
+      <p class="lead">Más allá del papel: acompañamos campañas en redes sociales, pauta y estrategia de marca para que lo impreso y lo digital hablen el mismo idioma.</p>
+      <a href="https://wa.me/573125620570" target="_blank" class="btn btn-primary magnetic">Hablemos de tu campaña</a>
+    </div>
+  </div>
+</section>
 
-    <!-- CONTACTO -->
-    <section id="contacto">
-        <div class="container">
-            <h2 class="section-title">Hablemos de tu <span class="gold">Proyecto</span></h2>
-            <p class="section-subtitle">Cuéntanos qué necesitas y te enviamos una propuesta a la medida.</p>
-            <div class="contact-wrap">
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" required placeholder="Tu nombre">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Correo o teléfono</label>
-                        <input type="text" id="email" required placeholder="Para contactarte">
-                    </div>
-                    <div class="form-group">
-                        <label for="mensaje">¿Qué necesitas?</label>
-                        <textarea id="mensaje" required placeholder="Cuéntanos sobre tu marca o proyecto..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-gold" style="width:100%; justify-content:center;">Enviar por WhatsApp <i class="fab fa-whatsapp"></i></button>
-                </form>
-                <p class="contact-direct">O escríbenos directo:
-                    <a href="https://wa.me/573125620570" target="_blank">WhatsApp</a> ·
-                    <a href="mailto:tecintek@gmail.com">tecintek@gmail.com</a>
-                </p>
-            </div>
-        </div>
-    </section>
+<!-- ================= PROCESS ================= -->
+<section class="section" id="proceso">
+  <div class="wrap">
+    <div class="sec-head center reveal"><span class="eyebrow"><span class="dot"></span>Cómo trabajamos</span><h2>De tu idea a la pieza impresa</h2></div>
+    <div class="process-grid reveal">
+      <div class="process-step"><span class="num">01</span><h3>Nos cuentas qué necesitas</h3><p>Por WhatsApp, correo o en el local — nos dices cantidad, medida y para cuándo.</p></div>
+      <div class="process-step"><span class="num">02</span><h3>Cotizamos según cantidad</h3><p>Entre más unidades pidas, más baja el precio por pieza. Cotización el mismo día.</p></div>
+      <div class="process-step"><span class="num">03</span><h3>Producimos en máquina propia</h3><p>Offset, plotter de corte, sublimación, DTF UV o bordado, según el pedido.</p></div>
+      <div class="process-step"><span class="num">04</span><h3>Entrega oportuna</h3><p>Recoges en Calle 10 #26-66 Local 1, o coordinamos envío en Facatativá y Bogotá.</p></div>
+    </div>
+  </div>
+</section>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="container">
-            <div class="logo">TECINTEK</div>
-            <div class="social">
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-                <a href="https://wa.me/573125620570" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-            </div>
-            <p>&copy; 2026 Tecintek — Agencia de Publicidad Digital. Todos los derechos reservados.</p>
-        </div>
-    </footer>
+<!-- ================= CTA BAND ================= -->
+<section class="cta-band" id="cotizar-band">
+  <div class="wrap">
+    <h2>¿Listo para imprimir?</h2>
+    <p>Escríbenos y te respondemos con precio y tiempos de entrega el mismo día.</p>
+    <div class="cta-actions">
+      <a href="https://wa.me/573125620570" target="_blank" class="btn btn-white magnetic">Escribir por WhatsApp</a>
+      <a href="mailto:tecintek@gmail.com" class="btn btn-outline-light">tecintek@gmail.com</a>
+    </div>
+  </div>
+</section>
 
-    <a href="https://wa.me/573125620570" class="whatsapp-float" target="_blank" aria-label="Escríbenos por WhatsApp"><i class="fab fa-whatsapp"></i></a>
+<!-- ================= FOOTER ================= -->
+<footer id="contacto">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="assets/logo-tck.png" alt="TECINTEK">
+        <p>Publicidad, oficina, dotaciones e insumos. Producción propia en Facatativá al servicio de Bogotá y la región.</p>
+      </div>
+      <div>
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="#" data-jump="publicidad">Publicidad</a></li>
+          <li><a href="#" data-jump="oficina">Oficina</a></li>
+          <li><a href="#" data-jump="dotaciones">Dotaciones</a></li>
+          <li><a href="#" data-jump="insumos">Insumos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#lineas">Líneas</a></li>
+          <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#cotizador">Cotizador</a></li>
+          <li><a href="#proceso">Proceso</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li>Calle 10 #26-66, Local 1</li>
+          <li>Facatativá, Cundinamarca</li>
+          <li><a href="tel:+601927415">(601) 927 7415</a></li>
+          <li><a href="tel:+573125620570">312 562 0570</a></li>
+          <li><a href="mailto:tecintek@gmail.com">tecintek@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TECINTEK S.A.S. — Facatativá, Colombia</span>
+      <div class="socials">
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="https://wa.me/573125620570" target="_blank" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
 
-    <!-- three.js desde un CDN REAL (jsDelivr) -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-    <script>
-        // Navbar al hacer scroll
-        const nav = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            nav.classList.toggle('scrolled', window.scrollY > 50);
-        });
+<a href="https://wa.me/573125620570" target="_blank" class="float-wa" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 32 32"><path d="M16 3C9 3 3.3 8.6 3.3 15.5c0 2.6.8 5 2.2 7L3 29l6.7-2.4c1.9 1 4.1 1.6 6.3 1.6 7 0 12.7-5.6 12.7-12.5S23 3 16 3zm0 22.7c-2 0-3.9-.5-5.6-1.5l-.4-.2-4 1.4 1.3-3.9-.3-.4c-1.1-1.7-1.7-3.7-1.7-5.8 0-5.8 4.7-10.5 10.6-10.5S26.6 9.7 26.6 15.5 21.9 25.7 16 25.7zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-.9 1.1-.3.2-.6.1a8.6 8.6 0 0 1-2.5-1.6 9.4 9.4 0 0 1-1.7-2.2c-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5s0-.4 0-.5-.7-1.7-1-2.3-.6-.5-.7-.5h-.6c-.2 0-.5.1-.8.4a3.6 3.6 0 0 0-1.1 2.7c0 1.6 1.1 3.1 1.3 3.3s2.3 3.5 5.5 4.9a18.6 18.6 0 0 0 1.9.7 4.4 4.4 0 0 0 2-.1 3.3 3.3 0 0 0 2.2-1.5c.2-.4.2-.8.2-1s-.2-.3-.5-.4z"/></svg>
+</a>
 
-        // Menú móvil
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-        hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
-        navLinks.querySelectorAll('a').forEach(a =>
-            a.addEventListener('click', () => navLinks.classList.remove('open')));
+<script>
+/* ===================== DATA ===================== */
+const PRODUCTS = [
+  {cat:'publicidad', name:'Volantes publicitarios', spec:'12x21 cm · full color 1 cara · propalcote 150 gr', tag:'Impresión', time:'2-3 días', img:'volantes-mejores.jpg'},
+  {cat:'publicidad', name:'Afiches', spec:'50x35 cm y 50x70 cm · full color · propalcote 150 gr', tag:'Impresión', time:'2-3 días', img:'afiche-noche-talentos.jpg'},
+  {cat:'publicidad', name:'Pendones', spec:'A medida · lona con ojales y guaza reforzada', tag:'Gran formato', time:'3-4 días', img:'pendones-calle.jpg'},
+  {cat:'publicidad', name:'Abanicos publicitarios', spec:'17x12 cm y 17x24 cm · maule cal. 20 · troquelado', tag:'Promocional', time:'4-6 días', img:'abanico-imprenta.jpg'},
+  {cat:'publicidad', name:'Biseras y banderines', spec:'Maule cal. 18 · plastificado y troquelado con caucho o palo', tag:'Promocional', time:'4-6 días', img:'banderines.jpg'},
+  {cat:'publicidad', name:'Avisos en acrílico', spec:'A la medida · letras corpóreas y carteleras', tag:'Señalética', time:'5-8 días', img:'aviso-sushiwok.jpg'},
+  {cat:'publicidad', name:'Cajas de luz', spec:'Iluminación LED · impresión full color · a medida', tag:'Gran formato', time:'6-10 días', img:'caja-luz-abastos.jpg'},
+  {cat:'publicidad', name:'Reglas publicitarias', spec:'5x24 cm y 5x49 cm · maule cal. 18 · plastificado brillante', tag:'Promocional', time:'4-6 días', img:'reglas-publicitarias.jpg'},
+  {cat:'oficina', name:'Tarjetas de presentación', spec:'9x5,5 cm · mate UV o brillantes · propalcote 300 gr', tag:'Papelería', time:'2-3 días', img:'tarjetas-mockup.jpg'},
+  {cat:'oficina', name:'Membretes y hojas comerciales', spec:'Full color · papel bond o propalcote a elección', tag:'Papelería', time:'2-3 días'},
+  {cat:'oficina', name:'Plegables tríptico', spec:'24x34 cm abierto · plegado a 3 cuerpos · propalcote 150 gr', tag:'Papelería', time:'3-4 días', img:'plegables-mockup.jpg'},
+  {cat:'oficina', name:'Talonarios e individuales', spec:'Numerados o personalizados · tamaño a elección', tag:'Papelería', time:'3-5 días'},
+  {cat:'oficina', name:'Certificados y diplomas', spec:'Full color · papel especial · acabado premium', tag:'Institucional', time:'2-3 días'},
+  {cat:'oficina', name:'Habladores y separadores', spec:'Full color · cartulina o propalcote grueso', tag:'Comercial', time:'2-3 días'},
+  {cat:'oficina', name:'Tarjetas de invitación', spec:'Full color · variedad de acabados y papeles', tag:'Eventos', time:'3-4 días'},
+  {cat:'oficina', name:'Facturas y valeras', spec:'Talonarios con copia · numeración consecutiva', tag:'Contable', time:'3-5 días', img:'facturero-elcielo.jpg'},
+  {cat:'oficina', name:'Carpetas y calendarios', spec:'Full color · troquelado y plegado a medida', tag:'Papelería', time:'4-6 días'},
+  {cat:'oficina', name:'Periódicos y revistas', spec:'Precio según cantidad, páginas y tamaño', tag:'Editorial', time:'5-8 días', img:'periodicos.jpg'},
+  {cat:'dotaciones', name:'Camisetas marcadas', spec:'1 tinta o full color · 1 ó 2 caras · a partir de 1 unidad', tag:'Textil', time:'3-5 días', img:'camiseta-campana.jpg'},
+  {cat:'dotaciones', name:'Camisa polo bordada', spec:'Bordado full color · valor desde 12 unidades', tag:'Textil', time:'5-7 días', img:'polos-fila.jpg'},
+  {cat:'dotaciones', name:'Gorras en malla', spec:'Tipo camionera · estampado al calor full color', tag:'Textil', time:'4-6 días', img:'gorras-fila.jpg'},
+  {cat:'dotaciones', name:'Gorras para bordar', spec:'Publicidad bordada · combos de 50, 100 y 200', tag:'Textil', time:'6-8 días'},
+  {cat:'dotaciones', name:'Carnets e identificadores', spec:'Con cinta lisa o yoyo · precio baja según cantidad', tag:'Institucional', time:'3-4 días', img:'carnets-lanyards.jpg'},
+  {cat:'dotaciones', name:'Etiquetas de ropa', spec:'Precio según cantidad y medida', tag:'Textil', time:'4-6 días', img:'etiquetas-ropa.jpg'},
+  {cat:'insumos', name:'Botones y placas', spec:'Pines, llaveros, medallas, identificadores y exhibidores', tag:'Producción', time:'4-6 días'},
+  {cat:'insumos', name:'DTF UV y sublimación', spec:'Estampado textil y sobre superficies rígidas', tag:'Producción', time:'3-5 días', img:'mugs-colores.jpg'},
+  {cat:'insumos', name:'Grabado láser', spec:'Sobre metal, acrílico y madera', tag:'Producción', time:'4-6 días'},
+  {cat:'insumos', name:'Vinilo textil y screen', spec:'Tampografía y estampado promocional', tag:'Producción', time:'3-5 días'},
+  {cat:'insumos', name:'Señalización', spec:'Poliestireno calibre 60 · se cotiza según cantidad', tag:'Institucional', time:'4-6 días', img:'senalizacion-grid.jpg'},
+  {cat:'insumos', name:'Gigantografía', spec:'Banner, vinilo, panaflex y microperforado', tag:'Gran formato', time:'3-5 días', img:'pendon-urbana.jpg'},
+  {cat:'insumos', name:'Mugs personalizados', spec:'Blancos, de color o con interior de color', tag:'Sublimación', time:'3-4 días', img:'mugs-colores.jpg'},
+];
+const CAT_COLOR = { publicidad:'#149AD7', oficina:'#E0378A', dotaciones:'#FEDA02', insumos:'#2D4585' };
+const CAT_LABEL = { publicidad:'Publicidad', oficina:'Oficina', dotaciones:'Dotaciones', insumos:'Insumos' };
 
-        // Formulario -> abre WhatsApp con el mensaje (sin backend, funciona ya)
-        document.getElementById('contactForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const nombre = document.getElementById('nombre').value;
-            const contacto = document.getElementById('email').value;
-            const mensaje = document.getElementById('mensaje').value;
-            const texto = `Hola Tecintek! Soy ${nombre} (${contacto}). ${mensaje}`;
-            window.open(`https://wa.me/573125620570?text=${encodeURIComponent(texto)}`, '_blank');
-        });
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+const hasAnime = typeof anime !== 'undefined';
+const BRAND_CYCLE = ['#149AD7','#E0378A','#FEDA02','#2D4585','#E00C1B'];
 
-        // Animación 3D del hero (con fallback si three.js no cargara)
-        (function () {
-            if (typeof THREE === 'undefined') return;
-            const canvas = document.getElementById('hero-canvas');
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 5;
-            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+/* ===================== PRELOADER ===================== */
+function buildLetterMark(){
+  const word = 'TECINTEK';
+  const mark = document.getElementById('pMark');
+  mark.innerHTML = word.split('').map((ch,i) => `<span class="pl" style="color:${BRAND_CYCLE[i % BRAND_CYCLE.length]}">${ch}</span>`).join('');
+  if(hasAnime && !prefersReduced){
+    anime({ targets:'#pMark .pl', opacity:[0,1], translateY:[24,0], rotate:[()=>anime.random(-25,25),0],
+      duration:650, delay:anime.stagger(60, {start:150}), easing:'easeOutElastic(1, .6)' });
+  } else {
+    mark.querySelectorAll('.pl').forEach(el => el.style.opacity = 1);
+  }
+}
+buildLetterMark();
 
-            const knot = new THREE.Mesh(
-                new THREE.TorusKnotGeometry(1.5, 0.4, 120, 16),
-                new THREE.MeshBasicMaterial({ color: 0xD4AF37, wireframe: true, transparent: true, opacity: 0.4 })
-            );
-            scene.add(knot);
+function revealHero(){
+  if(hasAnime && !prefersReduced){
+    anime({ targets:'.hero .reveal', opacity:[0,1], translateY:[26,0], duration:800, delay:anime.stagger(160), easing:'easeOutCubic' });
+  }
+}
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('preloader').classList.add('hide');
+    document.body.classList.remove('loading');
+    revealHero();
+  }, 1700);
+});
+setTimeout(() => {
+  document.getElementById('preloader').classList.add('hide');
+  document.body.classList.remove('loading');
+  revealHero();
+}, 3800);
 
-            const pGeo = new THREE.BufferGeometry();
-            const count = 350, pos = new Float32Array(count * 3);
-            for (let i = 0; i < count * 3; i++) pos[i] = (Math.random() - 0.5) * 12;
-            pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-            const particles = new THREE.Points(pGeo, new THREE.PointsMaterial({ size: 0.03, color: 0x00D4FF }));
-            scene.add(particles);
+/* ===================== BLOB FLOAT ===================== */
+if(hasAnime && !prefersReduced){
+  anime({ targets:'#blobC', translateX:[0,50,-20,0], translateY:[0,-30,20,0], scale:[1,1.15,0.9,1], duration:9000, easing:'easeInOutSine', loop:true });
+  anime({ targets:'#blobM', translateX:[0,-40,30,0], translateY:[0,30,-25,0], scale:[1,0.88,1.12,1], duration:11000, easing:'easeInOutSine', loop:true, delay:400 });
+  anime({ targets:'#blobY', translateX:[0,30,-40,0], translateY:[0,-25,15,0], scale:[1,1.1,0.9,1], duration:9800, easing:'easeInOutSine', loop:true, delay:800 });
+}
 
-            let mx = 0, my = 0;
-            window.addEventListener('mousemove', (e) => {
-                mx = (e.clientX / window.innerWidth) - 0.5;
-                my = (e.clientY / window.innerHeight) - 0.5;
-            });
-            (function animate() {
-                requestAnimationFrame(animate);
-                knot.rotation.x += 0.003; knot.rotation.y += 0.005;
-                particles.rotation.y = mx * 0.5; particles.rotation.x = -my * 0.5;
-                renderer.render(scene, camera);
-            })();
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-        })();
-    </script>
+/* ===================== SCROLL PROGRESS ===================== */
+const progressBar = document.getElementById('scrollProgress');
+document.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  progressBar.style.width = scrolled + '%';
+}, {passive:true});
+
+/* ===================== MAGNETIC BUTTONS ===================== */
+if(!isTouch && !prefersReduced){
+  document.querySelectorAll('.magnetic').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width/2, y = e.clientY - r.top - r.height/2;
+      if(hasAnime){ anime({ targets:btn, translateX:x*0.2, translateY:y*0.3, duration:300, easing:'easeOutQuad' }); }
+    });
+    btn.addEventListener('mouseleave', () => {
+      if(hasAnime){ anime({ targets:btn, translateX:0, translateY:0, duration:600, easing:'easeOutElastic(1, .5)' }); }
+    });
+  });
+}
+
+/* ===================== COUNTERS ===================== */
+function animateCounters(){
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count, 10);
+    if(hasAnime){
+      const obj = { val:0 };
+      anime({ targets:obj, val:target, round:1, duration:1400, easing:'easeOutExpo', update:() => { el.textContent = obj.val; } });
+    } else { el.textContent = target; }
+  });
+}
+const heroObs = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting){ animateCounters(); heroObs.disconnect(); } }); }, {threshold:0.3});
+const statsEl = document.querySelector('.hero-stats');
+if(statsEl) heroObs.observe(statsEl);
+
+/* ===================== CATALOG RENDER ===================== */
+const grid = document.getElementById('productGrid');
+function renderProducts(filter){
+  grid.innerHTML = '';
+  PRODUCTS.filter(p => filter === 'todos' || p.cat === filter).forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    const color = CAT_COLOR[p.cat];
+    const media = p.img
+      ? `<div class="product-media"><img src="assets/${p.img}" alt="${p.name}"><span class="cat-flag" style="background:${color};">${p.cat}</span></div>`
+      : `<div class="product-media plate" style="background:linear-gradient(135deg, ${color}, ${color}cc);"><span class="plate-label">${p.name}</span><span class="cat-flag" style="background:rgba(0,0,0,0.25);">${p.cat}</span></div>`;
+    card.innerHTML = `
+      ${media}
+      <div class="product-body">
+        <h3>${p.name}</h3>
+        <p>${p.spec}</p>
+        <div class="product-foot"><span>${p.tag}</span><button class="product-add" data-name="${p.name}">Cotizar →</button></div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+  if(hasAnime && !prefersReduced){
+    anime({ targets:'#productGrid .product-card', opacity:[0,1], translateY:[18,0], duration:500, delay:anime.stagger(40), easing:'easeOutCubic' });
+  }
+  grid.querySelectorAll('.product-add').forEach(btn => btn.addEventListener('click', () => jumpToQuoter(btn.dataset.name)));
+}
+renderProducts('todos');
+
+document.getElementById('filters').addEventListener('click', (e) => {
+  const btn = e.target.closest('.filter-btn');
+  if(!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(btn.dataset.filter);
+  document.getElementById('catalogo').scrollIntoView({behavior:'smooth', block:'start'});
+});
+function jumpToFilter(target){ const btn = document.querySelector(`.filter-btn[data-filter="${target}"]`); if(btn) btn.click(); }
+document.querySelectorAll('.cat-card').forEach(c => c.addEventListener('click', () => jumpToFilter(c.dataset.target)));
+document.querySelectorAll('[data-jump]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); jumpToFilter(a.dataset.jump); }));
+
+/* ===================== QUOTER (kept close to liked version) ===================== */
+const qProduct = document.getElementById('qProduct');
+PRODUCTS.forEach(p => { const opt = document.createElement('option'); opt.value = p.name; opt.textContent = `${p.name} (${CAT_LABEL[p.cat]})`; qProduct.appendChild(opt); });
+const qQty = document.getElementById('qQty'), qQtyLabel = document.getElementById('qQtyLabel'), qQtyBadge = document.getElementById('qQtyBadge');
+const savingsFill = document.getElementById('savingsFill'), qSend = document.getElementById('qSend');
+const qResultTitle = document.getElementById('qResultTitle'), qResultDesc = document.getElementById('qResultDesc');
+const qResultCat = document.getElementById('qResultCat'), qResultTime = document.getElementById('qResultTime');
+const qFolio = document.getElementById('qFolio');
+
+function updateQuoter(){
+  const p = PRODUCTS.find(x => x.name === qProduct.value) || PRODUCTS[0];
+  const qty = parseInt(qQty.value, 10);
+  qQtyLabel.textContent = qty; qQtyBadge.textContent = qty;
+  const pct = Math.max(Math.min(100, Math.round((qty/1000)*100)), 6);
+  if(hasAnime){ anime({ targets:savingsFill, width: pct + '%', duration:350, easing:'easeOutQuad' }); }
+  else { savingsFill.style.width = pct + '%'; }
+  qResultTitle.textContent = p.name; qResultDesc.textContent = p.spec;
+  qResultCat.textContent = CAT_LABEL[p.cat]; qResultTime.textContent = p.time;
+  const msg = `Hola TECINTEK, quiero cotizar: ${qty} unidades de "${p.name}".`;
+  qSend.href = `https://wa.me/573125620570?text=${encodeURIComponent(msg)}`;
+}
+function jumpToQuoter(name){
+  qProduct.value = name; updateQuoter();
+  qFolio.textContent = 'OT-' + (450 + Math.floor(Math.random()*40));
+  document.getElementById('cotizador').scrollIntoView({behavior:'smooth', block:'start'});
+}
+qProduct.addEventListener('change', updateQuoter);
+qQty.addEventListener('input', updateQuoter);
+updateQuoter();
+
+/* ===================== BURGER ===================== */
+const burger = document.getElementById('burger');
+const navLinks = document.getElementById('navLinks');
+burger.addEventListener('click', () => {
+  const open = navLinks.style.display === 'flex';
+  navLinks.style.display = open ? 'none' : 'flex';
+  navLinks.style.cssText += open ? '' : 'position:absolute; top:100%; left:0; right:0; background:#fff; flex-direction:column; padding:20px 32px; border-bottom:1px solid var(--line); gap:16px;';
+});
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { if(window.innerWidth <= 980) navLinks.style.display = 'none'; }));
+
+/* ===================== REVEAL ===================== */
+const io = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); }); }, {threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ===================== TILT 3D (efecto dinámico) ===================== */
+if(!isTouch && !prefersReduced){
+  /* Foto del hero: sigue el mouse con inclinación 3D */
+  const heroCard = document.querySelector('.hero-photo-card');
+  const heroVisual = document.querySelector('.hero-visual');
+  if(heroCard && heroVisual){
+    heroVisual.addEventListener('mousemove', e => {
+      const r = heroVisual.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      heroCard.style.transform = `rotate(1.5deg) rotateY(${px*12}deg) rotateX(${-py*12}deg)`;
+    });
+    heroVisual.addEventListener('mouseleave', () => { heroCard.style.transform = 'rotate(1.5deg)'; });
+  }
+  /* Tarjetas de categoría: inclinación suave al pasar el mouse */
+  document.querySelectorAll('.cat-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `translateY(-8px) scale(1.02) perspective(600px) rotateY(${px*7}deg) rotateX(${-py*7}deg)`;
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
+}
+</script>
 </body>
 </html>
