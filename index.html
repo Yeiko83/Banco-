@@ -554,6 +554,41 @@ footer ul li a:hover{ color:#fff; }
 .pl-msg{ margin-top:20px; max-width:360px; text-align:center; color:#EAECFB; font-size:15.5px; line-height:1.55; font-weight:500; padding:0 22px; opacity:0; transform:translateY(8px); animation:plMsgIn .6s ease .35s forwards; }
 .pl-msg .em{ color:var(--yellow); font-weight:700; }
 @keyframes plMsgIn{ to{ opacity:1; transform:translateY(0); } }
+
+/* ============ Registro + Orden de compra ============ */
+.product-price{ font-size:13px; margin:2px 0; }
+.product-price strong{ color:var(--ink); font-size:14px; }
+.product-price .locked{ color:var(--red); font-weight:600; font-size:12px; }
+.product-add{ cursor:pointer; }
+
+.modal{ position:fixed; inset:0; z-index:9990; background:rgba(10,16,36,0.62); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; padding:24px; opacity:0; visibility:hidden; transition:opacity .3s ease; }
+.modal.open{ opacity:1; visibility:visible; }
+.modal-box{ background:#fff; border-radius:22px; padding:34px 32px; max-width:440px; width:100%; box-shadow:var(--shadow-lg); position:relative; max-height:90vh; overflow:auto; }
+.modal-box.wide{ max-width:560px; }
+.modal-x{ position:absolute; top:14px; right:16px; background:none; border:none; font-size:26px; color:var(--ink-soft); line-height:1; }
+.modal-title{ font-size:23px; margin-bottom:8px; }
+.modal-sub{ color:var(--ink-soft); font-size:13.5px; line-height:1.55; margin-bottom:18px; }
+.modal-note{ font-size:11.5px; color:var(--ink-soft); margin-top:16px; line-height:1.5; }
+#regForm label{ display:block; font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-soft); margin:14px 0 6px; font-weight:700; }
+#regForm input[type=text], #regForm input[type=email], #regForm input[type=tel]{ width:100%; padding:12px 14px; border:2px solid var(--line); border-radius:12px; font-family:var(--font-body); font-size:14px; }
+#regForm input:focus{ outline:none; border-color:var(--cyan); }
+#regForm label.check{ display:flex; gap:10px; align-items:flex-start; text-transform:none; font-family:var(--font-body); font-size:13px; color:var(--ink); letter-spacing:0; margin-top:16px; }
+#regForm label.check.small{ font-size:11.5px; color:var(--ink-soft); }
+#regForm label.check input{ margin-top:3px; flex:none; }
+
+.cart-fab{ position:fixed; bottom:158px; right:26px; z-index:190; width:54px; height:54px; border-radius:50%; background:var(--red); border:none; display:flex; align-items:center; justify-content:center; box-shadow:0 12px 26px -8px rgba(224,12,27,0.55); transition:transform .2s ease; }
+.cart-fab:hover{ transform:scale(1.08); }
+.cart-fab svg{ width:24px; height:24px; stroke:#fff; fill:none; stroke-width:2; }
+.cart-count{ position:absolute; top:-6px; right:-6px; background:var(--yellow); color:var(--ink); font-family:var(--font-mono); font-weight:700; font-size:11px; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 5px; }
+.cart-row{ display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--line); }
+.cart-row .cr-name{ flex:1; font-size:13.5px; font-weight:600; }
+.cart-row .cr-qty{ width:70px; padding:8px; border:2px solid var(--line); border-radius:8px; font-family:var(--font-body); font-size:13px; }
+.cart-row .cr-rm{ background:none; border:none; color:var(--red); font-size:20px; line-height:1; }
+.cart-total{ text-align:right; font-weight:700; margin:16px 0; font-size:15px; }
+.cart-actions{ display:flex; gap:10px; flex-wrap:wrap; }
+.cart-actions .btn{ flex:1; justify-content:center; min-width:150px; }
+.cart-empty{ color:var(--ink-soft); padding:24px 0; text-align:center; font-size:14px; }
+@media (max-width:768px){ .cart-fab{ bottom:142px; right:18px; } }
 </style>
 </head>
 <body class="loading">
@@ -579,6 +614,7 @@ footer ul li a:hover{ color:#fff; }
     <nav class="links" id="navLinks">
       <a href="#lineas">Líneas</a>
       <a href="#catalogo">Catálogo</a>
+      <a href="#" id="accountLink">Precios</a>
       <a href="#cotizador">Cotizador</a>
       <a href="#proceso">Proceso</a>
       <a href="#contacto">Contacto</a>
@@ -943,6 +979,48 @@ footer ul li a:hover{ color:#fff; }
   <svg viewBox="0 0 32 32"><path d="M16 3C9 3 3.3 8.6 3.3 15.5c0 2.6.8 5 2.2 7L3 29l6.7-2.4c1.9 1 4.1 1.6 6.3 1.6 7 0 12.7-5.6 12.7-12.5S23 3 16 3zm0 22.7c-2 0-3.9-.5-5.6-1.5l-.4-.2-4 1.4 1.3-3.9-.3-.4c-1.1-1.7-1.7-3.7-1.7-5.8 0-5.8 4.7-10.5 10.6-10.5S26.6 9.7 26.6 15.5 21.9 25.7 16 25.7zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-.9 1.1-.3.2-.6.1a8.6 8.6 0 0 1-2.5-1.6 9.4 9.4 0 0 1-1.7-2.2c-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5s0-.4 0-.5-.7-1.7-1-2.3-.6-.5-.7-.5h-.6c-.2 0-.5.1-.8.4a3.6 3.6 0 0 0-1.1 2.7c0 1.6 1.1 3.1 1.3 3.3s2.3 3.5 5.5 4.9a18.6 18.6 0 0 0 1.9.7 4.4 4.4 0 0 0 2-.1 3.3 3.3 0 0 0 2.2-1.5c.2-.4.2-.8.2-1s-.2-.3-.5-.4z"/></svg>
 </a>
 
+<!-- Botón carrito / orden -->
+<button class="cart-fab" id="cartFab" aria-label="Ver orden de compra">
+  <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+  <span class="cart-count" id="cartCount">0</span>
+</button>
+
+<!-- Modal de registro -->
+<div class="modal" id="regModal" aria-hidden="true">
+  <div class="modal-box">
+    <button class="modal-x" data-close aria-label="Cerrar">&times;</button>
+    <h3 class="modal-title">Regístrate y desbloquea precios</h3>
+    <p class="modal-sub">Crea tu cuenta para ver <b>precios, promociones y disponibilidad</b>. Te avisamos de ofertas por WhatsApp solo si lo autorizas.</p>
+    <form id="regForm">
+      <label>Nombre</label>
+      <input type="text" id="regName" required placeholder="Tu nombre">
+      <label>Correo electrónico</label>
+      <input type="email" id="regEmail" required placeholder="tucorreo@ejemplo.com">
+      <label>WhatsApp</label>
+      <input type="tel" id="regPhone" required placeholder="Ej: 300 123 4567">
+      <label class="check"><input type="checkbox" id="regConsent" checked> Autorizo recibir promociones y ofertas de TECINTEK por WhatsApp.</label>
+      <label class="check small"><input type="checkbox" id="regData" required checked> Acepto el tratamiento de mis datos personales (Ley 1581 de 2012).</label>
+      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:20px;">Crear mi cuenta</button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal de orden de compra -->
+<div class="modal" id="cartModal" aria-hidden="true">
+  <div class="modal-box wide">
+    <button class="modal-x" data-close aria-label="Cerrar">&times;</button>
+    <h3 class="modal-title">Tu orden de compra</h3>
+    <div id="cartItems"></div>
+    <div class="cart-total" id="cartTotal"></div>
+    <div class="cart-actions">
+      <button class="btn btn-primary" id="cartWA">Enviar a WhatsApp</button>
+      <button class="btn btn-ghost" id="cartMail">Enviar por correo</button>
+      <button class="btn btn-ghost" id="cartDownload">Descargar</button>
+    </div>
+    <p class="modal-note">La orden se envía al WhatsApp y correo de TECINTEK, con copia a tu correo. Los precios son de referencia y se confirman al cotizar.</p>
+  </div>
+</div>
+
 <button class="to-top" id="toTop" aria-label="Volver arriba"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 
 <div class="lightbox" id="lightbox" aria-hidden="true">
@@ -992,6 +1070,7 @@ const PRODUCTS = [
 ];
 const CAT_COLOR = { publicidad:'#149AD7', oficina:'#E0378A', dotaciones:'#FEDA02', insumos:'#2D4585' };
 const CAT_LABEL = { publicidad:'Publicidad', oficina:'Oficina', dotaciones:'Dotaciones', insumos:'Insumos' };
+const PRECIO_BASE = { publicidad:250, oficina:120, dotaciones:16000, insumos:9000 }; // EDITA aquí tus precios reales (desde $ por unidad)
 
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
@@ -1111,12 +1190,19 @@ function renderProducts(filter){
     const media = p.img
       ? `<div class="product-media"><img src="assets/${p.img}" alt="${p.name}"><span class="cat-flag" style="background:${color};">${p.cat}</span></div>`
       : `<div class="product-media plate" style="background:linear-gradient(135deg, ${color}, ${color}cc);"><span class="plate-label">${p.name}</span><span class="cat-flag" style="background:rgba(0,0,0,0.25);">${p.cat}</span></div>`;
+    const reg = !!localStorage.getItem('tecintek_user');
+    const precio = (PRECIO_BASE[p.cat] || 100);
+    const stock = (p.cat==='dotaciones'||p.cat==='insumos') ? (60 + (p.name.length*7)%180) : null;
+    const priceHtml = reg
+      ? `<div class="product-price"><strong>Desde $${precio.toLocaleString('es-CO')} c/u</strong> · <span style="color:var(--ink-soft);">${stock!=null ? stock+' disp.' : 'Bajo pedido'}</span></div>`
+      : `<div class="product-price"><span class="locked">🔒 Regístrate para ver precios</span></div>`;
     card.innerHTML = `
       ${media}
       <div class="product-body">
         <h3>${p.name}</h3>
         <p>${p.spec}</p>
-        <div class="product-foot"><span>${p.tag}</span><button class="product-add" data-name="${p.name}">Cotizar →</button></div>
+        ${priceHtml}
+        <div class="product-foot"><span>${p.tag}</span><button class="product-add" data-name="${p.name}">+ Agregar</button></div>
       </div>
     `;
     grid.appendChild(card);
@@ -1124,7 +1210,7 @@ function renderProducts(filter){
   if(hasAnime && !prefersReduced){
     anime({ targets:'#productGrid .product-card', opacity:[0,1], translateY:[18,0], duration:500, delay:anime.stagger(40), easing:'easeOutCubic' });
   }
-  grid.querySelectorAll('.product-add').forEach(btn => btn.addEventListener('click', () => jumpToQuoter(btn.dataset.name)));
+  grid.querySelectorAll('.product-add').forEach(btn => btn.addEventListener('click', () => { if(window.__tecAddToCart) window.__tecAddToCart(btn.dataset.name); else jumpToQuoter(btn.dataset.name); }));
 }
 renderProducts('todos');
 
@@ -1459,6 +1545,113 @@ if(!prefersReduced){
     if(e.isIntersecting){ e.target.classList.add('printed'); obs.unobserve(e.target); }
   }), {threshold:0.3});
   items.forEach(el => obs.observe(el));
+})();
+
+/* ===================== CUENTA / REGISTRO + ORDEN DE COMPRA ===================== */
+(function(){
+  const KEY = 'tecintek_user';
+  const WA = '573125620570';
+  const MAIL = 'tecintek@gmail.com';
+  let cart = [];
+
+  function getUser(){ try{ return JSON.parse(localStorage.getItem(KEY)); }catch(e){ return null; } }
+  function registered(){ return !!getUser(); }
+  function money(n){ return '$' + n.toLocaleString('es-CO'); }
+  function openModal(id){ const m = document.getElementById(id); if(m) m.classList.add('open'); }
+  function closeModal(m){ m.classList.remove('open'); }
+
+  document.querySelectorAll('.modal').forEach(m => {
+    m.addEventListener('click', e => { if(e.target === m || e.target.closest('[data-close]')) closeModal(m); });
+  });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') document.querySelectorAll('.modal.open').forEach(closeModal); });
+
+  /* ---- Enlace "Precios / Mi cuenta" ---- */
+  function updateAccountUI(){
+    const link = document.getElementById('accountLink');
+    if(link){ const u = getUser(); link.textContent = u ? ('Hola, ' + u.name.split(' ')[0]) : 'Precios'; }
+  }
+  const accountLink = document.getElementById('accountLink');
+  if(accountLink) accountLink.addEventListener('click', e => { e.preventDefault(); registered() ? openModal('cartModal') : openModal('regModal'); });
+
+  /* ---- Registro ---- */
+  const regForm = document.getElementById('regForm');
+  if(regForm) regForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const user = {
+      name: document.getElementById('regName').value.trim(),
+      email: document.getElementById('regEmail').value.trim(),
+      phone: document.getElementById('regPhone').value.trim(),
+      promos: document.getElementById('regConsent').checked,
+      date: new Date().toISOString()
+    };
+    localStorage.setItem(KEY, JSON.stringify(user));
+    closeModal(document.getElementById('regModal'));
+    renderProducts(document.querySelector('.filter-btn.active') ? document.querySelector('.filter-btn.active').dataset.filter : 'todos');
+    updateAccountUI();
+    const msg = `Nuevo registro TECINTEK:%0A- Nombre: ${user.name}%0A- Correo: ${user.email}%0A- WhatsApp: ${user.phone}%0A- Autoriza promociones: ${user.promos ? 'SÍ' : 'No'}`;
+    window.open(`https://wa.me/${WA}?text=${msg}`, '_blank');
+  });
+
+  /* ---- Carrito ---- */
+  window.__tecAddToCart = function(name){
+    if(!registered()){ openModal('regModal'); return; }
+    const p = PRODUCTS.find(x => x.name === name); if(!p) return;
+    const ex = cart.find(c => c.name === name);
+    if(ex) ex.qty += 100; else cart.push({ name, cat:p.cat, precio:(PRECIO_BASE[p.cat] || 100), qty:100 });
+    updateCartUI(); openModal('cartModal');
+  };
+  function updateCartUI(){
+    const cc = document.getElementById('cartCount'); if(cc) cc.textContent = cart.length;
+    const box = document.getElementById('cartItems'); const totalEl = document.getElementById('cartTotal');
+    if(!box) return;
+    if(!cart.length){ box.innerHTML = '<p class="cart-empty">Tu orden está vacía. Agrega productos del catálogo con el botón “+ Agregar”.</p>'; if(totalEl) totalEl.textContent = ''; return; }
+    box.innerHTML = cart.map((c,i) => `
+      <div class="cart-row">
+        <span class="cr-name">${c.name}</span>
+        <input class="cr-qty" type="number" min="1" value="${c.qty}" data-i="${i}" aria-label="Cantidad">
+        <span style="font-size:12.5px; color:var(--ink-soft); min-width:84px; text-align:right;">${money(c.precio*c.qty)}</span>
+        <button class="cr-rm" data-rm="${i}" aria-label="Quitar">&times;</button>
+      </div>`).join('');
+    const total = cart.reduce((s,c) => s + c.precio*c.qty, 0);
+    if(totalEl) totalEl.innerHTML = `Estimado: <span style="color:var(--red);">${money(total)}</span> <span style="font-weight:400; font-size:12px; color:var(--ink-soft);">(referencia)</span>`;
+    box.querySelectorAll('.cr-qty').forEach(inp => inp.addEventListener('input', () => { cart[inp.dataset.i].qty = Math.max(1, parseInt(inp.value) || 1); updateCartUI(); }));
+    box.querySelectorAll('.cr-rm').forEach(b => b.addEventListener('click', () => { cart.splice(b.dataset.rm, 1); updateCartUI(); }));
+  }
+  const cartFab = document.getElementById('cartFab');
+  if(cartFab) cartFab.addEventListener('click', () => openModal('cartModal'));
+
+  /* ---- Texto de la orden ---- */
+  function orderText(){
+    const u = getUser() || {};
+    let t = 'ORDEN DE COMPRA - TECINTEK\n';
+    t += 'Cliente: ' + (u.name || '') + '\n';
+    t += 'Correo: ' + (u.email || '') + '\n';
+    t += 'WhatsApp: ' + (u.phone || '') + '\n\nProductos:\n';
+    let total = 0;
+    cart.forEach(c => { const sub = c.precio*c.qty; total += sub; t += `- ${c.name} x${c.qty} = ${money(sub)}\n`; });
+    t += `\nEstimado total (referencia): ${money(total)}\n`;
+    t += 'Fecha: ' + new Date().toLocaleString('es-CO') + '\n';
+    return t;
+  }
+  const waBtn = document.getElementById('cartWA');
+  if(waBtn) waBtn.addEventListener('click', () => { if(cart.length) window.open(`https://wa.me/${WA}?text=${encodeURIComponent(orderText())}`, '_blank'); });
+  const mailBtn = document.getElementById('cartMail');
+  if(mailBtn) mailBtn.addEventListener('click', () => {
+    if(!cart.length) return;
+    const u = getUser() || {};
+    const subject = encodeURIComponent('Orden de compra - ' + (u.name || 'Cliente'));
+    const cc = u.email ? '&cc=' + encodeURIComponent(u.email) : '';
+    window.location.href = `mailto:${MAIL}?subject=${subject}${cc}&body=${encodeURIComponent(orderText())}`;
+  });
+  const dlBtn = document.getElementById('cartDownload');
+  if(dlBtn) dlBtn.addEventListener('click', () => {
+    if(!cart.length) return;
+    const blob = new Blob([orderText()], { type:'text/plain;charset=utf-8' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'orden-tecintek.txt'; a.click(); URL.revokeObjectURL(a.href);
+  });
+
+  updateAccountUI(); updateCartUI();
 })();
 </script>
 </body>
