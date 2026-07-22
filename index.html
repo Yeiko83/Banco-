@@ -403,13 +403,26 @@ footer ul li a:hover{ color:#fff; }
     transition:width .22s ease, height .22s ease, border-color .22s ease, background .22s ease; }
   .cursor-ring.hot{ width:56px; height:56px; border-color:var(--magenta); background:rgba(224,55,138,0.14); }
 }
+
+/* ============ Ojitos interactivos del preloader ============ */
+.eyes{ display:flex; gap:22px; margin-bottom:4px; }
+.eye{ width:70px; height:70px; background:#fff; border-radius:50%; position:relative; overflow:hidden; box-shadow:0 12px 30px rgba(0,0,0,0.32); }
+.eye .pupil{ position:absolute; top:50%; left:50%; width:30px; height:30px; border-radius:50%; background:var(--ink); transform:translate(-50%,-50%); animation:eyeIdle 4.5s ease-in-out infinite; }
+.eye .pupil::after{ content:""; position:absolute; top:5px; left:7px; width:9px; height:9px; border-radius:50%; background:#fff; }
+.eye .pupil::before{ content:""; position:absolute; inset:4px; border-radius:50%; border:3px solid var(--cyan); }
+.eye:nth-child(2) .pupil::before{ border-color:var(--magenta); }
+.eye .lid{ position:absolute; inset:0; background:linear-gradient(var(--navy), var(--navy-deep)); transform:translateY(-101%); animation:blink 3.6s infinite; }
+.eye:nth-child(2) .lid{ animation-delay:0.08s; }
+@keyframes blink{ 0%,90%,100%{ transform:translateY(-101%); } 94%{ transform:translateY(0); } }
+@keyframes eyeIdle{ 0%,100%{ transform:translate(-50%,-50%); } 25%{ transform:translate(-25%,-62%); } 50%{ transform:translate(-72%,-42%); } 75%{ transform:translate(-45%,-28%); } }
 </style>
 </head>
 <body class="loading">
 
 <div class="preloader" id="preloader">
-  <div class="p-ring">
-    <svg viewBox="0 0 86 86"><circle cx="43" cy="43" r="36" fill="none" stroke="#149AD7" stroke-width="4" stroke-dasharray="56 170" stroke-linecap="round"/><circle cx="43" cy="43" r="36" fill="none" stroke="#E0378A" stroke-width="4" stroke-dasharray="56 170" stroke-dashoffset="-56" stroke-linecap="round"/><circle cx="43" cy="43" r="36" fill="none" stroke="#FEDA02" stroke-width="4" stroke-dasharray="56 170" stroke-dashoffset="-112" stroke-linecap="round"/></svg>
+  <div class="eyes" id="eyes">
+    <div class="eye"><div class="pupil"></div><div class="lid"></div></div>
+    <div class="eye"><div class="pupil"></div><div class="lid"></div></div>
   </div>
   <div class="p-mark" id="pMark"></div>
   <div class="p-bar"><span></span></div>
@@ -805,7 +818,7 @@ window.addEventListener('load', () => {
     document.getElementById('preloader').classList.add('hide');
     document.body.classList.remove('loading');
     revealHero();
-  }, 1700);
+  }, 2300);
 });
 setTimeout(() => {
   document.getElementById('preloader').classList.add('hide');
@@ -1033,6 +1046,20 @@ if(window.matchMedia('(hover:hover) and (pointer:fine)').matches && !prefersRedu
   document.addEventListener('mouseover', e => { if(e.target.closest(hot)) ring.classList.add('hot'); });
   document.addEventListener('mouseout', e => { if(e.target.closest(hot)) ring.classList.remove('hot'); });
 }
+
+/* ===================== OJITOS QUE SIGUEN EL MOUSE ===================== */
+(function(){
+  const pupils = document.querySelectorAll('.eye .pupil');
+  if(!pupils.length) return;
+  window.addEventListener('mousemove', e => {
+    const x = (e.clientX/window.innerWidth - 0.5);
+    const y = (e.clientY/window.innerHeight - 0.5);
+    pupils.forEach(p => {
+      p.style.animation = 'none';
+      p.style.transform = `translate(calc(-50% + ${x*22}px), calc(-50% + ${y*22}px))`;
+    });
+  }, {passive:true});
+})();
 </script>
 </body>
 </html>
