@@ -415,6 +415,33 @@ footer ul li a:hover{ color:#fff; }
 .eye:nth-child(2) .lid{ animation-delay:0.08s; }
 @keyframes blink{ 0%,90%,100%{ transform:translateY(-101%); } 94%{ transform:translateY(0); } }
 @keyframes eyeIdle{ 0%,100%{ transform:translate(-50%,-50%); } 25%{ transform:translate(-25%,-62%); } 50%{ transform:translate(-72%,-42%); } 75%{ transform:translate(-45%,-28%); } }
+
+/* ============ Carga: la línea se convierte en boca que saca la lengua ============ */
+.mouth-zone{ height:74px; display:flex; align-items:center; justify-content:center; }
+.mouth{ position:relative; width:120px; height:60px; opacity:0; transform:scale(0.3) translateY(-6px); transition:opacity .35s ease, transform .5s cubic-bezier(.34,1.56,.64,1); }
+.mouth.show{ opacity:1; transform:scale(1) translateY(0); }
+.mouth .lip{ width:120px; height:58px; background:#fff; border-radius:10px 10px 120px 120px; box-shadow:inset 0 7px 0 rgba(0,0,0,0.06); position:relative; z-index:1; overflow:hidden; }
+.mouth .tongue{ position:absolute; left:50%; top:28px; width:52px; height:44px; background:linear-gradient(#ff6b86,#e0378a); border-radius:10px 10px 40px 40px; transform:translate(-50%,-26px); z-index:0; }
+.mouth.show .tongue{ animation:tongueOut .75s ease .3s forwards; }
+@keyframes tongueOut{ 0%{ transform:translate(-50%,-26px);} 65%{ transform:translate(-50%,22px);} 100%{ transform:translate(-50%,13px);} }
+
+/* ============ Slider de promociones (hero) ============ */
+.promo-slider{ position:relative; border-radius:28px; overflow:hidden; box-shadow:var(--shadow-lg); border:6px solid #fff; transform:rotate(1.5deg); z-index:2; aspect-ratio:4/3.3; }
+.promo-track{ display:flex; height:100%; transition:transform .6s cubic-bezier(.65,.05,.36,1); }
+.promo-slide{ min-width:100%; height:100%; position:relative; display:flex; align-items:flex-end; }
+.promo-slide img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.promo-slide .veil{ position:absolute; inset:0; background:linear-gradient(to top, rgba(10,16,36,0.92), rgba(10,16,36,0.15) 60%); }
+.promo-cap{ position:relative; z-index:2; padding:22px 26px 26px; color:#fff; }
+.promo-cap .tag{ display:inline-block; font-family:var(--font-mono); font-size:10px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; background:var(--red); color:#fff; padding:6px 12px; border-radius:999px; margin-bottom:10px; }
+.promo-cap h3{ font-family:var(--font-display); font-size:27px; color:#fff; text-transform:uppercase; line-height:1.02; }
+.promo-cap p{ font-size:12.5px; color:#dfe3f5; margin-top:6px; }
+.promo-arrow{ position:absolute; top:50%; transform:translateY(-50%); z-index:4; width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.92); border:none; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-md); transition:background .2s ease, transform .2s ease; }
+.promo-arrow svg{ width:18px; height:18px; stroke:var(--ink); fill:none; stroke-width:2.6; }
+.promo-arrow.prev{ left:12px; } .promo-arrow.next{ right:12px; }
+.promo-arrow:hover{ background:#fff; transform:translateY(-50%) scale(1.08); }
+.promo-dots{ position:absolute; bottom:16px; right:18px; z-index:4; display:flex; gap:7px; }
+.promo-dots button{ width:8px; height:8px; border-radius:50%; border:none; background:rgba(255,255,255,0.55); padding:0; transition:all .25s ease; }
+.promo-dots button.active{ background:var(--yellow); width:22px; border-radius:6px; }
 </style>
 </head>
 <body class="loading">
@@ -424,8 +451,11 @@ footer ul li a:hover{ color:#fff; }
     <div class="eye"><div class="pupil"></div><div class="lid"></div></div>
     <div class="eye"><div class="pupil"></div><div class="lid"></div></div>
   </div>
+  <div class="mouth-zone">
+    <div class="p-bar" id="pBar"><span></span></div>
+    <div class="mouth" id="mouth" aria-hidden="true"><div class="lip"></div><div class="tongue"></div></div>
+  </div>
   <div class="p-mark" id="pMark"></div>
-  <div class="p-bar"><span></span></div>
 </div>
 
 <div class="scroll-progress" id="scrollProgress"></div>
@@ -475,8 +505,17 @@ footer ul li a:hover{ color:#fff; }
     <div class="hero-visual reveal in">
       <div class="spin-disc" aria-hidden="true"></div>
       <div class="spin-disc d2" aria-hidden="true"></div>
-      <div class="hero-photo-card">
-        <img src="assets/tarjetas-mockup.jpg" alt="Tarjetas de presentación TECINTEK">
+      <div class="promo-slider" aria-label="Promociones y ofertas">
+        <div class="promo-track" id="promoTrack">
+          <div class="promo-slide"><img src="assets/tarjetas-mockup.jpg" alt="Promo tarjetas"><div class="veil"></div><div class="promo-cap"><span class="tag">Promo</span><h3>2×1 en tarjetas</h3><p>Pide 1.000 y llévate 2.000 · propalcote 300 gr</p></div></div>
+          <div class="promo-slide"><img src="assets/volantes-mejores.jpg" alt="Promo volantes"><div class="veil"></div><div class="promo-cap"><span class="tag">Oferta</span><h3>Volantes full color</h3><p>Precio que baja mientras más pides</p></div></div>
+          <div class="promo-slide"><img src="assets/pendones-calle.jpg" alt="Promo pendones"><div class="veil"></div><div class="promo-cap"><span class="tag">Gran formato</span><h3>Pendones a tu medida</h3><p>Lona reforzada · impresión full color</p></div></div>
+          <div class="promo-slide"><img src="assets/gorras-fila.jpg" alt="Promo dotación"><div class="veil"></div><div class="promo-cap"><span class="tag">Dotaciones</span><h3>Dota a tu equipo</h3><p>Camisetas y gorras marcadas desde 1 unidad</p></div></div>
+          <div class="promo-slide"><img src="assets/mugs-colores.jpg" alt="Promo mugs"><div class="veil"></div><div class="promo-cap"><span class="tag">Sublimación</span><h3>Mugs personalizados</h3><p>El regalo perfecto para tu marca</p></div></div>
+        </div>
+        <button class="promo-arrow prev" id="promoPrev" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button class="promo-arrow next" id="promoNext" aria-label="Siguiente"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+        <div class="promo-dots" id="promoDots"></div>
       </div>
       <div class="hero-badge b-top"><span class="ic"><svg viewBox="0 0 24 24" stroke="#fff" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></span>Impresión 4 colores</div>
       <div class="hero-badge b-bottom"><span class="ic"><svg viewBox="0 0 24 24" stroke="#fff" fill="none" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg></span>Entrega oportuna</div>
@@ -813,18 +852,21 @@ function revealHero(){
     anime({ targets:'.hero .reveal', opacity:[0,1], translateY:[26,0], duration:800, delay:anime.stagger(160), easing:'easeOutCubic' });
   }
 }
-window.addEventListener('load', () => {
-  setTimeout(() => {
+let plEnded = false;
+function endPreloader(){
+  if(plEnded) return; plEnded = true;
+  const bar = document.getElementById('pBar');
+  const mouth = document.getElementById('mouth');
+  if(bar) bar.style.display = 'none';       // termina la línea de carga
+  if(mouth) mouth.classList.add('show');    // se convierte en boca + saca la lengua
+  setTimeout(() => {                         // luego entra a la página
     document.getElementById('preloader').classList.add('hide');
     document.body.classList.remove('loading');
     revealHero();
-  }, 2300);
-});
-setTimeout(() => {
-  document.getElementById('preloader').classList.add('hide');
-  document.body.classList.remove('loading');
-  revealHero();
-}, 3800);
+  }, 1150);
+}
+window.addEventListener('load', () => setTimeout(endPreloader, 1750));
+setTimeout(endPreloader, 4200); // respaldo
 
 /* ===================== BLOB FLOAT ===================== */
 if(hasAnime && !prefersReduced){
@@ -979,12 +1021,62 @@ if(!isTouch && !prefersReduced){
   });
 }
 
-/* ===================== FONDO 3D ANIMADO (hero) ===================== */
+/* ===================== SLIDER DE PROMOCIONES ===================== */
+(function(){
+  const track = document.getElementById('promoTrack');
+  const dotsWrap = document.getElementById('promoDots');
+  if(!track || !dotsWrap) return;
+  const total = track.children.length;
+  let i = 0, timer;
+  function go(n){
+    i = (n + total) % total;
+    track.style.transform = `translateX(${-i*100}%)`;
+    [...dotsWrap.children].forEach((d,k) => d.classList.toggle('active', k===i));
+  }
+  for(let k=0;k<total;k++){
+    const b = document.createElement('button');
+    b.setAttribute('aria-label','Ir a promoción '+(k+1));
+    b.addEventListener('click', () => { go(k); restart(); });
+    dotsWrap.appendChild(b);
+  }
+  document.getElementById('promoNext').addEventListener('click', () => { go(i+1); restart(); });
+  document.getElementById('promoPrev').addEventListener('click', () => { go(i-1); restart(); });
+  function auto(){ if(!prefersReduced) timer = setInterval(() => go(i+1), 4200); }
+  function restart(){ clearInterval(timer); auto(); }
+  go(0); auto();
+})();
+
+/* ===================== FONDO ANIMADO (hero) — con respaldo sin internet ===================== */
 (function(){
   const canvas = document.getElementById('heroFx');
   const hero = document.getElementById('inicio');
-  if(!canvas || !hero || typeof THREE === 'undefined' || prefersReduced || isTouch) return;
+  if(!canvas || !hero || prefersReduced) return;
+  if(typeof THREE !== 'undefined' && !isTouch){ initThree(); } else { initParticles2D(); }
 
+  /* Red de partículas en 2D — funciona SIEMPRE, aunque no haya internet */
+  function initParticles2D(){
+    const ctx = canvas.getContext('2d'); let w, h;
+    function size(){ w = canvas.width = hero.clientWidth; h = canvas.height = hero.clientHeight; }
+    size(); window.addEventListener('resize', size);
+    const N = Math.max(40, Math.min(90, Math.floor(hero.clientWidth/16)));
+    const pts = Array.from({length:N}, () => ({ x:Math.random()*w, y:Math.random()*h, vx:(Math.random()-0.5)*0.45, vy:(Math.random()-0.5)*0.45 }));
+    (function loop(){
+      requestAnimationFrame(loop);
+      ctx.clearRect(0,0,w,h);
+      for(let a=0;a<pts.length;a++){
+        const p = pts[a]; p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>w) p.vx*=-1; if(p.y<0||p.y>h) p.vy*=-1;
+        ctx.beginPath(); ctx.arc(p.x,p.y,2,0,7); ctx.fillStyle='rgba(254,218,2,0.85)'; ctx.fill();
+        for(let b=a+1;b<pts.length;b++){
+          const q = pts[b], dx=p.x-q.x, dy=p.y-q.y, d=Math.hypot(dx,dy);
+          if(d<130){ ctx.strokeStyle='rgba(20,154,215,'+(1-d/130)*0.4+')'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke(); }
+        }
+      }
+    })();
+  }
+
+  /* Nudo 3D con three.js — cuando hay internet */
+  function initThree(){
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(70, 1, 0.1, 1000);
   camera.position.z = 5;
@@ -1026,6 +1118,7 @@ if(!isTouch && !prefersReduced){
     camera.lookAt(scene.position);
     renderer.render(scene, camera);
   })();
+  }
 })();
 
 /* ===================== CURSOR PERSONALIZADO ===================== */
