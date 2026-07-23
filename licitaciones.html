@@ -190,6 +190,7 @@ details ol{margin:10px 0 0 18px}details li{margin:6px 0;color:var(--dim)}
 
   <div class="strip">
     <span class="chip"><span class="dot on"></span> No alucina</span>
+    <span class="chip">🆓 Opción gratis: Google Gemini (sin tarjeta, sin proxy)</span>
     <span class="chip">🔒 Tu clave solo en tu navegador</span>
     <span class="chip">📊 Dashboard con % de cumplimiento</span>
     <span class="chip">⬇️ Informe descargable</span>
@@ -244,8 +245,9 @@ details ol{margin:10px 0 0 18px}details li{margin:6px 0;color:var(--dim)}
     <h3>Configurar la IA</h3>
     <p class="muted">Elige proveedor e introduce tu clave. Se guarda solo en <strong>este navegador</strong> (localStorage); nunca se envía a Tecintek ni a GitHub.</p>
     <div class="ptabs">
+      <button data-p="gemini" onclick="selP('gemini')">Gemini · GRATIS</button>
       <button data-p="deepseek" onclick="selP('deepseek')">DeepSeek</button>
-      <button data-p="anthropic" onclick="selP('anthropic')">Claude (Anthropic)</button>
+      <button data-p="anthropic" onclick="selP('anthropic')">Claude</button>
     </div>
     <label class="f">Clave de API</label>
     <input id="key" type="password" placeholder="sk-...">
@@ -299,17 +301,19 @@ const SYSTEM = `Eres el DIRECTOR EJECUTIVO DE LICITACIONES de Tecintek, con 25 a
 
 /* ================= CONFIG ================= */
 const DEF = {
- deepseek:{model:'deepseek-chat', note:'Consigue tu clave en platform.deepseek.com (API keys). DeepSeek necesita el proxy de arriba para funcionar desde el navegador.'},
- anthropic:{model:'claude-opus-4-8', note:'Consigue tu clave en console.anthropic.com. Claude funciona directamente, sin proxy.'}
+ gemini:{model:'gemini-2.0-flash', note:'✅ 100% GRATIS y sin tarjeta. Consigue tu clave en aistudio.google.com → "Get API key" / "Obtener clave de API". Funciona directamente desde el navegador, SIN proxy.'},
+ deepseek:{model:'deepseek-chat', note:'De pago (barato). Consigue tu clave en platform.deepseek.com (API keys). DeepSeek necesita el proxy de arriba para funcionar desde el navegador.'},
+ anthropic:{model:'claude-opus-4-8', note:'De pago. Consigue tu clave en console.anthropic.com. Claude funciona directamente, sin proxy.'}
 };
-let cfg = load(), curP = cfg.provider || 'deepseek', DATA = null, curTab='dash';
+function pname(p){return p==='anthropic'?'Claude':p==='gemini'?'Gemini':'DeepSeek'}
+let cfg = load(), curP = cfg.provider || 'gemini', DATA = null, curTab='dash';
 function load(){try{return JSON.parse(localStorage.getItem('tecintek_ia')||'{}')}catch(e){return{}}}
 function saveLS(){localStorage.setItem('tecintek_ia',JSON.stringify(cfg))}
 function status(){
   const ok = cfg.apiKey && cfg.provider && (cfg.provider!=='deepseek' || cfg.proxy);
   document.getElementById('dot').classList.toggle('on',!!ok);
   document.getElementById('klabel').textContent = ok
-    ? (cfg.provider==='anthropic'?'Claude':'DeepSeek')+' · listo'
+    ? pname(cfg.provider)+' · listo'
     : (cfg.apiKey && cfg.provider==='deepseek' && !cfg.proxy ? 'Falta URL del proxy' : 'Sin configurar');
 }
 function openCfg(){curP=cfg.provider||'deepseek';selP(curP,true);
@@ -330,7 +334,7 @@ function saveCfg(){
   if(!key){toast('Introduce una clave de API.');return}
   if(curP==='deepseek'&&!proxy){toast('DeepSeek necesita la URL del proxy (mira las instrucciones).');return}
   cfg={provider:curP,apiKey:key,model,proxy};saveLS();status();closeCfg();
-  toast('✅ IA configurada ('+(curP==='anthropic'?'Claude':'DeepSeek')+')');
+  toast('✅ IA configurada ('+pname(curP)+')');
 }
 function delCfg(){cfg={};saveLS();status();document.getElementById('key').value='';document.getElementById('proxy').value='';toast('Clave borrada de este navegador.')}
 
@@ -374,7 +378,10 @@ async function analizar(){
   let si=0;const timer=setInterval(()=>{const el=document.getElementById('lst');if(el)el.textContent=steps[si++%steps.length]},2600);
 
   try{
-    const raw = cfg.provider==='anthropic' ? await callAnthropic(userMsg) : await callDeepseek(userMsg);
+    let raw;
+    if(cfg.provider==='anthropic') raw=await callAnthropic(userMsg);
+    else if(cfg.provider==='gemini') raw=await callGemini(userMsg);
+    else raw=await callDeepseek(userMsg);
     const data = parseJSON(raw);
     if(!data) throw new Error('La IA no devolvió un JSON válido. Reintenta.');
     DATA=data;
@@ -396,6 +403,20 @@ async function callAnthropic(userMsg){
   if(!res.ok)throw await apiErr(res);
   const j=await res.json();
   return (j.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+}
+async function callGemini(userMsg){
+  const model=cfg.model||'gemini-2.0-flash';
+  const url='https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent?key='+encodeURIComponent(cfg.apiKey);
+  const res=await fetch(url,{method:'POST',headers:{'content-type':'application/json'},
+    body:JSON.stringify({
+      system_instruction:{parts:[{text:SYSTEM}]},
+      contents:[{role:'user',parts:[{text:userMsg}]}],
+      generationConfig:{responseMimeType:'application/json',maxOutputTokens:8192,temperature:0.4}
+    })});
+  if(!res.ok)throw await apiErr(res);
+  const j=await res.json();
+  const c=j.candidates&&j.candidates[0];
+  return (c&&c.content&&c.content.parts&&c.content.parts.map(p=>p.text||'').join(''))||'';
 }
 async function callDeepseek(userMsg){
   const url=cfg.proxy||'https://api.deepseek.com/chat/completions';
