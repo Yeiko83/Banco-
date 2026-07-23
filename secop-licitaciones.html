@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tecintek · Licitaciones SECOP II en Vivo</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root{
+  --primary:#0A1628; --secondary:#D4AF37; --accent:#00D4FF;
+  --gold:linear-gradient(135deg,#D4AF37,#F5D76E,#D4AF37);
+  --panel:rgba(255,255,255,0.04); --panel-2:rgba(255,255,255,0.06); --border:rgba(212,175,55,0.22);
+  --dim:rgba(255,255,255,0.62); --ok:#3ddc84; --warn:#ffb347; --err:#ff6b6b;
+}
+body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:radial-gradient(1200px 700px at 82% -10%,rgba(0,212,255,.08),transparent 60%),
+             radial-gradient(900px 600px at -10% 8%,rgba(212,175,55,.08),transparent 55%),var(--primary);
+  color:#fff; min-height:100vh; line-height:1.5;}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:var(--primary)}
+::-webkit-scrollbar-thumb{background:var(--secondary);border-radius:10px}
+a{color:var(--accent)}
+.navbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 26px;background:rgba(10,22,40,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Orbitron',sans-serif;font-size:1.35rem;font-weight:900;letter-spacing:1px;
+  background:var(--gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.brand-sub{font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-top:2px}
+.nav-actions{display:flex;gap:10px;align-items:center}
+.btn{border:none;cursor:pointer;font-weight:700;border-radius:40px;transition:.22s;display:inline-flex;
+  align-items:center;gap:8px;font-size:.88rem}
+.btn-gold{background:var(--gold);color:var(--primary);padding:11px 22px;box-shadow:0 6px 24px rgba(212,175,55,.25)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 34px rgba(212,175,55,.45)}
+.btn-gold:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.18);padding:9px 16px;font-size:.82rem}
+.btn-ghost:hover{border-color:var(--secondary);background:rgba(212,175,55,.08)}
+.wrap{max-width:1240px;margin:0 auto;padding:28px 22px 80px}
+.hero-badge{display:inline-block;padding:6px 16px;border:1px solid var(--secondary);border-radius:40px;
+  font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--secondary);margin-bottom:14px}
+h1.title{font-family:'Orbitron',sans-serif;font-size:2rem;line-height:1.14;margin-bottom:10px}
+h1.title .g{background:var(--gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lead{color:var(--dim);max-width:760px}
+
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin:24px 0 20px;
+  background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px}
+.field{flex:1;min-width:180px}
+.field label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin-bottom:6px}
+.field input,.field select{width:100%;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.14);color:#fff;
+  border-radius:10px;padding:10px 12px;font-size:.88rem;font-family:inherit;outline:none;transition:.2s}
+.field input:focus,.field select:focus{border-color:var(--secondary);box-shadow:0 0 0 3px rgba(212,175,55,.14)}
+
+.status-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;font-size:.82rem;color:var(--dim)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--err);flex-shrink:0}
+.dot.on{background:var(--ok);box-shadow:0 0 10px var(--ok)}
+.dot.busy{background:var(--warn)}
+
+.grid-cards{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:720px){.grid-cards{grid-template-columns:1fr 1fr}}
+@media(min-width:1120px){.grid-cards{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--panel-2);border:1px solid var(--border);border-radius:16px;padding:18px;
+  display:flex;flex-direction:column;gap:10px}
+.card .modalidad{align-self:flex-start;font-size:.68rem;text-transform:uppercase;letter-spacing:.5px;
+  color:var(--secondary);border:1px solid var(--border);border-radius:20px;padding:4px 11px}
+.card .objeto{font-size:.95rem;font-weight:600;line-height:1.35}
+.card .entidad{font-size:.8rem;color:var(--dim)}
+.card .meta{display:flex;flex-direction:column;gap:4px;font-size:.78rem;color:var(--dim);margin-top:auto}
+.card .meta b{color:#fff}
+.card .valor{font-size:1.05rem;font-weight:800}
+.card .valor .g{background:var(--gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.card .foot{display:flex;justify-content:space-between;align-items:center;margin-top:6px;gap:10px}
+
+.placeholder{color:var(--dim);text-align:center;padding:64px 20px;grid-column:1/-1}
+.placeholder .big{font-size:2.2rem;margin-bottom:10px}
+
+.loader{text-align:center;padding:56px 20px;grid-column:1/-1}
+.spin{width:46px;height:46px;border:4px solid rgba(212,175,55,.2);border-top-color:var(--secondary);
+  border-radius:50%;margin:0 auto 16px;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loader .sub{color:var(--dim);font-size:.82rem;margin-top:6px}
+
+.error-box{grid-column:1/-1;border:1px solid rgba(255,107,107,.35);background:rgba(255,107,107,.08);
+  border-radius:14px;padding:20px;font-size:.85rem;color:#ffd7d7}
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <div>
+    <div class="logo">TECINTEK</div>
+    <div class="brand-sub">Licitaciones SECOP II</div>
+  </div>
+  <div class="nav-actions">
+    <a href="index.html" class="btn btn-ghost">← Inicio</a>
+    <button class="btn btn-gold" id="btnRefrescar">Actualizar</button>
+  </div>
+</nav>
+
+<div class="wrap">
+  <span class="hero-badge">Datos abiertos · datos.gov.co</span>
+  <h1 class="title">Procesos de contratación <span class="g">en tiempo real</span></h1>
+  <p class="lead">Consulta directa al conjunto de datos oficial de SECOP II (Colombia Compra Eficiente), con los procesos de contratación pública más recientes.</p>
+
+  <div class="toolbar">
+    <div class="field">
+      <label>Buscar</label>
+      <input type="text" id="fBuscar" placeholder="Objeto o entidad...">
+    </div>
+    <div class="field">
+      <label>Modalidad</label>
+      <select id="fModalidad"><option value="">Todas</option></select>
+    </div>
+    <div class="field">
+      <label>Orden</label>
+      <select id="fOrden">
+        <option value="reciente">Más recientes primero</option>
+        <option value="cierre">Cierre más próximo primero</option>
+        <option value="valor">Mayor valor primero</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="status-row">
+    <span class="dot" id="statusDot"></span>
+    <span id="statusText">Sin consultar</span>
+  </div>
+
+  <div class="grid-cards" id="grid">
+    <div class="placeholder">
+      <div class="big">📋</div>
+      Presiona "Actualizar" para consultar los procesos vigentes en SECOP II.
+    </div>
+  </div>
+</div>
+
+<script>
+const DATASET_URL = "https://www.datos.gov.co/resource/p6dx-8zbt.json";
+
+// El esquema de este dataset ha cambiado nombres de columna con el tiempo,
+// así que cada valor se busca probando varias claves candidatas conocidas.
+const CAMPOS = {
+  id: ["id_del_proceso", "id_proceso", "referencia_del_proceso"],
+  referencia: ["referencia_del_proceso"],
+  objeto: ["descripci_n_del_procedimiento", "nombre_del_procedimiento", "objeto_del_proceso"],
+  entidad: ["entidad", "nombre_entidad", "entidad_contratante"],
+  valor: ["precio_base", "valor_total_adjudicacion"],
+  modalidad: ["modalidad_de_contratacion"],
+  fase: ["fase", "estado_del_procedimiento"],
+  fechaPublicacion: ["fecha_de_publicacion_del", "fecha_de_publicacion_del_proceso", "fecha_de_publicacion_fase_3"],
+  fechaCierre: ["fecha_de_recepcion_de_ofertas", "fecha_de_recepcion_de", "ult_fecha_para_solicitar", "fecha_de_apertura_de_respuesta"],
+  enlace: ["urlproceso", "url_del_proceso", "url_proceso"]
+};
+
+const CANDIDATOS_ORDEN = {
+  reciente: CAMPOS.fechaPublicacion,
+  cierre: CAMPOS.fechaCierre,
+  valor: CAMPOS.valor
+};
+
+function pick(obj, keys) {
+  for (const k of keys) {
+    if (obj[k] !== undefined && obj[k] !== null && obj[k] !== "") return obj[k];
+  }
+  return null;
+}
+
+async function fetchJson(qs) {
+  const response = await fetch(`${DATASET_URL}?${qs}`, {
+    method: "GET",
+    headers: { "Accept": "application/json" }
+  });
+  const raw = await response.text();
+  if (!response.ok) return { ok: false, status: response.status, body: raw };
+  try {
+    return { ok: true, data: JSON.parse(raw) };
+  } catch (e) {
+    return { ok: false, status: response.status, body: raw, parseError: e.message };
+  }
+}
+
+async function fetchLicitaciones(ordenKey) {
+  const candidatos = CANDIDATOS_ORDEN[ordenKey] || [];
+  const desc = ordenKey === "cierre" ? "" : " DESC";
+
+  for (const campo of candidatos) {
+    const qs = new URLSearchParams({ "$limit": "60", "$order": `${campo}${desc}` }).toString();
+    const result = await fetchJson(qs);
+    if (result.ok) return result.data;
+  }
+  // Si ningún campo de orden funcionó, se consulta sin ordenar en vez de fallar.
+  const fallback = await fetchJson(new URLSearchParams({ "$limit": "60" }).toString());
+  if (fallback.ok) return fallback.data;
+  throw new Error(`SECOP respondió ${fallback.status}: ${fallback.body}`);
+}
+
+function formatoMoneda(valor) {
+  const n = Number(valor);
+  if (!n) return "No especificado";
+  return n.toLocaleString("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
+}
+
+function formatoFecha(valor) {
+  if (!valor) return "No especificada";
+  const d = new Date(valor);
+  if (isNaN(d.getTime())) return valor;
+  return d.toLocaleDateString("es-CO", { year: "numeric", month: "short", day: "numeric" });
+}
+
+let licitacionesCache = [];
+
+function normalizar(registro) {
+  return {
+    id: pick(registro, CAMPOS.id) || "Sin ID",
+    referencia: pick(registro, CAMPOS.referencia) || "Sin referencia",
+    objeto: pick(registro, CAMPOS.objeto) || "Objeto no disponible",
+    entidad: pick(registro, CAMPOS.entidad) || "Entidad no especificada",
+    valor: Number(pick(registro, CAMPOS.valor)) || 0,
+    modalidad: pick(registro, CAMPOS.modalidad) || "No especificada",
+    fase: pick(registro, CAMPOS.fase) || "",
+    fechaCierre: pick(registro, CAMPOS.fechaCierre),
+    enlace: pick(registro, CAMPOS.enlace)
+  };
+}
+
+function poblarFiltroModalidad(licitaciones) {
+  const select = document.getElementById("fModalidad");
+  const actuales = new Set(Array.from(select.options).map(o => o.value));
+  const modalidades = new Set(licitaciones.map(l => l.modalidad).filter(Boolean));
+  modalidades.forEach(m => {
+    if (!actuales.has(m)) {
+      const opt = document.createElement("option");
+      opt.value = m;
+      opt.textContent = m;
+      select.appendChild(opt);
+    }
+  });
+}
+
+function renderTarjetas(licitaciones) {
+  const grid = document.getElementById("grid");
+  if (licitaciones.length === 0) {
+    grid.innerHTML = `<div class="placeholder"><div class="big">🔍</div>No hay procesos que coincidan con el filtro actual.</div>`;
+    return;
+  }
+  grid.innerHTML = licitaciones.map(l => `
+    <div class="card">
+      <span class="modalidad">${l.modalidad}${l.fase ? " · " + l.fase : ""}</span>
+      <div class="objeto">${l.objeto}</div>
+      <div class="entidad">${l.entidad}</div>
+      <div class="meta">
+        <span class="valor"><span class="g">${formatoMoneda(l.valor)}</span></span>
+        <span>Cierre de ofertas: <b>${formatoFecha(l.fechaCierre)}</b></span>
+        <span>Referencia: <b>${l.referencia}</b></span>
+      </div>
+      <div class="foot">
+        ${l.enlace ? `<a href="${l.enlace}" target="_blank" rel="noopener" class="btn btn-ghost">Ver en SECOP →</a>` : `<span></span>`}
+      </div>
+    </div>
+  `).join("");
+}
+
+function aplicarFiltros() {
+  const texto = document.getElementById("fBuscar").value.trim().toLowerCase();
+  const modalidad = document.getElementById("fModalidad").value;
+  let lista = licitacionesCache;
+  if (texto) {
+    lista = lista.filter(l => l.objeto.toLowerCase().includes(texto) || l.entidad.toLowerCase().includes(texto));
+  }
+  if (modalidad) {
+    lista = lista.filter(l => l.modalidad === modalidad);
+  }
+  renderTarjetas(lista);
+}
+
+function setEstado(tipo, texto) {
+  const dot = document.getElementById("statusDot");
+  const label = document.getElementById("statusText");
+  dot.className = "dot" + (tipo === "on" ? " on" : tipo === "busy" ? " busy" : "");
+  label.textContent = texto;
+}
+
+async function cargarLicitaciones() {
+  const boton = document.getElementById("btnRefrescar");
+  const grid = document.getElementById("grid");
+  boton.disabled = true;
+  setEstado("busy", "Consultando SECOP II...");
+  grid.innerHTML = `<div class="loader"><div class="spin"></div><div class="sub">Obteniendo procesos de contratación...</div></div>`;
+
+  try {
+    const ordenKey = document.getElementById("fOrden").value;
+    const datos = await fetchLicitaciones(ordenKey);
+    licitacionesCache = (datos || []).map(normalizar);
+    poblarFiltroModalidad(licitacionesCache);
+    aplicarFiltros();
+    setEstado("on", `${licitacionesCache.length} procesos cargados · ${new Date().toLocaleTimeString("es-CO")}`);
+  } catch (err) {
+    grid.innerHTML = `<div class="error-box">No fue posible consultar SECOP II en este momento.<br><br>${err.message}</div>`;
+    setEstado("", "Error al consultar");
+  } finally {
+    boton.disabled = false;
+  }
+}
+
+document.getElementById("btnRefrescar").addEventListener("click", cargarLicitaciones);
+document.getElementById("fBuscar").addEventListener("input", aplicarFiltros);
+document.getElementById("fModalidad").addEventListener("change", aplicarFiltros);
+document.getElementById("fOrden").addEventListener("change", cargarLicitaciones);
+
+cargarLicitaciones();
+</script>
+</body>
+</html>
