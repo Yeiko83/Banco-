@@ -1,545 +1,597 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tecintek · Director Ejecutivo de Licitaciones (IA)</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --primary: #0A1628;
-            --primary-2: #0d1d33;
-            --secondary: #D4AF37;
-            --accent: #00D4FF;
-            --gold-gradient: linear-gradient(135deg, #D4AF37, #F5D76E, #D4AF37);
-            --panel: rgba(255,255,255,0.04);
-            --border: rgba(212,175,55,0.22);
-            --text-dim: rgba(255,255,255,0.62);
-            --ok: #3ddc84;
-            --warn: #ffb347;
-            --err: #ff6b6b;
-        }
-        body {
-            font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-            background: radial-gradient(1200px 700px at 80% -10%, rgba(0,212,255,0.08), transparent 60%),
-                        radial-gradient(900px 600px at -10% 10%, rgba(212,175,55,0.08), transparent 55%),
-                        var(--primary);
-            color: #fff; min-height: 100vh; line-height: 1.55;
-        }
-        ::-webkit-scrollbar { width: 9px; height: 9px; }
-        ::-webkit-scrollbar-track { background: var(--primary); }
-        ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
-        a { color: var(--accent); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tecintek · Panel Ejecutivo de Licitaciones (IA)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root{
+  --primary:#0A1628; --primary-2:#0d1d33; --secondary:#D4AF37; --accent:#00D4FF;
+  --gold:linear-gradient(135deg,#D4AF37,#F5D76E,#D4AF37);
+  --panel:rgba(255,255,255,0.04); --panel-2:rgba(255,255,255,0.06); --border:rgba(212,175,55,0.22);
+  --dim:rgba(255,255,255,0.62); --ok:#3ddc84; --warn:#ffb347; --err:#ff6b6b; --info:#00D4FF;
+}
+body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:radial-gradient(1200px 700px at 82% -10%,rgba(0,212,255,.08),transparent 60%),
+             radial-gradient(900px 600px at -10% 8%,rgba(212,175,55,.08),transparent 55%),var(--primary);
+  color:#fff; min-height:100vh; line-height:1.5;}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:var(--primary)}
+::-webkit-scrollbar-thumb{background:var(--secondary);border-radius:10px}
+a{color:var(--accent)}
+.navbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 26px;background:rgba(10,22,40,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Orbitron',sans-serif;font-size:1.35rem;font-weight:900;letter-spacing:1px;
+  background:var(--gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.brand-sub{font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-top:2px}
+.nav-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{border:none;cursor:pointer;font-weight:700;border-radius:40px;transition:.22s;display:inline-flex;
+  align-items:center;gap:8px;font-size:.88rem}
+.btn-gold{background:var(--gold);color:var(--primary);padding:11px 22px;box-shadow:0 6px 24px rgba(212,175,55,.25)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 34px rgba(212,175,55,.45)}
+.btn-gold:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.18);padding:10px 16px}
+.btn-ghost:hover{border-color:var(--secondary);background:rgba(212,175,55,.08)}
+.chip{font-size:.76rem;padding:7px 13px;border-radius:30px;border:1px solid var(--border);
+  background:var(--panel);color:var(--dim);display:inline-flex;align-items:center;gap:7px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--err)}
+.dot.on{background:var(--ok);box-shadow:0 0 10px var(--ok)}
+.wrap{max-width:1240px;margin:0 auto;padding:28px 22px 80px}
+.hero-badge{display:inline-block;padding:6px 16px;border:1px solid var(--secondary);border-radius:40px;
+  font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--secondary);margin-bottom:14px}
+h1.title{font-family:'Orbitron',sans-serif;font-size:2.1rem;line-height:1.14;margin-bottom:10px}
+h1.title .g{background:var(--gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lead{color:var(--dim);max-width:760px}
+.strip{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0 24px}
+.grid{display:grid;grid-template-columns:1fr;gap:20px}
+@media(min-width:980px){.grid{grid-template-columns:400px 1fr;align-items:start}}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:20px}
+.card h2{font-size:1.02rem;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.card .hint{font-size:.8rem;color:var(--dim);margin-bottom:14px}
+.num{width:25px;height:25px;border-radius:50%;background:var(--gold);color:var(--primary);font-size:.8rem;
+  font-weight:900;display:inline-flex;align-items:center;justify-content:center}
+label.f{display:block;font-size:.74rem;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin:12px 0 6px}
+textarea,input,select{width:100%;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.14);color:#fff;
+  border-radius:12px;padding:11px 13px;font-size:.9rem;font-family:inherit;outline:none;transition:.2s}
+textarea{min-height:190px;resize:vertical;line-height:1.5}
+textarea:focus,input:focus,select:focus{border-color:var(--secondary);box-shadow:0 0 0 3px rgba(212,175,55,.14)}
+.dz{border:1.5px dashed rgba(212,175,55,.4);border-radius:12px;padding:15px;text-align:center;font-size:.84rem;
+  color:var(--dim);cursor:pointer;transition:.2s;margin-top:8px}
+.dz:hover,.dz.drag{background:rgba(212,175,55,.07);border-color:var(--secondary);color:#fff}
+.file-tag{font-size:.78rem;margin-top:9px;color:var(--secondary)}
+.arow{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}
+.muted{font-size:.76rem;color:var(--dim)}
 
-        .navbar {
-            position: sticky; top: 0; z-index: 50; display: flex; align-items: center;
-            justify-content: space-between; padding: 16px 28px;
-            background: rgba(10,22,40,0.82); backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-        }
-        .logo { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 900; letter-spacing: 1px;
-            background: var(--gold-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-        .brand-sub { font-size: .72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-top: 2px; }
-        .nav-actions { display: flex; gap: 12px; align-items: center; }
-        .btn { border: none; cursor: pointer; font-weight: 700; border-radius: 40px; transition: .25s;
-            display: inline-flex; align-items: center; gap: 8px; font-size: .9rem; }
-        .btn-gold { background: var(--gold-gradient); color: var(--primary); padding: 11px 22px; box-shadow: 0 6px 24px rgba(212,175,55,.25); }
-        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 10px 34px rgba(212,175,55,.45); }
-        .btn-gold:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
-        .btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.18); padding: 10px 18px; }
-        .btn-ghost:hover { border-color: var(--secondary); background: rgba(212,175,55,0.08); }
+/* tabs */
+.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tabs button{padding:9px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:transparent;
+  color:var(--dim);cursor:pointer;font-weight:600;font-size:.86rem}
+.tabs button.active{border-color:var(--secondary);color:#fff;background:rgba(212,175,55,.1)}
+.out-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px;flex-wrap:wrap}
+.out-body{background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;
+  min-height:340px;max-height:76vh;overflow-y:auto}
+.placeholder{color:var(--dim);text-align:center;padding:64px 20px}
+.placeholder .big{font-size:2.4rem;margin-bottom:10px}
 
-        .wrap { max-width: 1180px; margin: 0 auto; padding: 34px 24px 80px; }
-        .hero-badge { display: inline-block; padding: 6px 18px; border: 1px solid var(--secondary); border-radius: 40px;
-            font-size: .72rem; letter-spacing: 3px; text-transform: uppercase; color: var(--secondary); margin-bottom: 18px; }
-        h1.title { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; line-height: 1.12; margin-bottom: 14px; }
-        h1.title .gold { background: var(--gold-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-        .lead { color: var(--text-dim); max-width: 720px; margin-bottom: 8px; }
+/* loader */
+.loader{text-align:center;padding:56px 20px}
+.spin{width:52px;height:52px;border:4px solid rgba(212,175,55,.2);border-top-color:var(--secondary);
+  border-radius:50%;margin:0 auto 18px;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loader .st{color:var(--secondary);font-weight:600}
+.loader .sub{color:var(--dim);font-size:.82rem;margin-top:6px}
 
-        .status-strip { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0 26px; }
-        .chip { font-size: .78rem; padding: 7px 14px; border-radius: 30px; border: 1px solid var(--border);
-            background: var(--panel); color: var(--text-dim); display: inline-flex; align-items: center; gap: 8px; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--err); }
-        .dot.on { background: var(--ok); box-shadow: 0 0 10px var(--ok); }
+/* dashboard */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:var(--panel-2);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 16px}
+.kpi .lab{font-size:.68rem;text-transform:uppercase;letter-spacing:1px;color:var(--dim)}
+.kpi .val{font-size:1.32rem;font-weight:800;margin-top:6px;line-height:1.15}
+.kpi .val.sm{font-size:1rem}
+.kpi .g{background:var(--gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.pend{color:var(--warn)!important;font-size:.82rem!important;font-weight:600}
+.sec{margin:22px 0}
+.sec h3{font-size:1rem;margin-bottom:12px;color:var(--secondary);display:flex;align-items:center;gap:8px;
+  padding-bottom:6px;border-bottom:1px solid var(--border)}
+.two{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:720px){.two{grid-template-columns:1fr 1fr}}
+.donut-wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.donut{width:132px;height:132px;border-radius:50%;position:relative;flex-shrink:0}
+.donut::after{content:'';position:absolute;inset:20px;border-radius:50%;background:var(--primary-2)}
+.donut .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2}
+.donut .center b{font-size:1.1rem}
+.donut .center span{font-size:.64rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+.legend{font-size:.82rem}
+.legend div{display:flex;align-items:center;gap:8px;margin:5px 0}
+.legend i{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+.gauge{text-align:center}
+.gauge .big{font-size:2.6rem;font-weight:900;line-height:1}
+.gauge .bar{height:12px;border-radius:8px;background:rgba(255,255,255,.1);margin:12px 0 6px;overflow:hidden}
+.gauge .fill{height:100%;border-radius:8px;transition:width .8s}
+.prog{height:22px;border-radius:12px;background:rgba(255,255,255,.1);overflow:hidden;position:relative}
+.prog .fill{height:100%;background:linear-gradient(90deg,#3ddc84,#2fb36a);border-radius:12px;
+  display:flex;align-items:center;justify-content:flex-end;padding-right:10px;font-size:.78rem;font-weight:700;color:#04240f;transition:width .8s}
+table.tbl{width:100%;border-collapse:collapse;font-size:.84rem;display:block;overflow-x:auto}
+table.tbl th,table.tbl td{border:1px solid rgba(255,255,255,.12);padding:8px 10px;text-align:left;vertical-align:top}
+table.tbl th{background:rgba(212,175,55,.14);color:var(--secondary);white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.rcard{background:var(--panel-2);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px;font-size:.86rem}
+.rcard .tag{font-size:.66rem;text-transform:uppercase;letter-spacing:1px;padding:3px 9px;border-radius:20px;display:inline-block;margin-bottom:8px}
+.tag.risk{background:rgba(255,107,107,.16);color:#ffb0b0}
+.tag.trap{background:rgba(255,179,71,.16);color:#ffd9a0}
+.tag.comp{background:rgba(0,212,255,.14);color:#a9ecff}
+.sc{background:var(--panel-2);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px}
+.sc.best{border-color:var(--secondary);box-shadow:0 0 0 2px rgba(212,175,55,.25)}
+.sc h4{font-size:.95rem;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.sc .imp{font-size:1.35rem;font-weight:800;margin:4px 0}
+.badge{font-size:.64rem;padding:3px 9px;border-radius:20px;font-weight:700}
+.b-best{background:var(--gold);color:var(--primary)}
+.b-alta{background:rgba(255,107,107,.18);color:#ffb0b0}
+.b-media{background:rgba(255,179,71,.18);color:#ffd9a0}
+.b-baja{background:rgba(61,220,132,.16);color:#a9f0c6}
+.plan-item{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.plan-item .u{width:8px;height:8px;border-radius:50%;margin-top:7px;flex-shrink:0}
+.u.alta{background:var(--err)} .u.media{background:var(--warn)} .u.baja{background:var(--ok)}
 
-        .grid { display: grid; grid-template-columns: 1fr; gap: 22px; }
-        @media (min-width: 940px) { .grid { grid-template-columns: 420px 1fr; align-items: start; } }
+/* informe markdown */
+.md h1{font-size:1.4rem;margin:18px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--border);color:var(--secondary)}
+.md h2{font-size:1.15rem;margin:20px 0 8px}
+.md h3{font-size:1rem;margin:14px 0 6px;color:var(--secondary)}
+.md p{margin:8px 0;color:rgba(255,255,255,.9)}
+.md ul,.md ol{margin:8px 0 8px 22px}.md li{margin:4px 0}
+.md strong{color:#fff}.md code{background:rgba(0,0,0,.4);padding:2px 6px;border-radius:5px;color:var(--accent)}
+.md table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.85rem;display:block;overflow-x:auto}
+.md th,.md td{border:1px solid rgba(255,255,255,.14);padding:8px 10px;text-align:left}
+.md th{background:rgba(212,175,55,.14);color:var(--secondary)}
+.md hr{border:none;border-top:1px solid var(--border);margin:16px 0}
 
-        .card { background: var(--panel); border: 1px solid var(--border); border-radius: 18px; padding: 22px; }
-        .card h2 { font-size: 1.05rem; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
-        .card .hint { font-size: .82rem; color: var(--text-dim); margin-bottom: 16px; }
-        .num { width: 26px; height: 26px; border-radius: 50%; background: var(--gold-gradient); color: var(--primary);
-            font-size: .82rem; font-weight: 900; display: inline-flex; align-items: center; justify-content: center; }
-
-        label.field { display: block; font-size: .78rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin: 14px 0 6px; }
-        textarea, input, select {
-            width: 100%; background: rgba(0,0,0,0.28); border: 1px solid rgba(255,255,255,0.14); color: #fff;
-            border-radius: 12px; padding: 12px 14px; font-size: .92rem; font-family: inherit; outline: none; transition: .2s;
-        }
-        textarea { min-height: 210px; resize: vertical; line-height: 1.5; }
-        textarea:focus, input:focus, select:focus { border-color: var(--secondary); box-shadow: 0 0 0 3px rgba(212,175,55,.14); }
-        .dropzone { border: 1.5px dashed rgba(212,175,55,0.4); border-radius: 12px; padding: 16px; text-align: center;
-            font-size: .86rem; color: var(--text-dim); cursor: pointer; transition: .2s; margin-top: 10px; }
-        .dropzone:hover, .dropzone.drag { background: rgba(212,175,55,0.07); border-color: var(--secondary); color: #fff; }
-        .file-tag { font-size: .8rem; margin-top: 10px; color: var(--secondary); }
-
-        .analyze-row { display: flex; gap: 12px; align-items: center; margin-top: 18px; flex-wrap: wrap; }
-        .muted { font-size: .78rem; color: var(--text-dim); }
-
-        .output { min-height: 320px; }
-        .output-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 10px; flex-wrap: wrap; }
-        .output-body { background: rgba(0,0,0,0.22); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px;
-            padding: 22px; max-height: 72vh; overflow-y: auto; }
-        .placeholder { color: var(--text-dim); text-align: center; padding: 60px 20px; }
-        .placeholder .big { font-size: 2.4rem; margin-bottom: 12px; }
-
-        /* rendered markdown */
-        .md h1 { font-size: 1.5rem; margin: 20px 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--secondary); }
-        .md h2 { font-size: 1.2rem; margin: 22px 0 8px; color: #fff; display:flex; align-items:center; gap:8px; }
-        .md h3 { font-size: 1.02rem; margin: 16px 0 6px; color: var(--secondary); }
-        .md p { margin: 8px 0; color: rgba(255,255,255,0.9); }
-        .md ul, .md ol { margin: 8px 0 8px 22px; }
-        .md li { margin: 4px 0; }
-        .md strong { color: #fff; }
-        .md code { background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 5px; font-size: .85em; color: var(--accent); }
-        .md hr { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
-        .md table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: .86rem; display:block; overflow-x:auto; }
-        .md th, .md td { border: 1px solid rgba(255,255,255,0.14); padding: 8px 10px; text-align: left; }
-        .md th { background: rgba(212,175,55,0.14); color: var(--secondary); }
-        .md blockquote { border-left: 3px solid var(--secondary); padding: 6px 14px; margin: 10px 0; background: rgba(212,175,55,0.06); color: var(--text-dim); }
-        .cursor-blink::after { content:'▋'; color: var(--secondary); animation: blink 1s steps(2) infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
-
-        /* modal */
-        .overlay { position: fixed; inset: 0; background: rgba(3,8,16,0.78); backdrop-filter: blur(6px); z-index: 100;
-            display: none; align-items: center; justify-content: center; padding: 20px; }
-        .overlay.show { display: flex; }
-        .modal { background: var(--primary-2); border: 1px solid var(--border); border-radius: 18px; max-width: 520px; width: 100%; padding: 28px; }
-        .modal h3 { font-size: 1.2rem; margin-bottom: 6px; }
-        .modal .close { float: right; background: none; border: none; color: var(--text-dim); font-size: 1.4rem; cursor: pointer; }
-        .warn-box { font-size: .82rem; background: rgba(255,179,71,0.1); border: 1px solid rgba(255,179,71,0.35);
-            color: #ffd9a0; padding: 12px 14px; border-radius: 10px; margin: 14px 0; }
-        .provider-tabs { display: flex; gap: 8px; margin-top: 8px; }
-        .provider-tabs button { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.14);
-            background: transparent; color: var(--text-dim); cursor: pointer; font-weight: 600; font-size: .85rem; }
-        .provider-tabs button.active { border-color: var(--secondary); color: #fff; background: rgba(212,175,55,0.1); }
-        .footer { text-align: center; color: var(--text-dim); font-size: .8rem; margin-top: 40px; }
-        .toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(120%); z-index: 200;
-            background: var(--primary-2); border: 1px solid var(--border); padding: 12px 20px; border-radius: 30px;
-            font-size: .86rem; transition: .35s; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
-        .toast.show { transform: translateX(-50%) translateY(0); }
-    </style>
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(3,8,16,.78);backdrop-filter:blur(6px);z-index:100;
+  display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+.overlay.show{display:flex}
+.modal{background:var(--primary-2);border:1px solid var(--border);border-radius:18px;max-width:540px;width:100%;padding:26px;margin:auto}
+.modal h3{font-size:1.15rem;margin-bottom:6px}
+.modal .x{float:right;background:none;border:none;color:var(--dim);font-size:1.4rem;cursor:pointer}
+.warnb{font-size:.8rem;background:rgba(255,179,71,.1);border:1px solid rgba(255,179,71,.35);color:#ffd9a0;
+  padding:11px 13px;border-radius:10px;margin:12px 0}
+.ptabs{display:flex;gap:8px;margin-top:8px}
+.ptabs button{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:transparent;
+  color:var(--dim);cursor:pointer;font-weight:600;font-size:.84rem}
+.ptabs button.active{border-color:var(--secondary);color:#fff;background:rgba(212,175,55,.1)}
+details{margin-top:12px;font-size:.84rem}
+details summary{cursor:pointer;color:var(--accent);font-weight:600}
+details ol{margin:10px 0 0 18px}details li{margin:6px 0;color:var(--dim)}
+.footer{text-align:center;color:var(--dim);font-size:.78rem;margin-top:38px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(140%);z-index:200;
+  background:var(--primary-2);border:1px solid var(--border);padding:12px 20px;border-radius:30px;font-size:.85rem;
+  transition:.35s;box-shadow:0 10px 40px rgba(0,0,0,.5);max-width:90vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
 </head>
 <body>
-    <nav class="navbar">
-        <div>
-            <div class="logo">TECINTEK</div>
-            <div class="brand-sub">Director Ejecutivo de Licitaciones · IA</div>
-        </div>
-        <div class="nav-actions">
-            <span class="chip"><span class="dot" id="dot-key"></span><span id="key-label">Sin configurar</span></span>
-            <button class="btn btn-ghost" onclick="openConfig()">⚙️ Configurar IA</button>
-        </div>
-    </nav>
+<nav class="navbar">
+  <div>
+    <div class="logo">TECINTEK</div>
+    <div class="brand-sub">Panel Ejecutivo de Licitaciones · IA</div>
+  </div>
+  <div class="nav-actions">
+    <span class="chip"><span class="dot" id="dot"></span><span id="klabel">Sin configurar</span></span>
+    <button class="btn btn-ghost" onclick="openCfg()">⚙️ Configurar IA</button>
+  </div>
+</nav>
 
-    <div class="wrap">
-        <span class="hero-badge">Nivel Tiburón · Cero intervención innecesaria</span>
-        <h1 class="title">Convierte cualquier pliego en una <span class="gold">oferta ganadora</span></h1>
-        <p class="lead">Pega o sube el pliego (PDF o texto) y la IA ejecuta automáticamente las 7 fases:
-        ingesta, minería de datos, análisis estratégico, redacción técnica, cálculo de precios,
-        checklist de presentación y plan de acción.</p>
+<div class="wrap">
+  <span class="hero-badge">Nivel Tiburón · Datos reales, cero humo</span>
+  <h1 class="title">Del pliego al <span class="g">panel ejecutivo</span> en un clic</h1>
+  <p class="lead">Sube el pliego (PDF o texto). La IA extrae los datos con precisión, calcula porcentajes,
+  cumplimiento documental e índice de viabilidad, y genera un informe descargable. Lo que no aparezca en el
+  pliego se marca como <strong style="color:var(--warn)">[PENDIENTE DE VERIFICACIÓN]</strong> — nunca se inventa.</p>
 
-        <div class="status-strip">
-            <span class="chip"><span class="dot on"></span> Regla de oro: <strong style="color:#fff">no alucina</strong></span>
-            <span class="chip">🔒 Tu clave se guarda solo en tu navegador</span>
-            <span class="chip">📄 Extracción de PDF integrada</span>
-            <span class="chip">⚡ Respuesta en streaming</span>
-        </div>
+  <div class="strip">
+    <span class="chip"><span class="dot on"></span> No alucina</span>
+    <span class="chip">🔒 Tu clave solo en tu navegador</span>
+    <span class="chip">📊 Dashboard con % de cumplimiento</span>
+    <span class="chip">⬇️ Informe descargable</span>
+  </div>
 
-        <div class="grid">
-            <!-- ENTRADA -->
-            <div class="card">
-                <h2><span class="num">1</span> El pliego</h2>
-                <p class="hint">Sube el documento o pega su contenido. Si el PDF está escaneado (solo imágenes) no podré leerlo: necesitaría OCR previo.</p>
-
-                <div class="dropzone" id="dropzone">
-                    📎 Arrastra un PDF o .txt aquí, o haz clic para elegir
-                    <input type="file" id="fileInput" accept=".pdf,.txt,.md" style="display:none">
-                </div>
-                <div class="file-tag" id="fileTag"></div>
-
-                <label class="field" for="pliego">Texto del pliego</label>
-                <textarea id="pliego" placeholder="Pega aquí el texto del pliego, o súbelo arriba..."></textarea>
-
-                <label class="field" for="contexto">Contexto de tu empresa (opcional)</label>
-                <input id="contexto" placeholder="Ej: Tecintek, agencia de publicidad digital, 12 empleados, sede en Madrid...">
-
-                <div class="analyze-row">
-                    <button class="btn btn-gold" id="analyzeBtn" onclick="analizar()">🦈 Analizar pliego</button>
-                    <button class="btn btn-ghost" onclick="cargarEjemplo()">Cargar ejemplo</button>
-                </div>
-                <p class="muted" style="margin-top:10px">Se procesa como si la presentación fuera <strong>mañana a las 8:00</strong>.</p>
-            </div>
-
-            <!-- SALIDA -->
-            <div class="card output">
-                <div class="output-head">
-                    <h2><span class="num">2</span> Informe del Director Ejecutivo</h2>
-                    <div style="display:flex; gap:8px">
-                        <button class="btn btn-ghost" id="copyBtn" onclick="copiar()" style="display:none">📋 Copiar</button>
-                        <button class="btn btn-ghost" id="printBtn" onclick="window.print()" style="display:none">🖨️ PDF</button>
-                    </div>
-                </div>
-                <div class="output-body" id="output">
-                    <div class="placeholder" id="placeholder">
-                        <div class="big">🦈</div>
-                        <p>El informe completo aparecerá aquí.</p>
-                        <p class="muted" style="margin-top:8px">Configura la IA, pega un pliego y pulsa <strong>Analizar</strong>.</p>
-                    </div>
-                    <div class="md" id="md" style="display:none"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer">
-            Tecintek · Herramienta interna de licitaciones. Verifica siempre los datos marcados como
-            <strong>[PENDIENTE DE VERIFICACIÓN]</strong> contra el pliego original antes de presentar.
-        </div>
+  <div class="grid">
+    <div class="card">
+      <h2><span class="num">1</span> El pliego</h2>
+      <p class="hint">Sube el documento o pega su contenido. Si el PDF está escaneado (solo imágenes) necesitará OCR previo.</p>
+      <div class="dz" id="dz">📎 Arrastra un PDF o .txt aquí, o haz clic para elegir
+        <input type="file" id="file" accept=".pdf,.txt,.md" style="display:none"></div>
+      <div class="file-tag" id="ftag"></div>
+      <label class="f" for="pliego">Texto del pliego</label>
+      <textarea id="pliego" placeholder="Pega aquí el texto del pliego, o súbelo arriba..."></textarea>
+      <label class="f" for="ctx">Contexto de tu empresa (opcional)</label>
+      <input id="ctx" placeholder="Ej: Tecintek, agencia de publicidad digital, 12 personas, Madrid...">
+      <div class="arow">
+        <button class="btn btn-gold" id="go" onclick="analizar()">🦈 Analizar pliego</button>
+        <button class="btn btn-ghost" onclick="ejemplo()">Cargar ejemplo</button>
+      </div>
+      <p class="muted" style="margin-top:9px">Se procesa como si la presentación fuera <strong>mañana a las 8:00</strong>.</p>
     </div>
 
-    <!-- MODAL CONFIG -->
-    <div class="overlay" id="overlay">
-        <div class="modal">
-            <button class="close" onclick="closeConfig()">×</button>
-            <h3>Configurar la IA</h3>
-            <p class="muted">Elige el proveedor e introduce tu clave de API. La clave se guarda únicamente en <strong>este navegador</strong> (localStorage) y nunca se envía a Tecintek ni a GitHub.</p>
-
-            <div class="provider-tabs">
-                <button data-prov="anthropic" onclick="selProv('anthropic')">Claude (Anthropic)</button>
-                <button data-prov="deepseek" onclick="selProv('deepseek')">DeepSeek</button>
-            </div>
-
-            <label class="field">Clave de API</label>
-            <input id="apiKey" type="password" placeholder="sk-...">
-
-            <label class="field">Modelo</label>
-            <input id="model" placeholder="claude-opus-4-8">
-
-            <div class="warn-box" id="provNote"></div>
-
-            <div style="display:flex; gap:10px; margin-top:6px">
-                <button class="btn btn-gold" onclick="guardarConfig()" style="flex:1; justify-content:center">Guardar</button>
-                <button class="btn btn-ghost" onclick="borrarConfig()">Borrar clave</button>
-            </div>
+    <div class="card">
+      <div class="out-head">
+        <div class="tabs">
+          <button id="tab-dash" class="active" onclick="tab('dash')">📊 Panel Ejecutivo</button>
+          <button id="tab-rep" onclick="tab('rep')">📄 Informe</button>
         </div>
+        <div style="display:flex;gap:8px" id="dlbar"></div>
+      </div>
+      <div class="out-body" id="out">
+        <div class="placeholder" id="ph">
+          <div class="big">🦈</div>
+          <p>El panel ejecutivo y el informe aparecerán aquí.</p>
+          <p class="muted" style="margin-top:8px">Configura la IA, sube un pliego y pulsa <strong>Analizar</strong>.</p>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="toast" id="toast"></div>
+  <div class="footer">
+    Tecintek · Herramienta interna. Verifica siempre los datos marcados como
+    <strong style="color:var(--warn)">[PENDIENTE DE VERIFICACIÓN]</strong> contra el pliego original antes de presentar.
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="ov">
+  <div class="modal">
+    <button class="x" onclick="closeCfg()">×</button>
+    <h3>Configurar la IA</h3>
+    <p class="muted">Elige proveedor e introduce tu clave. Se guarda solo en <strong>este navegador</strong> (localStorage); nunca se envía a Tecintek ni a GitHub.</p>
+    <div class="ptabs">
+      <button data-p="deepseek" onclick="selP('deepseek')">DeepSeek</button>
+      <button data-p="anthropic" onclick="selP('anthropic')">Claude (Anthropic)</button>
+    </div>
+    <label class="f">Clave de API</label>
+    <input id="key" type="password" placeholder="sk-...">
+    <label class="f">Modelo</label>
+    <input id="model" placeholder="deepseek-chat">
+    <div id="proxyBox">
+      <label class="f">URL del proxy (necesaria para DeepSeek)</label>
+      <input id="proxy" placeholder="https://deepseek-proxy.TUUSUARIO.workers.dev">
+      <details>
+        <summary>¿Cómo consigo la URL del proxy? (2 min, gratis)</summary>
+        <ol>
+          <li>Entra en <a href="https://dash.cloudflare.com" target="_blank" rel="noopener">dash.cloudflare.com</a> y crea una cuenta.</li>
+          <li>Menú izquierdo → <strong>Workers &amp; Pages</strong> → <strong>Create</strong> → <strong>Create Worker</strong>.</li>
+          <li>Ponle un nombre (ej: <code>deepseek-proxy</code>) y pulsa <strong>Deploy</strong>.</li>
+          <li>Pulsa <strong>Edit code</strong>, borra todo y pega el archivo <code>deepseek-proxy-worker.js</code> del repositorio. Pulsa <strong>Deploy</strong>.</li>
+          <li>Copia la URL que te da (termina en <code>.workers.dev</code>) y pégala arriba.</li>
+        </ol>
+      </details>
+    </div>
+    <div class="warnb" id="pnote"></div>
+    <div style="display:flex;gap:10px;margin-top:4px">
+      <button class="btn btn-gold" style="flex:1;justify-content:center" onclick="saveCfg()">Guardar</button>
+      <button class="btn btn-ghost" onclick="delCfg()">Borrar clave</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-/* ========= PROMPT DEL SISTEMA (ROL TIBURÓN) ========= */
-const SYSTEM_PROMPT = `Eres el DIRECTOR EJECUTIVO DE LICITACIONES de Tecintek: un agente autónomo con 25 años de experiencia simulada ganando concursos públicos y privados de alta competencia. Tu misión es convertir un pliego en una oferta ganadora.
+/* ================= PROMPT ================= */
+const SCHEMA = `Devuelve SOLO un objeto JSON válido (sin texto fuera del JSON, sin markdown) con EXACTAMENTE esta estructura. Rellena cada campo a partir del pliego. Si un dato NO aparece en el pliego, pon literalmente la cadena "[PENDIENTE DE VERIFICACIÓN]" (o null en campos numéricos). NUNCA inventes cifras, fechas ni criterios.
+{
+ "meta":{"tipo_contrato":"servicios|obra|suministro|concesión|[PENDIENTE DE VERIFICACIÓN]","ambito":"público|privado|[PENDIENTE DE VERIFICACIÓN]","objeto":"","organo_contratacion":"","sistema_presentacion":"","fecha_limite":"","presupuesto_sin_iva":"","presupuesto_con_iva":"","iva_pct":"","plazo_ejecucion":"","garantia":""},
+ "criterios":[{"nombre":"","tipo":"técnica|económica|otro","ponderacion_pct":number|null}],
+ "documentos_obligatorios":[{"nombre":""}],
+ "documentos_subsanables":[{"nombre":"","plazo":""}],
+ "riesgos":{"clausulas_ambiguas":["","",""],"criterios_trampa":[""],"penalizaciones":""},
+ "competencia_debilidades":["","",""],
+ "precio_referencia_oculto":"",
+ "escenarios_precio":[{"nombre":"Agresivo","importe":"","margen":"","riesgo":"","nota":""},{"nombre":"Equilibrado","importe":"","margen":"","riesgo":"","nota":""},{"nombre":"Conservador","importe":"","margen":"","riesgo":"","nota":""}],
+ "recomendacion_precio":{"escenario":"","justificacion":""},
+ "checklist_presentacion":[{"documento":"","formato":"","firma":"","orden":number|null}],
+ "plan_accion":[{"tarea":"","responsable":"","plazo":"","urgencia":"alta|media|baja"}],
+ "cumplimiento":{"obligatorios_total":number|null,"obligatorios_cubiertos":number|null,"porcentaje":number|null,"observaciones":""},
+ "viabilidad":{"indice_pct":number|null,"justificacion":"","supuestos":[""]},
+ "resumen_ejecutivo_md":"markdown de máximo 1 página",
+ "oferta_tecnica_md":"markdown: metodología, plan de recursos (CVs no aportados = PLANTILLA), calidad/seguridad, sostenibilidad/ODS y 3 diferenciadores de valor añadido"
+}`;
+const SYSTEM = `Eres el DIRECTOR EJECUTIVO DE LICITACIONES de Tecintek, con 25 años simulados ganando concursos públicos y privados. Idioma: español (castellano peninsular). Piensas como evaluador y como depredador comercial, pero eres RIGUROSO: no alucinas. Todo dato ausente en el pliego se marca "[PENDIENTE DE VERIFICACIÓN]". Los recursos/CVs no aportados se etiquetan como PLANTILLA. El índice de viabilidad y el % de cumplimiento se calculan solo con datos presentes; si faltan, indícalo en 'observaciones'/'supuestos'. Trabajas como si la presentación fuera mañana a las 8:00.\n\n` + SCHEMA;
 
-IDIOMA: español (castellano peninsular). TONO: profesional, persuasivo, sin tecnicismos innecesarios. LONGITUD: completa, sin abreviaturas.
-
-REGLAS DE ORO (INNEGOCIABLES):
-- NO ALUCINES. Si un dato no aparece en el pliego, escríbelo literalmente como [PENDIENTE DE VERIFICACIÓN]. Nunca inventes fechas, presupuestos ni criterios.
-- Sé proactivo: si falta un anexo, redacta un borrador con los datos disponibles y márcalo como BORRADOR.
-- Piensa como evaluador: cada frase de la oferta debe sumar puntos explícitos.
-- Si detectas un posible error subsanable, indícalo y explica cómo subsanarlo.
-- Prioriza la seguridad jurídica: si algo es ambiguo o abusivo, adviértelo.
-- Los CVs o recursos que no consten en el pliego deben etiquetarse como PLANTILLA/BORRADOR a rellenar con datos reales; nunca los presentes como reales.
-
-EJECUTA SIEMPRE ESTE FLUJO COMPLETO EN UNA SOLA RESPUESTA, en formato Markdown con encabezados claros:
-
-## FASE 1 — INGESTA Y VALIDACIÓN
-Tipo de contrato (servicios/obra/suministro/concesión), público o privado, legibilidad.
-
-## FASE 2 — MINERÍA DE DATOS
-Tabla con: fecha/hora límite de presentación, presupuesto base (sin IVA y con IVA), criterios de adjudicación con ponderación exacta, documentos OBLIGATORIOS (insubsanables), documentos SUBSANABLES, plazos de ejecución, penalizaciones, garantías, órgano de contratación y sistema de presentación (PLACE/electrónica/papel).
-
-## FASE 3 — ANÁLISIS ESTRATÉGICO (MENTE DE DEPREDADOR)
-3 cláusulas ambiguas o abusivas; 3 puntos débiles previsibles de la competencia; precio de referencia oculto inferido (indicando que es una estimación); criterios "trampa".
-
-## FASE 4 — OFERTA TÉCNICA (BORRADOR)
-Resumen ejecutivo (1 página), metodología orientada a maximizar cada criterio, plan de recursos (marca CVs no aportados como PLANTILLA), plan de calidad/seguridad si aplica, plan de sostenibilidad/ODS si se valora, y 3 diferenciadores de valor añadido.
-
-## FASE 5 — CÁLCULO DE PRECIOS (3 ESCENARIOS)
-Escenario Agresivo, Equilibrado y Conservador (en tabla) + recomendación fundada en la ponderación de la Fase 2. Deja los importes como fórmulas o rangos si el presupuesto base es [PENDIENTE DE VERIFICACIÓN].
-
-## FASE 6 — CHECKLIST DE PRESENTACIÓN
-Tabla: documento, formato requerido, firma prevista, orden de subida. Verifica que no falta ningún obligatorio y que los precios son coherentes.
-
-## FASE 7 — PLAN DE ACCIÓN
-Tareas pendientes ordenadas por urgencia, con responsable interno sugerido y plazo.
-
-No pidas confirmación entre fases. Actúa como si la presentación fuera mañana a las 8:00.`;
-
-/* ========= CONFIG / ESTADO ========= */
-const DEFAULTS = {
-  anthropic: { model: 'claude-opus-4-8', note: 'Recomendado. Claude admite llamadas directas desde el navegador. Consigue tu clave en console.anthropic.com.' },
-  deepseek:  { model: 'deepseek-chat',   note: 'DeepSeek es más económico. Consigue tu clave en platform.deepseek.com. Nota: si el navegador bloquea la conexión (CORS), necesitarás un pequeño backend/proxy — te lo puedo montar.' }
+/* ================= CONFIG ================= */
+const DEF = {
+ deepseek:{model:'deepseek-chat', note:'Consigue tu clave en platform.deepseek.com (API keys). DeepSeek necesita el proxy de arriba para funcionar desde el navegador.'},
+ anthropic:{model:'claude-opus-4-8', note:'Consigue tu clave en console.anthropic.com. Claude funciona directamente, sin proxy.'}
 };
-let cfg = load();
-let currentProv = cfg.provider || 'anthropic';
-let fullText = '';
+let cfg = load(), curP = cfg.provider || 'deepseek', DATA = null, curTab='dash';
+function load(){try{return JSON.parse(localStorage.getItem('tecintek_ia')||'{}')}catch(e){return{}}}
+function saveLS(){localStorage.setItem('tecintek_ia',JSON.stringify(cfg))}
+function status(){
+  const ok = cfg.apiKey && cfg.provider && (cfg.provider!=='deepseek' || cfg.proxy);
+  document.getElementById('dot').classList.toggle('on',!!ok);
+  document.getElementById('klabel').textContent = ok
+    ? (cfg.provider==='anthropic'?'Claude':'DeepSeek')+' · listo'
+    : (cfg.apiKey && cfg.provider==='deepseek' && !cfg.proxy ? 'Falta URL del proxy' : 'Sin configurar');
+}
+function openCfg(){curP=cfg.provider||'deepseek';selP(curP,true);
+  document.getElementById('key').value=cfg.apiKey||'';
+  document.getElementById('proxy').value=cfg.proxy||'';
+  document.getElementById('ov').classList.add('show')}
+function closeCfg(){document.getElementById('ov').classList.remove('show')}
+function selP(p,keep){curP=p;
+  document.querySelectorAll('.ptabs button').forEach(b=>b.classList.toggle('active',b.dataset.p===p));
+  document.getElementById('model').value=(cfg.provider===p&&cfg.model)?cfg.model:DEF[p].model;
+  document.getElementById('pnote').textContent=DEF[p].note;
+  document.getElementById('proxyBox').style.display=(p==='deepseek')?'block':'none';
+  if(!keep&&cfg.provider!==p)document.getElementById('key').value='';}
+function saveCfg(){
+  const key=document.getElementById('key').value.trim();
+  const model=document.getElementById('model').value.trim()||DEF[curP].model;
+  const proxy=document.getElementById('proxy').value.trim();
+  if(!key){toast('Introduce una clave de API.');return}
+  if(curP==='deepseek'&&!proxy){toast('DeepSeek necesita la URL del proxy (mira las instrucciones).');return}
+  cfg={provider:curP,apiKey:key,model,proxy};saveLS();status();closeCfg();
+  toast('✅ IA configurada ('+(curP==='anthropic'?'Claude':'DeepSeek')+')');
+}
+function delCfg(){cfg={};saveLS();status();document.getElementById('key').value='';document.getElementById('proxy').value='';toast('Clave borrada de este navegador.')}
 
-function load(){ try { return JSON.parse(localStorage.getItem('tecintek_ia')||'{}'); } catch(e){ return {}; } }
-function save(){ localStorage.setItem('tecintek_ia', JSON.stringify(cfg)); }
-
-function refreshStatus(){
-  const ok = cfg.apiKey && cfg.provider;
-  document.getElementById('dot-key').classList.toggle('on', !!ok);
-  document.getElementById('key-label').textContent = ok
-    ? (cfg.provider==='anthropic'?'Claude':'DeepSeek') + ' · listo'
-    : 'Sin configurar';
+/* ================= ARCHIVO ================= */
+const dz=document.getElementById('dz'),fi=document.getElementById('file');
+dz.addEventListener('click',()=>fi.click());
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag')});
+dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag');if(e.dataTransfer.files[0])leer(e.dataTransfer.files[0])});
+fi.addEventListener('change',e=>{if(e.target.files[0])leer(e.target.files[0])});
+async function leer(file){
+  const tag=document.getElementById('ftag');tag.textContent='⏳ Leyendo '+file.name+'...';
+  try{
+    let text='';
+    if(file.type==='application/pdf'||file.name.toLowerCase().endsWith('.pdf')){
+      pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      const buf=await file.arrayBuffer();const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+      for(let i=1;i<=pdf.numPages;i++){const pg=await pdf.getPage(i);const c=await pg.getTextContent();
+        text+=c.items.map(it=>it.str).join(' ')+'\n\n';}
+      if(text.trim().length<40){tag.textContent='⚠️ '+file.name+' parece escaneado (sin texto). Necesita OCR.';return}
+    } else { text=await file.text(); }
+    document.getElementById('pliego').value=text.trim();
+    tag.textContent='✅ '+file.name+' cargado ('+text.trim().length.toLocaleString('es-ES')+' caracteres)';
+  }catch(err){tag.textContent='❌ No se pudo leer: '+err.message}
 }
 
-/* ========= MODAL ========= */
-function openConfig(){
-  currentProv = cfg.provider || 'anthropic';
-  selProv(currentProv, true);
-  document.getElementById('apiKey').value = cfg.apiKey || '';
-  document.getElementById('overlay').classList.add('show');
-}
-function closeConfig(){ document.getElementById('overlay').classList.remove('show'); }
-function selProv(p, keepKey){
-  currentProv = p;
-  document.querySelectorAll('.provider-tabs button').forEach(b=>b.classList.toggle('active', b.dataset.prov===p));
-  document.getElementById('model').value = (cfg.provider===p && cfg.model) ? cfg.model : DEFAULTS[p].model;
-  document.getElementById('provNote').textContent = DEFAULTS[p].note;
-  if(!keepKey && cfg.provider!==p) document.getElementById('apiKey').value = '';
-}
-function guardarConfig(){
-  const key = document.getElementById('apiKey').value.trim();
-  const model = document.getElementById('model').value.trim() || DEFAULTS[currentProv].model;
-  if(!key){ toast('Introduce una clave de API.'); return; }
-  cfg = { provider: currentProv, apiKey: key, model }; save(); refreshStatus(); closeConfig();
-  toast('✅ IA configurada ('+(currentProv==='anthropic'?'Claude':'DeepSeek')+')');
-}
-function borrarConfig(){
-  cfg = {}; save(); refreshStatus();
-  document.getElementById('apiKey').value=''; toast('Clave borrada de este navegador.');
-}
-
-/* ========= CARGA DE ARCHIVO ========= */
-const dz = document.getElementById('dropzone'), fi = document.getElementById('fileInput');
-dz.addEventListener('click', ()=>fi.click());
-dz.addEventListener('dragover', e=>{ e.preventDefault(); dz.classList.add('drag'); });
-dz.addEventListener('dragleave', ()=>dz.classList.remove('drag'));
-dz.addEventListener('drop', e=>{ e.preventDefault(); dz.classList.remove('drag'); if(e.dataTransfer.files[0]) leerArchivo(e.dataTransfer.files[0]); });
-fi.addEventListener('change', e=>{ if(e.target.files[0]) leerArchivo(e.target.files[0]); });
-
-async function leerArchivo(file){
-  const tag = document.getElementById('fileTag');
-  tag.textContent = '⏳ Leyendo '+file.name+'...';
-  try {
-    let text = '';
-    if(file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')){
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-      const buf = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({data: buf}).promise;
-      for(let i=1;i<=pdf.numPages;i++){
-        const page = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        text += content.items.map(it=>it.str).join(' ') + '\n\n';
-      }
-      if(text.trim().length < 40){
-        tag.textContent = '⚠️ '+file.name+' parece escaneado (sin texto). Necesita OCR.';
-        return;
-      }
-    } else {
-      text = await file.text();
-    }
-    document.getElementById('pliego').value = text.trim();
-    tag.textContent = '✅ '+file.name+' cargado ('+text.trim().length.toLocaleString('es-ES')+' caracteres)';
-  } catch(err){
-    tag.textContent = '❌ No se pudo leer el archivo: '+err.message;
-  }
-}
-
-/* ========= ANÁLISIS ========= */
+/* ================= ANÁLISIS ================= */
 async function analizar(){
-  if(!cfg.apiKey){ openConfig(); toast('Primero configura tu clave de API.'); return; }
-  const pliego = document.getElementById('pliego').value.trim();
-  if(pliego.length < 40){ toast('Pega o sube un pliego con contenido suficiente.'); return; }
+  if(!cfg.apiKey){openCfg();toast('Primero configura tu clave de API.');return}
+  if(cfg.provider==='deepseek'&&!cfg.proxy){openCfg();toast('DeepSeek necesita la URL del proxy.');return}
+  const pliego=document.getElementById('pliego').value.trim();
+  if(pliego.length<40){toast('Pega o sube un pliego con contenido suficiente.');return}
+  const ctx=document.getElementById('ctx').value.trim();
+  const userMsg=(ctx?'CONTEXTO DE LA EMPRESA: '+ctx+'\n\n':'')+'PLIEGO A ANALIZAR. Devuelve el JSON solicitado.\n\n'+pliego;
 
-  const contexto = document.getElementById('contexto').value.trim();
-  const userMsg = (contexto ? 'CONTEXTO DE LA EMPRESA: '+contexto+'\n\n' : '')
-    + 'PLIEGO A ANALIZAR (ejecuta las 7 fases completas):\n\n' + pliego;
+  const go=document.getElementById('go');go.disabled=true;go.textContent='🦈 Analizando...';
+  document.getElementById('dlbar').innerHTML='';
+  const out=document.getElementById('out');
+  out.innerHTML='<div class="loader"><div class="spin"></div><div class="st" id="lst">Leyendo el pliego...</div><div class="sub">Extrayendo datos con precisión forense. Sin inventar nada.</div></div>';
+  const steps=['Identificando tipo de contrato y órgano...','Minando fechas, presupuesto y criterios...','Analizando riesgos y cláusulas trampa...','Calculando escenarios de precio...','Preparando checklist y plan de acción...'];
+  let si=0;const timer=setInterval(()=>{const el=document.getElementById('lst');if(el)el.textContent=steps[si++%steps.length]},2600);
 
-  const btn = document.getElementById('analyzeBtn');
-  btn.disabled = true; btn.textContent = '🦈 Analizando...';
-  document.getElementById('placeholder').style.display = 'none';
-  const md = document.getElementById('md'); md.style.display='block'; md.innerHTML='';
-  document.getElementById('copyBtn').style.display='none';
-  document.getElementById('printBtn').style.display='none';
-  fullText = '';
-
-  try {
-    if(cfg.provider === 'anthropic') await streamAnthropic(userMsg, md);
-    else await streamDeepseek(userMsg, md);
-    md.innerHTML = renderMD(fullText);
-    document.getElementById('copyBtn').style.display='inline-flex';
-    document.getElementById('printBtn').style.display='inline-flex';
-  } catch(err){
-    md.innerHTML = errorHTML(err);
-  } finally {
-    btn.disabled = false; btn.textContent = '🦈 Analizar pliego';
-    md.querySelector && md.classList.remove('cursor-blink');
+  try{
+    const raw = cfg.provider==='anthropic' ? await callAnthropic(userMsg) : await callDeepseek(userMsg);
+    const data = parseJSON(raw);
+    if(!data) throw new Error('La IA no devolvió un JSON válido. Reintenta.');
+    DATA=data;
+    document.getElementById('dlbar').innerHTML=
+      '<button class="btn btn-ghost" onclick="descargar()">⬇️ Descargar informe</button>'+
+      '<button class="btn btn-ghost" onclick="imprimir()">🖨️ PDF</button>';
+    render();
+  }catch(err){
+    document.getElementById('out').innerHTML=errHTML(err);
+  }finally{
+    clearInterval(timer);go.disabled=false;go.textContent='🦈 Analizar pliego';
   }
 }
 
-function onDelta(md, chunk){
-  fullText += chunk;
-  md.innerHTML = renderMD(fullText);
-  md.classList.add('cursor-blink');
-  md.parentElement.scrollTop = md.parentElement.scrollHeight;
+async function callAnthropic(userMsg){
+  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',
+    headers:{'content-type':'application/json','x-api-key':cfg.apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:cfg.model||'claude-opus-4-8',max_tokens:8000,system:SYSTEM,messages:[{role:'user',content:userMsg}]})});
+  if(!res.ok)throw await apiErr(res);
+  const j=await res.json();
+  return (j.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+}
+async function callDeepseek(userMsg){
+  const url=cfg.proxy||'https://api.deepseek.com/chat/completions';
+  const res=await fetch(url,{method:'POST',
+    headers:{'content-type':'application/json','authorization':'Bearer '+cfg.apiKey},
+    body:JSON.stringify({model:cfg.model||'deepseek-chat',max_tokens:8000,temperature:0.4,
+      response_format:{type:'json_object'},
+      messages:[{role:'system',content:SYSTEM},{role:'user',content:userMsg}]})});
+  if(!res.ok)throw await apiErr(res);
+  const j=await res.json();
+  return j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content||'';
+}
+async function apiErr(res){let d='';try{const j=await res.json();d=(j.error&&(j.error.message||j.error.type))||JSON.stringify(j)}catch(e){}return new Error('HTTP '+res.status+(d?': '+d:''))}
+function parseJSON(t){if(!t)return null;let s=t.trim().replace(/^```json/i,'').replace(/^```/,'').replace(/```$/,'').trim();
+  const a=s.indexOf('{'),b=s.lastIndexOf('}');if(a>=0&&b>a)s=s.slice(a,b+1);
+  try{return JSON.parse(s)}catch(e){return null}}
+function errHTML(err){const m=(err.message||'').toLowerCase();let tip='';
+  if(m.includes('401')||m.includes('authentication')||m.includes('invalid api key'))tip='La clave de API no es válida. Revísala en ⚙️ Configurar IA.';
+  else if(m.includes('failed to fetch')||m.includes('cors')||m.includes('networkerror')||m.includes('load failed'))
+    tip=cfg.provider==='deepseek'?'No se pudo contactar con el proxy. Revisa que la URL del proxy sea correcta y que el Worker de Cloudflare esté desplegado.':'Fallo de red o CORS. Prueba de nuevo.';
+  else if(m.includes('402')||m.includes('insufficient'))tip='Saldo insuficiente en tu cuenta de la IA. Añade crédito.';
+  else if(m.includes('429'))tip='Límite de peticiones superado. Espera un momento.';
+  return '<div class="warnb" style="color:#ffb0b0;border-color:rgba(255,107,107,.4);background:rgba(255,107,107,.1)"><strong>No se pudo completar el análisis.</strong><br>'+esc(err.message)+(tip?'<br><br>'+tip:'')+'</div>';
 }
 
-async function streamAnthropic(userMsg, md){
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method:'POST',
-    headers:{
-      'content-type':'application/json',
-      'x-api-key': cfg.apiKey,
-      'anthropic-version':'2023-06-01',
-      'anthropic-dangerous-direct-browser-access':'true'
-    },
-    body: JSON.stringify({
-      model: cfg.model || 'claude-opus-4-8',
-      max_tokens: 16000,
-      system: SYSTEM_PROMPT,
-      messages: [{role:'user', content: userMsg}],
-      stream: true
-    })
-  });
-  if(!res.ok){ throw await apiError(res); }
-  await readSSE(res, (data)=>{
-    if(data.type === 'content_block_delta' && data.delta && data.delta.type === 'text_delta') onDelta(md, data.delta.text);
-  });
-}
+/* ================= RENDER ================= */
+function tab(t){curTab=t;
+  document.getElementById('tab-dash').classList.toggle('active',t==='dash');
+  document.getElementById('tab-rep').classList.toggle('active',t==='rep');
+  if(DATA)render();}
+function render(){document.getElementById('out').innerHTML=curTab==='dash'?dash(DATA):informe(DATA);}
+function val(v){return (v===null||v===undefined||v==='')?'<span class="pend">[PENDIENTE]</span>':esc(String(v))}
+function isPend(v){return v===null||v===undefined||v===''||String(v).includes('PENDIENTE')}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+const PAL=['#D4AF37','#00D4FF','#3ddc84','#ff6b6b','#b085ff','#ffb347','#5ad1c9'];
 
-async function streamDeepseek(userMsg, md){
-  const res = await fetch('https://api.deepseek.com/chat/completions', {
-    method:'POST',
-    headers:{ 'content-type':'application/json', 'authorization':'Bearer '+cfg.apiKey },
-    body: JSON.stringify({
-      model: cfg.model || 'deepseek-chat',
-      max_tokens: 8000,
-      messages: [{role:'system', content: SYSTEM_PROMPT},{role:'user', content: userMsg}],
-      stream: true
-    })
-  });
-  if(!res.ok){ throw await apiError(res); }
-  await readSSE(res, (data)=>{
-    const c = data.choices && data.choices[0] && data.choices[0].delta && data.choices[0].delta.content;
-    if(c) onDelta(md, c);
-  });
-}
+function dash(d){
+  const m=d.meta||{};
+  const crit=(d.criterios||[]).filter(c=>typeof c.ponderacion_pct==='number');
+  const tec=crit.filter(c=>/écnica/.test(c.tipo||'')).reduce((s,c)=>s+c.ponderacion_pct,0);
+  const eco=crit.filter(c=>/conómica/.test(c.tipo||'')).reduce((s,c)=>s+c.ponderacion_pct,0);
+  const cu=d.cumplimiento||{};
+  let cuPct=(typeof cu.porcentaje==='number')?cu.porcentaje:
+    (typeof cu.obligatorios_total==='number'&&cu.obligatorios_total>0&&typeof cu.obligatorios_cubiertos==='number'
+      ?Math.round(100*cu.obligatorios_cubiertos/cu.obligatorios_total):null);
+  const via=d.viabilidad||{};const vp=(typeof via.indice_pct==='number')?via.indice_pct:null;
+  const vc=vp===null?'#888':vp<40?'#ff6b6b':vp<70?'#ffb347':'#3ddc84';
 
-async function readSSE(res, handle){
-  const reader = res.body.getReader();
-  const dec = new TextDecoder();
-  let buf = '';
-  while(true){
-    const {done, value} = await reader.read();
-    if(done) break;
-    buf += dec.decode(value, {stream:true});
-    const lines = buf.split('\n');
-    buf = lines.pop();
-    for(const line of lines){
-      const t = line.trim();
-      if(!t.startsWith('data:')) continue;
-      const payload = t.slice(5).trim();
-      if(payload === '[DONE]' || payload === '') continue;
-      try { handle(JSON.parse(payload)); } catch(e){}
-    }
+  let h='<div class="kpis">';
+  h+=kpi('Fecha límite',m.fecha_limite,true);
+  h+=kpi('Presupuesto (con IVA)',m.presupuesto_con_iva||m.presupuesto_sin_iva);
+  h+=kpi('Ponderación',(crit.length? (tec?tec+'% téc':'')+(tec&&eco?' · ':'')+(eco?eco+'% eco':'') : null),false,true);
+  h+=kpi('Cumplimiento docs',cuPct===null?null:cuPct+'%');
+  h+=kpi('Viabilidad',vp===null?null:vp+'%',false,false,vc);
+  h+='</div>';
+
+  // objeto + meta
+  h+='<div class="sec"><h3>🎯 Datos del contrato</h3><table class="tbl"><tbody>'
+    +row('Objeto',m.objeto)+row('Tipo / Ámbito',(m.tipo_contrato||'—')+' · '+(m.ambito||'—'))
+    +row('Órgano de contratación',m.organo_contratacion)+row('Sistema de presentación',m.sistema_presentacion)
+    +row('Presupuesto sin IVA',m.presupuesto_sin_iva)+row('IVA',m.iva_pct)
+    +row('Plazo de ejecución',m.plazo_ejecucion)+row('Garantía',m.garantia)
+    +'</tbody></table></div>';
+
+  // dos columnas: donut criterios + gauge viabilidad
+  h+='<div class="two">';
+  h+='<div class="sec"><h3>⚖️ Criterios de adjudicación</h3>'+donut(crit)+'</div>';
+  h+='<div class="sec"><h3>📈 Índice de viabilidad</h3><div class="gauge">'
+    +'<div class="big" style="color:'+vc+'">'+(vp===null?'—':vp+'%')+'</div>'
+    +'<div class="bar"><div class="fill" style="width:'+(vp||0)+'%;background:'+vc+'"></div></div>'
+    +'<p class="muted" style="margin-top:8px">'+(via.justificacion?esc(via.justificacion):'Estimación basada solo en datos presentes.')+'</p>'
+    +((via.supuestos&&via.supuestos.length&&via.supuestos[0])?'<p class="muted" style="margin-top:6px"><strong>Supuestos:</strong> '+via.supuestos.map(esc).join('; ')+'</p>':'')
+    +'</div></div>';
+  h+='</div>';
+
+  // cumplimiento
+  h+='<div class="sec"><h3>✅ Cumplimiento documental</h3>';
+  if(cuPct!==null){h+='<div class="prog"><div class="fill" style="width:'+cuPct+'%">'+cuPct+'%</div></div>';}
+  h+='<p class="muted" style="margin-top:8px">'+(cu.observaciones?esc(cu.observaciones):'')+'</p>';
+  h+='<table class="tbl" style="margin-top:10px"><thead><tr><th>Documentos obligatorios (insubsanables)</th></tr></thead><tbody>'
+    +(d.documentos_obligatorios||[]).map(x=>'<tr><td>❗ '+val(x.nombre)+'</td></tr>').join('')||'<tr><td class="pend">[PENDIENTE]</td></tr>'
+    +'</tbody></table>';
+  if((d.documentos_subsanables||[]).length){
+    h+='<table class="tbl" style="margin-top:8px"><thead><tr><th>Subsanables</th><th>Plazo</th></tr></thead><tbody>'
+      +d.documentos_subsanables.map(x=>'<tr><td>'+val(x.nombre)+'</td><td>'+val(x.plazo)+'</td></tr>').join('')+'</tbody></table>';
   }
+  h+='</div>';
+
+  // riesgos
+  const r=d.riesgos||{};
+  h+='<div class="sec"><h3>⚠️ Riesgos y mente de depredador</h3><div class="cards">';
+  (r.clausulas_ambiguas||[]).filter(Boolean).forEach(x=>h+='<div class="rcard"><span class="tag risk">Cláusula ambigua/abusiva</span>'+esc(x)+'</div>');
+  (r.criterios_trampa||[]).filter(Boolean).forEach(x=>h+='<div class="rcard"><span class="tag trap">Criterio trampa</span>'+esc(x)+'</div>');
+  (d.competencia_debilidades||[]).filter(Boolean).forEach(x=>h+='<div class="rcard"><span class="tag comp">Debilidad competencia</span>'+esc(x)+'</div>');
+  h+='</div>';
+  if(r.penalizaciones)h+='<p class="muted" style="margin-top:10px"><strong>Penalizaciones:</strong> '+esc(r.penalizaciones)+'</p>';
+  if(d.precio_referencia_oculto)h+='<p class="muted" style="margin-top:6px"><strong>Precio de referencia (estimado):</strong> '+esc(d.precio_referencia_oculto)+'</p>';
+  h+='</div>';
+
+  // precios
+  const rec=(d.recomendacion_precio&&d.recomendacion_precio.escenario)||'';
+  h+='<div class="sec"><h3>💰 Escenarios de precio</h3><div class="cards">';
+  (d.escenarios_precio||[]).forEach(s=>{const best=rec&&s.nombre&&rec.toLowerCase().includes(s.nombre.toLowerCase());
+    h+='<div class="sc'+(best?' best':'')+'"><h4>'+esc(s.nombre||'')+(best?'<span class="badge b-best">Recomendado</span>':'')+'</h4>'
+      +'<div class="imp">'+val(s.importe)+'</div>'
+      +'<p class="muted">Margen: '+val(s.margen)+' · Riesgo: '+val(s.riesgo)+'</p>'
+      +(s.nota?'<p class="muted" style="margin-top:6px">'+esc(s.nota)+'</p>':'')+'</div>';});
+  h+='</div>';
+  if(d.recomendacion_precio&&d.recomendacion_precio.justificacion)
+    h+='<p class="muted" style="margin-top:10px"><strong>Recomendación:</strong> '+esc(d.recomendacion_precio.justificacion)+'</p>';
+  h+='</div>';
+
+  // checklist presentacion
+  h+='<div class="sec"><h3>📋 Checklist de presentación</h3><table class="tbl"><thead><tr><th>#</th><th>Documento</th><th>Formato</th><th>Firma</th></tr></thead><tbody>'
+    +(d.checklist_presentacion||[]).map((x,i)=>'<tr><td>'+(x.orden||i+1)+'</td><td>'+val(x.documento)+'</td><td>'+val(x.formato)+'</td><td>'+val(x.firma)+'</td></tr>').join('')
+    +'</tbody></table></div>';
+
+  // plan accion
+  h+='<div class="sec"><h3>🚀 Plan de acción</h3>';
+  (d.plan_accion||[]).forEach(x=>{const u=(x.urgencia||'media').toLowerCase();
+    h+='<div class="plan-item"><span class="u '+u+'"></span><div style="flex:1"><strong>'+val(x.tarea)+'</strong>'
+      +'<div class="muted" style="margin-top:3px">Responsable: '+val(x.responsable)+' · Plazo: '+val(x.plazo)+'</div></div>'
+      +'<span class="badge b-'+u+'">'+u+'</span></div>';});
+  h+='</div>';
+  return h;
+}
+function kpi(lab,v,gold,sm,color){
+  const p=isPend(v);
+  return '<div class="kpi"><div class="lab">'+lab+'</div><div class="val'+(sm?' sm':'')+(gold?' g':'')+'" '
+    +(color&&!p?'style="color:'+color+'"':'')+'>'+(p?'<span class="pend">[PENDIENTE]</span>':esc(String(v)))+'</div></div>';
+}
+function row(k,v){return '<tr><th style="width:38%">'+k+'</th><td>'+val(v)+'</td></tr>'}
+function donut(crit){
+  if(!crit.length)return '<p class="pend">[PENDIENTE DE VERIFICACIÓN] — el pliego no detalla ponderaciones numéricas.</p>';
+  const total=crit.reduce((s,c)=>s+c.ponderacion_pct,0)||100;
+  let acc=0,seg=[],leg='';
+  crit.forEach((c,i)=>{const col=PAL[i%PAL.length];const from=acc/total*360;acc+=c.ponderacion_pct;const to=acc/total*360;
+    seg.push(col+' '+from+'deg '+to+'deg');
+    leg+='<div><i style="background:'+col+'"></i>'+esc(c.nombre||('Criterio '+(i+1)))+' — <strong>'+c.ponderacion_pct+'%</strong></div>';});
+  return '<div class="donut-wrap"><div class="donut" style="background:conic-gradient('+seg.join(',')+')">'
+    +'<div class="center"><b>'+total+'%</b><span>total</span></div></div><div class="legend">'+leg+'</div></div>';
 }
 
-async function apiError(res){
-  let detail = '';
-  try { const j = await res.json(); detail = (j.error && (j.error.message||j.error.type)) || JSON.stringify(j); } catch(e){}
-  return new Error('HTTP '+res.status+(detail?': '+detail:''));
+/* informe markdown */
+function informe(d){
+  let md='# Informe ejecutivo de licitación\n\n';
+  md+=d.resumen_ejecutivo_md||'*[PENDIENTE DE VERIFICACIÓN]*';
+  md+='\n\n---\n\n## Oferta técnica (borrador)\n\n'+(d.oferta_tecnica_md||'*[PENDIENTE DE VERIFICACIÓN]*');
+  return '<div class="md">'+mdToHtml(md)+'</div>';
+}
+function inl(s){return esc(s).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/(^|[^*])\*([^*]+)\*/g,'$1<em>$2</em>').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')}
+function mdToHtml(src){const L=src.replace(/\r/g,'').split('\n');let h='',i=0;
+  while(i<L.length){let l=L[i];
+    if(/^\s*\|.*\|\s*$/.test(l)&&i+1<L.length&&/^\s*\|?[\s:|-]+\|?\s*$/.test(L[i+1])&&L[i+1].includes('-')){
+      const hd=l.split('|').slice(1,-1).map(c=>c.trim());i+=2;const rs=[];
+      while(i<L.length&&/^\s*\|.*\|\s*$/.test(L[i])){rs.push(L[i].split('|').slice(1,-1).map(c=>c.trim()));i++}
+      h+='<table><thead><tr>'+hd.map(x=>'<th>'+inl(x)+'</th>').join('')+'</tr></thead><tbody>'+rs.map(r=>'<tr>'+r.map(c=>'<td>'+inl(c)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';continue}
+    if(/^###\s+/.test(l)){h+='<h3>'+inl(l.replace(/^###\s+/,''))+'</h3>';i++;continue}
+    if(/^##\s+/.test(l)){h+='<h2>'+inl(l.replace(/^##\s+/,''))+'</h2>';i++;continue}
+    if(/^#\s+/.test(l)){h+='<h1>'+inl(l.replace(/^#\s+/,''))+'</h1>';i++;continue}
+    if(/^\s*([-*])\s+/.test(l)){h+='<ul>';while(i<L.length&&/^\s*([-*])\s+/.test(L[i])){h+='<li>'+inl(L[i].replace(/^\s*([-*])\s+/,''))+'</li>';i++}h+='</ul>';continue}
+    if(/^\s*\d+\.\s+/.test(l)){h+='<ol>';while(i<L.length&&/^\s*\d+\.\s+/.test(L[i])){h+='<li>'+inl(L[i].replace(/^\s*\d+\.\s+/,''))+'</li>';i++}h+='</ol>';continue}
+    if(/^\s*(---|___|\*\*\*)\s*$/.test(l)){h+='<hr>';i++;continue}
+    if(l.trim()===''){i++;continue}
+    h+='<p>'+inl(l)+'</p>';i++;}
+  return h;}
+
+/* ================= DESCARGA / PDF ================= */
+function reportHTML(){
+  const dashHtml=dash(DATA), repHtml=informe(DATA);
+  const css=document.querySelector('style').textContent;
+  return '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Informe de Licitación · Tecintek</title>'
+    +'<style>'+css+' body{padding:24px} .wrap{padding:0}</style></head><body>'
+    +'<div class="wrap"><div class="logo">TECINTEK</div><div class="brand-sub">Informe Ejecutivo de Licitación</div>'
+    +'<p class="muted" style="margin:6px 0 18px">Generado el '+new Date().toLocaleString('es-ES')+'. Verifica los campos [PENDIENTE DE VERIFICACIÓN] contra el pliego original.</p>'
+    +repHtml+'<hr style="margin:26px 0;border:none;border-top:1px solid var(--border)"><h1 style="color:var(--secondary)">Panel de datos</h1>'+dashHtml+'</div></body></html>';
+}
+function descargar(){
+  if(!DATA){toast('Analiza un pliego primero.');return}
+  const blob=new Blob([reportHTML()],{type:'text/html'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='Informe_Licitacion_'+new Date().toISOString().slice(0,10)+'.html';
+  document.body.appendChild(a);a.click();a.remove();toast('⬇️ Informe descargado (ábrelo y guárdalo como PDF si quieres).');
+}
+function imprimir(){
+  if(!DATA){toast('Analiza un pliego primero.');return}
+  const w=window.open('','_blank');if(!w){toast('El navegador bloqueó la ventana. Permite ventanas emergentes.');return}
+  w.document.write(reportHTML());w.document.close();setTimeout(()=>{w.focus();w.print()},400);
 }
 
-function errorHTML(err){
-  const m = (err.message||'').toLowerCase();
-  let tip = '';
-  if(m.includes('401') || m.includes('authentication')) tip = 'La clave de API no es válida. Revísala en ⚙️ Configurar IA.';
-  else if(m.includes('cors') || m.includes('failed to fetch') || m.includes('networkerror'))
-    tip = 'El navegador bloqueó la conexión (CORS) o hubo un fallo de red. Con DeepSeek esto es habitual: necesitarías un pequeño backend/proxy. Prueba con Claude (Anthropic), que sí admite llamadas directas desde el navegador.';
-  else if(m.includes('429')) tip = 'Has superado el límite de peticiones o de saldo. Espera un momento o revisa tu cuenta.';
-  return '<div class="warn-box" style="color:#ffb0b0;border-color:rgba(255,107,107,.4);background:rgba(255,107,107,.1)">'
-    + '<strong>No se pudo completar el análisis.</strong><br>'+escapeHtml(err.message)
-    + (tip?'<br><br>'+tip:'') + '</div>';
-}
-
-/* ========= RENDER MARKDOWN (mínimo, sin dependencias) ========= */
-function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function inline(s){
-  return escapeHtml(s)
-    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
-    .replace(/(^|[^*])\*([^*]+)\*/g,'$1<em>$2</em>')
-    .replace(/`([^`]+)`/g,'<code>$1</code>')
-    .replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
-}
-function renderMD(src){
-  const lines = src.replace(/\r/g,'').split('\n');
-  let html = '', i = 0;
-  while(i < lines.length){
-    let line = lines[i];
-    // tabla
-    if(/^\s*\|.*\|\s*$/.test(line) && i+1<lines.length && /^\s*\|?[\s:|-]+\|?\s*$/.test(lines[i+1]) && lines[i+1].includes('-')){
-      const rows = [];
-      const header = line.split('|').slice(1,-1).map(c=>c.trim());
-      i += 2;
-      while(i<lines.length && /^\s*\|.*\|\s*$/.test(lines[i])){
-        rows.push(lines[i].split('|').slice(1,-1).map(c=>c.trim())); i++;
-      }
-      html += '<table><thead><tr>'+header.map(h=>'<th>'+inline(h)+'</th>').join('')+'</tr></thead><tbody>'
-        + rows.map(r=>'<tr>'+r.map(c=>'<td>'+inline(c)+'</td>').join('')+'</tr>').join('') + '</tbody></table>';
-      continue;
-    }
-    if(/^###\s+/.test(line)){ html += '<h3>'+inline(line.replace(/^###\s+/,''))+'</h3>'; i++; continue; }
-    if(/^##\s+/.test(line)){ html += '<h2>'+inline(line.replace(/^##\s+/,''))+'</h2>'; i++; continue; }
-    if(/^#\s+/.test(line)){ html += '<h1>'+inline(line.replace(/^#\s+/,''))+'</h1>'; i++; continue; }
-    if(/^\s*>\s?/.test(line)){ html += '<blockquote>'+inline(line.replace(/^\s*>\s?/,''))+'</blockquote>'; i++; continue; }
-    if(/^\s*([-*])\s+/.test(line)){
-      html += '<ul>';
-      while(i<lines.length && /^\s*([-*])\s+/.test(lines[i])){ html += '<li>'+inline(lines[i].replace(/^\s*([-*])\s+/,''))+'</li>'; i++; }
-      html += '</ul>'; continue;
-    }
-    if(/^\s*\d+\.\s+/.test(line)){
-      html += '<ol>';
-      while(i<lines.length && /^\s*\d+\.\s+/.test(lines[i])){ html += '<li>'+inline(lines[i].replace(/^\s*\d+\.\s+/,''))+'</li>'; i++; }
-      html += '</ol>'; continue;
-    }
-    if(/^\s*(---|___|\*\*\*)\s*$/.test(line)){ html += '<hr>'; i++; continue; }
-    if(line.trim()===''){ i++; continue; }
-    html += '<p>'+inline(line)+'</p>'; i++;
-  }
-  return html;
-}
-
-/* ========= UTILIDADES ========= */
-function copiar(){
-  navigator.clipboard.writeText(fullText).then(()=>toast('📋 Informe copiado'));
-}
-let toastTimer;
-function toast(msg){
-  const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
-  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove('show'), 3200);
-}
-function cargarEjemplo(){
-  document.getElementById('pliego').value = EJEMPLO;
-  document.getElementById('contexto').value = 'Tecintek, agencia de publicidad y marketing digital, 12 personas, sede en Madrid.';
-  document.getElementById('fileTag').textContent = 'ℹ️ Cargado un pliego de EJEMPLO (ficticio) para probar la herramienta.';
-  toast('Ejemplo cargado. Pulsa Analizar.');
-}
-const EJEMPLO = `AYUNTAMIENTO DE VILLANUEVA DEL EJEMPLO
+/* ================= UTIL ================= */
+let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),3400)}
+function ejemplo(){document.getElementById('pliego').value=EJEMPLO;
+  document.getElementById('ctx').value='Tecintek, agencia de publicidad y marketing digital, 12 personas, sede en Madrid.';
+  document.getElementById('ftag').textContent='ℹ️ Cargado un pliego de EJEMPLO (ficticio) para probar la herramienta.';toast('Ejemplo cargado. Pulsa Analizar.')}
+const EJEMPLO=`AYUNTAMIENTO DE VILLANUEVA DEL EJEMPLO
 Pliego de Cláusulas Administrativas — Contrato de SERVICIOS
 Objeto: Servicio de gestión de redes sociales y campañas de publicidad digital del Ayuntamiento durante 12 meses.
 Presupuesto base de licitación: 48.000,00 € (IVA excluido). IVA 21%.
@@ -551,8 +603,8 @@ Documentación subsanable: acreditación de solvencia técnica (3 servicios simi
 Garantía definitiva: 5% del importe de adjudicación. Plazo de ejecución: 12 meses. Penalizaciones por incumplimiento de plazos: 0,5% diario.
 Órgano de contratación: Junta de Gobierno Local.`;
 
-refreshStatus();
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeConfig(); });
+status();
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCfg()});
 </script>
 </body>
 </html>
