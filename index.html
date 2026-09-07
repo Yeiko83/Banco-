@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="TECINTEK S.A.S. — Empresa legalmente constituida desde 2010. Suministros al por mayor y al detal, publicidad e imprenta, telecomunicaciones y servicios de comidas. Entrega en Bogotá y Cundinamarca.">
+<meta name="description" content="TECINTEK S.A.S. — Empresa legalmente constituida desde 2010. Suministros al por mayor y al detal, publicidad e imprenta, telecomunicaciones y servicios de comidas. Cobertura a nivel nacional.">
 <meta name="theme-color" content="#1A2757">
 <meta property="og:title" content="TECINTEK S.A.S. · Desde 2010">
 <meta property="og:description" content="Suministramos lo que necesitas. Comercio al por mayor, publicidad e imprenta, telecomunicaciones y servicios de comidas.">
@@ -193,6 +193,11 @@ header.top .hamb span{background:#fff}
 .trust .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:30px 0}
 .trust-item{display:flex;align-items:center;gap:14px}
 .trust-item .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;color:#fff;flex-shrink:0}
+.trust-item .ic.truck-ic{overflow:hidden;position:relative}
+.truck-svg{width:30px;height:20px;animation:truckDrive 1.8s ease-in-out infinite}
+.truck-svg .wheel{transform-box:fill-box;transform-origin:center;animation:wheelSpin .7s linear infinite}
+@keyframes wheelSpin{to{transform:rotate(360deg)}}
+@keyframes truckDrive{0%,100%{transform:translateX(-3px)}50%{transform:translateX(3px)}}
 .trust-item b{display:block;font-size:.95rem;color:var(--profundo)}
 .trust-item span{font-size:.78rem;color:var(--gray)}
 @media (max-width:800px){.trust .grid{grid-template-columns:repeat(2,1fr)}}
@@ -543,7 +548,7 @@ footer ul a:hover{color:var(--cian);padding-left:4px}
         <span class="chip c-ama">Telecom J6190</span>
         <span class="chip c-mar">Comidas I5629</span>
       </div>
-      <p class="lead reveal">Comercio al por mayor y al detal. Suministros empresariales, publicidad e imprenta, telecomunicaciones y servicios de comidas. Producción propia, precios competitivos y entrega en Bogotá y Cundinamarca.</p>
+      <p class="lead reveal">Comercio al por mayor y al detal. Suministros empresariales, publicidad e imprenta, telecomunicaciones y servicios de comidas. Producción propia, precios competitivos y entrega a nivel nacional.</p>
       <div class="hero-cta reveal">
         <a class="btn btn-wa btn-lg" href="https://wa.me/573135797472?text=Hola%20TECINTEK%2C%20quiero%20solicitar%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener" data-confetti>
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.2s-.8 1-.9 1.1c-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5s0-.4 0-.5c-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2z"/></svg>
@@ -583,7 +588,7 @@ footer ul a:hover{color:var(--cian);padding-left:4px}
       </div>
       <div class="float-badge fb1"><div class="ic" style="background:var(--cian)">★</div><div>Producción<br>propia</div></div>
       <div class="float-badge fb2"><div class="ic" style="background:var(--magenta)">%</div><div>Precio por<br>volumen</div></div>
-      <div class="float-badge fb3"><div class="ic" style="background:var(--amarillo);color:#1b2440">▲</div><div>Entrega en<br>Cundinamarca</div></div>
+      <div class="float-badge fb3"><div class="ic" style="background:var(--amarillo);color:#1b2440">▲</div><div>Entrega a<br>nivel nacional</div></div>
     </div>
   </div>
   <div class="hero-waves">
@@ -606,11 +611,16 @@ footer ul a:hover{color:var(--cian);padding-left:4px}
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M6 21V8l6-4 6 4v13M9 21v-6h6v6"/></svg>
       </div><div><b>S.A.S.</b><span>Persona jurídica constituida</span></div></div>
       <div class="trust-item reveal"><div class="ic" style="background:var(--marino)">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
-      </div><div><b>Matrícula 68075</b><span>Cámara de Comercio</span></div></div>
-      <div class="trust-item reveal"><div class="ic" style="background:var(--rojo)">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7M5.5 19a2 2 0 100 .01M18.5 19a2 2 0 100 .01"/></svg>
-      </div><div><b>Entrega rápida</b><span>Facatativá y Bogotá</span></div></div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V11l4-2 4 2 4-2 2 1v11M9 21v-4h4v4M9 13h.01M13 13h.01"/></svg>
+      </div><div><b>Producción propia</b><span>Precios por volumen</span></div></div>
+      <div class="trust-item reveal"><div class="ic truck-ic" style="background:var(--rojo)">
+        <svg class="truck-svg" viewBox="0 0 48 30" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="6" width="26" height="14" rx="1.5"/>
+          <path d="M28 10h8l6 5v5H28z"/>
+          <g class="wheel"><circle cx="12" cy="23" r="3.6"/><path d="M12 20v6M9 23h6"/></g>
+          <g class="wheel"><circle cx="35" cy="23" r="3.6"/><path d="M35 20v6M32 23h6"/></g>
+        </svg>
+      </div><div><b>Entrega rápida</b><span>A nivel nacional</span></div></div>
     </div>
   </div>
 </section>
@@ -828,7 +838,7 @@ footer ul a:hover{color:var(--cian);padding-left:4px}
         <div class="stub-line"><span>Línea</span><span id="stubCat">—</span></div>
         <div class="stub-line"><span>Cantidad</span><span id="stubQty">100 und</span></div>
         <div class="stub-line"><span>Entrega estimada</span><span id="stubTime">3–5 días hábiles</span></div>
-        <p class="stub-note">* Estimado orientativo. Precio final y tiempos se confirman por WhatsApp según cantidad, acabados y disponibilidad. Entrega en Facatativá, Bogotá y Cundinamarca.</p>
+        <p class="stub-note">* Estimado orientativo. Precio final y tiempos se confirman por WhatsApp según cantidad, acabados y disponibilidad. Cobertura a nivel nacional.</p>
       </div>
     </div>
   </div>
@@ -873,7 +883,7 @@ footer ul a:hover{color:var(--cian);padding-left:4px}
       <div class="step reveal"><div class="num">1</div><h4>Nos cuentas qué necesitas</h4><p>Escríbenos por WhatsApp o correo con tu requerimiento: producto, cantidad y uso.</p><span class="arrow">→</span></div>
       <div class="step reveal"><div class="num">2</div><h4>Cotizamos según cantidad</h4><p>Preparamos una propuesta con el mejor precio por volumen y tiempos de entrega.</p><span class="arrow">→</span></div>
       <div class="step reveal"><div class="num">3</div><h4>Producimos o surtimos</h4><p>Con producción propia y proveedores aliados, fabricamos o abastecemos tu pedido.</p><span class="arrow">→</span></div>
-      <div class="step reveal"><div class="num">4</div><h4>Entrega oportuna</h4><p>Coordinamos la entrega en Facatativá, Bogotá y toda Cundinamarca.</p><span class="arrow">→</span></div>
+      <div class="step reveal"><div class="num">4</div><h4>Entrega oportuna</h4><p>Coordinamos la entrega a nivel nacional, con cumplimiento en los tiempos acordados.</p><span class="arrow">→</span></div>
     </div>
   </div>
 </section>
@@ -890,17 +900,17 @@ footer ul a:hover{color:var(--cian);padding-left:4px}
         <div class="testi-slide">
           <div class="stars">★★★★★</div>
           <p class="testi-quote">Llevamos años pidiendo la dotación y los volantes de nuestro colegio con TECINTEK. Siempre cumplen con los tiempos y el precio por cantidad es imbatible.</p>
-          <div class="testi-who"><div class="testi-av" style="background:var(--cian)">MC</div><b>María Camila Torres</b><span>Coordinadora administrativa · Facatativá</span></div>
+          <div class="testi-who"><div class="testi-av" style="background:var(--cian)">MC</div><b>María Camila Torres</b><span>Coordinadora administrativa · Colombia</span></div>
         </div>
         <div class="testi-slide">
           <div class="stars">★★★★★</div>
-          <p class="testi-quote">Necesitábamos pendones, carnets y regalos corporativos para un evento en Bogotá. Un solo proveedor nos resolvió todo con excelente calidad de impresión.</p>
-          <div class="testi-who"><div class="testi-av" style="background:var(--magenta)">JR</div><b>Jorge Rincón</b><span>Gerente comercial · Bogotá</span></div>
+          <p class="testi-quote">Necesitábamos pendones, carnets y regalos corporativos para un evento corporativo. Un solo proveedor nos resolvió todo con excelente calidad de impresión.</p>
+          <div class="testi-who"><div class="testi-av" style="background:var(--magenta)">JR</div><b>Jorge Rincón</b><span>Gerente comercial · Colombia</span></div>
         </div>
         <div class="testi-slide">
           <div class="stars">★★★★★</div>
           <p class="testi-quote">Como empresa constituida nos daba tranquilidad trabajar con otra empresa formal, con matrícula y facturación en regla. Serios y cumplidos.</p>
-          <div class="testi-who"><div class="testi-av" style="background:var(--marino)">LG</div><b>Laura Gómez</b><span>Compras institucionales · Cundinamarca</span></div>
+          <div class="testi-who"><div class="testi-av" style="background:var(--marino)">LG</div><b>Laura Gómez</b><span>Compras institucionales · Colombia</span></div>
         </div>
       </div>
     </div>
@@ -959,7 +969,6 @@ footer ul a:hover{color:var(--cian);padding-left:4px}
       <div>
         <h5>Contacto</h5>
         <ul class="foot-contact">
-          <li><span class="fi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L8 9.6a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.5c.8.3 1.7.5 2.6.6a2 2 0 011.7 2z"/></svg></span><span>Fijo: (601) 927 7415</span></li>
           <li><a href="https://wa.me/573135797472" target="_blank" rel="noopener"><span class="fi"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.2s-.8 1-.9 1.1c-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5s0-.4 0-.5c-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2z"/></svg></span><span>WhatsApp: 313 579 7472</span></a></li>
           <li><a href="mailto:tecintek@gmail.com"><span class="fi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 6l10 7 10-7"/></svg></span><span>tecintek@gmail.com</span></a></li>
         </ul>
@@ -970,7 +979,7 @@ footer ul a:hover{color:var(--cian);padding-left:4px}
         </div>
       </div>
     </div>
-    <div class="foot-bottom">© 2026 TECINTEK S.A.S. — Facatativá, Colombia. Todos los derechos reservados.</div>
+    <div class="foot-bottom">© 2026 TECINTEK S.A.S. — Colombia. Todos los derechos reservados.</div>
   </div>
 </footer>
 
