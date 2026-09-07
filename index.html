@@ -163,8 +163,11 @@ header.top .hamb span{background:#fff}
 .stat span{font-size:.72rem;color:rgba(255,255,255,.6);letter-spacing:.5px}
 /* Hero visual */
 .hero-visual{position:relative;perspective:1000px}
-.hero-card{border-radius:26px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(0,0,0,.6);transform-style:preserve-3d;transition:transform .2s ease;background:linear-gradient(135deg,#2a3f7d,#1a2757);aspect-ratio:4/5}
-.hero-card img{width:100%;height:100%;object-fit:cover}
+.hero-card{position:relative;border-radius:26px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(0,0,0,.6);transform-style:preserve-3d;transition:transform .2s ease;background:linear-gradient(135deg,#2a3f7d,#1a2757);aspect-ratio:4/5}
+.hero-illus{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(145deg,#149AD7,#E0378A 58%,#2D4585)}
+.hero-illus::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.14) 1.5px,transparent 1.5px);background-size:22px 22px}
+.hero-illus svg{width:82%;position:relative;z-index:1}
+.hero-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
 .float-badge{position:absolute;background:rgba(255,255,255,.95);color:var(--profundo);border-radius:14px;padding:12px 16px;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px;font-weight:600;font-size:.82rem}
 .float-badge .ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;color:#fff}
 .fb1{top:-18px;left:-24px;animation:bob 4s ease-in-out infinite}
@@ -557,7 +560,26 @@ footer ul a:hover{color:var(--cian);padding-left:4px}
     </div>
     <div class="hero-visual reveal">
       <div class="hero-card" id="heroCard">
-        <img src="assets/tarjetas-mockup.jpg" alt="Suministros y piezas TECINTEK" onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,#149AD7,#E0378A)'">
+        <div class="hero-illus" aria-hidden="true">
+          <svg viewBox="0 0 320 400" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+            <!-- caja de suministros -->
+            <path d="M70 250 L160 220 L250 250 L250 340 L160 370 L70 340 Z" fill="rgba(255,255,255,.08)"/>
+            <path d="M70 250 L160 280 L250 250 M160 280 L160 370"/>
+            <path d="M110 236 L200 266" opacity=".7"/>
+            <!-- hoja / impreso -->
+            <rect x="96" y="70" width="128" height="150" rx="8" fill="rgba(255,255,255,.12)"/>
+            <path d="M120 104 h80 M120 128 h80 M120 152 h56"/>
+            <rect x="120" y="176" width="52" height="20" rx="4" fill="#FEDA02" stroke="none"/>
+            <!-- etiqueta / tag -->
+            <path d="M232 120 l40 8 4 34 -30 22 -22 -30 z" fill="rgba(255,255,255,.1)"/>
+            <circle cx="256" cy="140" r="6" fill="#FEDA02" stroke="none"/>
+            <!-- pantalla digital pequeña -->
+            <rect x="40" y="150" width="70" height="52" rx="8" fill="rgba(255,255,255,.1)"/>
+            <path d="M54 196 h42" opacity=".8"/>
+            <path d="M56 168 l10 10 14 -18" stroke="#FEDA02"/>
+          </svg>
+        </div>
+        <img src="assets/tarjetas-mockup.jpg" alt="Suministros y piezas TECINTEK" onerror="this.remove()">
       </div>
       <div class="float-badge fb1"><div class="ic" style="background:var(--cian)">★</div><div>Producción<br>propia</div></div>
       <div class="float-badge fb2"><div class="ic" style="background:var(--magenta)">%</div><div>Precio por<br>volumen</div></div>
@@ -1089,6 +1111,7 @@ var PRODUCTS=[
    revealHero();
  }
  document.body.style.overflow="hidden";
+ setTimeout(function(){if(!pre.classList.contains("done"))finish();},6000); // failsafe
  if(reduce){ bar.style.width="100%"; setTimeout(finish,300); return; }
  if(window.anime){
    anime.timeline().add({targets:"#preWord span",opacity:[0,1],translateY:[40,0],rotateX:[-90,0],delay:anime.stagger(70),duration:700,easing:"easeOutExpo"});
@@ -1102,8 +1125,9 @@ var PRODUCTS=[
 })();
 
 function revealHero(){
- if(reduce){document.querySelectorAll(".hero .reveal").forEach(function(e){e.style.opacity=1;e.style.transform="none";});runCounters();return;}
+ if(reduce||!window.gsap){document.querySelectorAll(".hero .reveal").forEach(function(e){e.style.opacity=1;e.style.transform="none";});runCounters();return;}
  gsap.to(".hero .reveal",{opacity:1,y:0,duration:.9,stagger:.12,ease:"power3.out",onComplete:runCounters});
+ setTimeout(runCounters,1500);
 }
 
 /* ===== CUSTOM CURSOR ===== */
