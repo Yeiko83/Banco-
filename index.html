@@ -1,114 +1,1442 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tecintek - Publicidad Premium</title>
-    <link href="https://googleapis.com" rel="stylesheet">
-    <link rel="stylesheet" href="https://cloudflare.com">
-    <script src="https://cloudflare.com"></script>
-    <script src="https://cloudflare.com"></script>
-    <script src="https://cloudflare.com"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --primary: #0A1628;
-            --secondary: #D4AF37;
-            --accent: #00D4FF;
-            --gold-gradient: linear-gradient(135deg, #D4AF37, #F5D76E, #D4AF37);
-        }
-        body { font-family: 'Inter', sans-serif; background: var(--primary); color: #fff; overflow-x: hidden; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--primary); }
-        ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
-        .navbar { position: fixed; top: 0; left: 0; width: 100%; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: rgba(10, 22, 40, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(212, 175, 55, 0.2); transition: 0.4s; }
-        .navbar.scrolled { padding: 12px 50px; background: rgba(10, 22, 40, 0.95); }
-        .logo { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 40px rgba(212, 175, 55, 0.3); }
-        .nav-links { display: flex; gap: 35px; list-style: none; align-items: center; }
-        .nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: 0.3s; position: relative; letter-spacing: 1px; }
-        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--gold-gradient); transition: 0.3s; }
-        .nav-links a:hover { color: #fff; }
-        .nav-links a:hover::after { width: 100%; }
-        .nav-cta { background: var(--gold-gradient); color: var(--primary) !important; padding: 10px 25px; border-radius: 50px; font-weight: 700 !important; transition: 0.3s; }
-        .nav-cta:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); }
-        .hamburger { display: none; font-size: 1.8rem; cursor: pointer; color: #fff; }
-        #hero-3d { position: relative; width: 100%; height: 100vh; overflow: hidden; }
-        #three-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .hero-overlay { position: relative; z-index: 10; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 20px; background: linear-gradient(to bottom, rgba(10,22,40,0.3), rgba(10,22,40,0.8)); }
-        .hero-content-premium { max-width: 900px; }
-        .hero-badge-premium { display: inline-block; padding: 8px 25px; border: 1px solid var(--secondary); border-radius: 50px; font-size: 0.8rem; font-weight: 600; color: var(--secondary); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 30px; animation: pulse-border 2s ease-in-out infinite; }
-        @keyframes pulse-border { 0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); } 50% { box-shadow: 0 0 40px rgba(212, 175, 55, 0.6); } }
-        .hero-title-premium { font-family: 'Orbitron', sans-serif; font-size: 5rem; font-weight: 900; line-height: 1.1; margin-bottom: 25px; }
-        .hero-title-premium .gold { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-subtitle-premium { font-size: 1.2rem; color: rgba(255,255,255,0.6); max-width: 600px; margin: 0 auto 40px; line-height: 1.8; }
-        .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-        .btn-premium { padding: 16px 40px; border-radius: 50px; font-weight: 700; text-decoration: none; transition: 0.4s; display: inline-flex; align-items: center; gap: 12px; font-size: 1rem; border: none; cursor: pointer; }
-        .btn-gold { background: var(--gold-gradient); color: var(--primary); box-shadow: 0 5px 30px rgba(212, 175, 55, 0.3); }
-        .btn-gold:hover { transform: translateY(-5px); box-shadow: 0 10px 50px rgba(212, 175, 55, 0.5); }
-        .btn-outline { border: 2px solid rgba(255,255,255,0.2); color: #fff; background: transparent; }
-        .btn-outline:hover { border-color: var(--secondary); background: rgba(212, 175, 55, 0.1); transform: translateY(-5px); }
-        .scroll-indicator { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 10px; color: rgba(255,255,255,0.4); font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
-        .scroll-indicator .mouse { width: 25px; height: 40px; border: 2px solid rgba(255,255,255,0.3); border-radius: 12px; position: relative; }
-        .scroll-indicator .mouse::after { content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 3px; height: 10px; background: var(--secondary); border-radius: 3px; animation: scroll-bounce 1.5s ease-in-out infinite; }
-        @keyframes scroll-bounce { 0%, 100% { top: 8px; opacity: 1; } 50% { top: 20px; opacity: 0.3; } }
-        @media (max-width: 768px) { .hero-title-premium { font-size: 3rem; } .nav-links { display: none; } .hamburger { display: block; } .navbar { padding: 15px 25px; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="TECINTEK S.A.S. — Empresa legalmente constituida desde 2010. Suministros al por mayor y al detal, publicidad e imprenta, telecomunicaciones y servicios de comidas. Cobertura a nivel nacional.">
+<meta name="theme-color" content="#1A2757">
+<meta property="og:title" content="TECINTEK S.A.S. · Desde 2010">
+<meta property="og:description" content="Suministramos lo que necesitas. Comercio al por mayor, publicidad e imprenta, telecomunicaciones y servicios de comidas.">
+<meta property="og:type" content="website">
+<title>TECINTEK S.A.S. · Suministros, Publicidad, Telecom y Servicios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============ VARIABLES & RESET ============ */
+:root{
+  --cian:#149AD7;
+  --magenta:#E0378A;
+  --amarillo:#FEDA02;
+  --marino:#2D4585;
+  --rojo:#E00C1B;
+  --profundo:#1A2757;
+  --dark:#0e1526;
+  --dark2:#131c33;
+  --ink:#1b2440;
+  --paper:#f6f8fc;
+  --paper2:#eef2f9;
+  --white:#ffffff;
+  --gray:#6b7385;
+  --gray-l:#9aa2b4;
+  --line:rgba(45,69,133,.12);
+  --anton:'Anton',Impact,sans-serif;
+  --body:'Poppins',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --shadow:0 20px 50px -25px rgba(26,39,87,.35);
+  --shadow-lg:0 40px 90px -40px rgba(26,39,87,.55);
+  --radius:20px;
+  --wa:#25D366;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);
+  color:var(--ink);
+  background:var(--paper);
+  overflow-x:hidden;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+section{position:relative}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+::selection{background:var(--magenta);color:#fff}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:11px}
+::-webkit-scrollbar-track{background:var(--paper2)}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--cian),var(--magenta));border-radius:20px;border:2px solid var(--paper2)}
+
+/* Headings */
+h1,h2,h3{line-height:1.05;letter-spacing:.5px}
+.kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--magenta);font-weight:700;display:inline-flex;align-items:center;gap:8px}
+.kicker::before{content:"";width:26px;height:2px;background:var(--magenta)}
+.h-sec{font-family:var(--anton);font-size:clamp(2rem,5vw,3.5rem);text-transform:uppercase;letter-spacing:1px;color:var(--profundo);margin:14px 0 8px}
+.sec-lead{color:var(--gray);max-width:620px;font-size:1.02rem}
+.grad-text{background:linear-gradient(120deg,var(--cian),var(--magenta),var(--amarillo));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+
+/* ============ CUSTOM CURSOR ============ */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;border-radius:50%;pointer-events:none;z-index:99999;mix-blend-mode:difference}
+.cursor-dot{width:7px;height:7px;background:#fff;transform:translate(-50%,-50%)}
+.cursor-ring{width:38px;height:38px;border:2px solid #fff;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s,opacity .25s}
+.cursor-ring.hover{width:60px;height:60px;background:rgba(255,255,255,.15)}
+body.touch .cursor-dot,body.touch .cursor-ring{display:none}
+@media (max-width:900px){.cursor-dot,.cursor-ring{display:none}}
+
+/* ============ SCROLL PROGRESS ============ */
+.scroll-progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--cian),var(--magenta),var(--amarillo));z-index:10000}
+
+/* ============ PRELOADER ============ */
+.preloader{position:fixed;inset:0;background:var(--profundo);z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px}
+.preloader.done{opacity:0;visibility:hidden;transition:opacity .8s ease,visibility .8s}
+.pre-rings{position:relative;width:150px;height:150px}
+.pre-rings span{position:absolute;inset:0;border-radius:50%;border:3px solid transparent;animation:spin 1.4s linear infinite}
+.pre-rings span:nth-child(1){border-top-color:var(--cian);animation-duration:1.1s}
+.pre-rings span:nth-child(2){inset:18px;border-right-color:var(--magenta);animation-duration:1.5s;animation-direction:reverse}
+.pre-rings span:nth-child(3){inset:36px;border-bottom-color:var(--amarillo);animation-duration:1.8s}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pre-word{font-family:var(--anton);font-size:clamp(2rem,7vw,3.2rem);letter-spacing:6px;color:#fff;display:flex}
+.pre-word span{display:inline-block;opacity:0;transform:translateY(40px)}
+.pre-bar{width:min(280px,70vw);height:5px;background:rgba(255,255,255,.12);border-radius:20px;overflow:hidden}
+.pre-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cian),var(--magenta),var(--amarillo),var(--rojo));border-radius:20px}
+.pre-sub{font-family:var(--mono);font-size:.75rem;letter-spacing:3px;color:rgba(255,255,255,.5);text-transform:uppercase}
+
+/* ============ HEADER ============ */
+header{position:fixed;top:0;left:0;width:100%;z-index:9000;transition:.35s}
+header .bar{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;max-width:1280px;margin:0 auto;transition:.35s}
+header.stuck{background:rgba(255,255,255,.75);backdrop-filter:blur(18px);box-shadow:0 8px 30px -18px rgba(26,39,87,.4);border-bottom:1px solid var(--line)}
+header.stuck .bar{padding:11px 24px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-logo{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--cian),var(--magenta));display:grid;place-items:center;font-family:var(--anton);color:#fff;font-size:1.3rem;box-shadow:0 8px 20px -8px var(--magenta);overflow:hidden}
+.brand-logo img{width:100%;height:100%;object-fit:cover}
+.brand-txt strong{font-family:var(--anton);font-size:1.15rem;letter-spacing:1px;color:var(--profundo);display:block;line-height:1}
+.brand-txt small{font-family:var(--mono);font-size:.62rem;letter-spacing:1.5px;color:var(--gray);text-transform:uppercase}
+header.top .brand-txt strong{color:#fff}
+header.top .brand-txt small{color:rgba(255,255,255,.7)}
+nav.menu{display:flex;align-items:center;gap:6px}
+nav.menu a.navlink{padding:9px 14px;font-size:.9rem;font-weight:500;color:var(--ink);border-radius:10px;transition:.25s;position:relative}
+header.top nav.menu a.navlink{color:rgba(255,255,255,.85)}
+nav.menu a.navlink:hover{color:var(--magenta)}
+header.top nav.menu a.navlink:hover{color:var(--amarillo)}
+.head-actions{display:flex;align-items:center;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.9rem;border-radius:50px;padding:11px 22px;transition:.3s;white-space:nowrap}
+.btn-ghost{border:1.5px solid var(--line);color:var(--ink)}
+header.top .btn-ghost{border-color:rgba(255,255,255,.35);color:#fff}
+.btn-ghost:hover{border-color:var(--cian);color:var(--cian);background:rgba(20,154,215,.08)}
+.btn-wa{background:var(--wa);color:#fff;box-shadow:0 10px 25px -10px var(--wa)}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 16px 30px -12px var(--wa)}
+.btn-solid{background:linear-gradient(120deg,var(--cian),var(--magenta));color:#fff;box-shadow:0 12px 26px -12px var(--magenta)}
+.btn-solid:hover{transform:translateY(-2px);box-shadow:0 18px 34px -14px var(--magenta)}
+.btn-lg{padding:15px 30px;font-size:1rem}
+.hamb{display:none;flex-direction:column;gap:5px;padding:8px;z-index:9500}
+.hamb span{width:26px;height:2.5px;background:var(--ink);border-radius:4px;transition:.3s}
+header.top .hamb span{background:#fff}
+.hamb.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.hamb.open span:nth-child(2){opacity:0}
+.hamb.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+.mobile-menu{position:fixed;inset:0;background:var(--profundo);z-index:9200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transform:translateX(100%);transition:transform .45s cubic-bezier(.7,0,.2,1)}
+.mobile-menu.open{transform:translateX(0)}
+.mobile-menu a{font-family:var(--anton);font-size:1.8rem;letter-spacing:2px;color:#fff;text-transform:uppercase}
+.mobile-menu a:active{color:var(--amarillo)}
+.mobile-menu .btn{font-family:var(--body);font-size:1rem}
+
+@media (max-width:960px){
+  nav.menu,.head-actions .btn-ghost,.head-actions .btn-solid{display:none}
+  .hamb{display:flex}
+}
+
+/* ============ HERO ============ */
+.hero{min-height:100vh;background:radial-gradient(1200px 700px at 80% -10%,#233a7a 0%,var(--profundo) 45%,var(--dark) 100%);color:#fff;overflow:hidden;display:flex;align-items:center;padding:120px 0 80px}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;will-change:transform;pointer-events:none}
+.blob.b1{width:420px;height:420px;background:var(--cian);top:-60px;left:-80px}
+.blob.b2{width:360px;height:360px;background:var(--magenta);bottom:-100px;right:5%}
+.blob.b3{width:300px;height:300px;background:var(--amarillo);top:35%;left:45%;opacity:.32}
+.particles{position:absolute;inset:0;pointer-events:none}
+.particles i{position:absolute;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.6);animation:float 7s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0);opacity:.3}50%{transform:translateY(-40px);opacity:.9}}
+.hero .wrap{position:relative;z-index:5;display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center}
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 26px}
+.chip{font-family:var(--mono);font-size:.68rem;letter-spacing:1px;padding:6px 13px;border-radius:50px;font-weight:600;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);backdrop-filter:blur(6px)}
+.chip.c-cian{border-color:rgba(20,154,215,.6);color:#8fd6f5}
+.chip.c-mag{border-color:rgba(224,55,138,.6);color:#f8a3cd}
+.chip.c-ama{border-color:rgba(254,218,2,.6);color:var(--amarillo)}
+.chip.c-mar{border-color:rgba(120,150,220,.7);color:#b7c6ef}
+.hero h1{font-family:var(--anton);font-size:clamp(2.7rem,6vw,4.7rem);text-transform:uppercase;letter-spacing:1px;line-height:.98}
+.hero p.lead{color:rgba(255,255,255,.72);font-size:1.05rem;max-width:540px;margin:20px 0 30px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:46px;max-width:560px}
+.stat b{font-family:var(--anton);font-size:clamp(1.6rem,4vw,2.4rem);background:linear-gradient(120deg,var(--cian),var(--amarillo));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:block;line-height:1}
+.stat span{font-size:.72rem;color:rgba(255,255,255,.6);letter-spacing:.5px}
+/* Hero visual */
+.hero-visual{position:relative;perspective:1000px}
+.hero-card{position:relative;border-radius:26px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(0,0,0,.6);transform-style:preserve-3d;transition:transform .2s ease;background:linear-gradient(135deg,#2a3f7d,#1a2757);aspect-ratio:4/5}
+.hero-illus{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(145deg,#149AD7,#E0378A 58%,#2D4585)}
+.hero-illus::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.14) 1.5px,transparent 1.5px);background-size:22px 22px}
+.hero-illus svg{width:82%;position:relative;z-index:1}
+.hero-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
+.float-badge{position:absolute;background:rgba(255,255,255,.95);color:var(--profundo);border-radius:14px;padding:12px 16px;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px;font-weight:600;font-size:.82rem}
+.float-badge .ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;color:#fff}
+.fb1{top:-18px;left:-24px;animation:bob 4s ease-in-out infinite}
+.fb2{bottom:40px;right:-30px;animation:bob 4s ease-in-out infinite .6s}
+.fb3{bottom:-16px;left:20px;animation:bob 4s ease-in-out infinite 1.2s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+/* waves */
+.hero-waves{position:absolute;bottom:-1px;left:0;width:100%;line-height:0;z-index:4}
+.hero-waves svg{width:100%;height:90px}
+
+@media (max-width:900px){
+  .hero .wrap{grid-template-columns:1fr;text-align:center}
+  .hero-badges{justify-content:center}
+  .hero p.lead{margin-left:auto;margin-right:auto}
+  .hero-cta{justify-content:center}
+  .hero-stats{margin-left:auto;margin-right:auto;grid-template-columns:repeat(2,1fr)}
+  .hero-visual{max-width:360px;margin:20px auto 0}
+  .float-badge{display:none}
+}
+
+/* ============ TRUST BAR ============ */
+.trust{background:var(--white);border-bottom:1px solid var(--line)}
+.trust .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:30px 0}
+.trust-item{display:flex;align-items:center;gap:14px}
+.trust-item .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;color:#fff;flex-shrink:0}
+.trust-item .ic.truck-ic{overflow:hidden;position:relative}
+.truck-svg{width:30px;height:20px;animation:truckDrive 1.8s ease-in-out infinite}
+.truck-svg .wheel{transform-box:fill-box;transform-origin:center;animation:wheelSpin .7s linear infinite}
+@keyframes wheelSpin{to{transform:rotate(360deg)}}
+@keyframes truckDrive{0%,100%{transform:translateX(-3px)}50%{transform:translateX(3px)}}
+.trust-item b{display:block;font-size:.95rem;color:var(--profundo)}
+.trust-item span{font-size:.78rem;color:var(--gray)}
+@media (max-width:800px){.trust .grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ============ SECTION SPACING ============ */
+.pad{padding:90px 0}
+.sec-head{margin-bottom:46px}
+
+/* ============ BUSINESS LINES ============ */
+.lines-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.line-card{background:var(--white);border-radius:var(--radius);padding:30px 26px;box-shadow:var(--shadow);border:1px solid var(--line);position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .3s;transform-style:preserve-3d;cursor:pointer}
+.line-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:5px}
+.line-card:hover{box-shadow:var(--shadow-lg)}
+.line-card .lic{width:60px;height:60px;border-radius:16px;display:grid;place-items:center;color:#fff;margin-bottom:18px;box-shadow:0 12px 24px -12px currentColor}
+.line-card h3{font-size:1.2rem;color:var(--profundo);margin-bottom:8px;letter-spacing:0}
+.line-card p{font-size:.88rem;color:var(--gray);margin-bottom:18px;min-height:64px}
+.line-meta{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:14px}
+.line-meta .cnt{font-family:var(--anton);font-size:1.5rem;color:var(--profundo)}
+.line-meta .cnt small{font-family:var(--body);font-size:.7rem;color:var(--gray);display:block;font-weight:500;letter-spacing:0}
+.ciiu{font-family:var(--mono);font-size:.7rem;font-weight:700;padding:5px 10px;border-radius:8px;background:var(--paper2);color:var(--marino)}
+.tag-role{position:absolute;top:16px;right:16px;font-family:var(--mono);font-size:.6rem;letter-spacing:1px;text-transform:uppercase;padding:4px 9px;border-radius:6px;font-weight:700;background:var(--paper2);color:var(--gray)}
+@media (max-width:980px){.lines-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.lines-grid{grid-template-columns:1fr}.line-card p{min-height:auto}}
+
+/* ============ FEATURED SUMINISTROS ============ */
+.feature{background:var(--white)}
+.feature .grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.check-list{margin:22px 0}
+.check-list li{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;font-size:.95rem}
+.check-list .ck{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;color:#fff;flex-shrink:0;font-size:.8rem;font-weight:700}
+.spec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:26px}
+.spec{background:var(--paper);border-radius:14px;padding:16px 18px;border-top:4px solid var(--cian)}
+.spec b{display:block;font-family:var(--anton);font-size:1.4rem;color:var(--profundo)}
+.spec span{font-size:.78rem;color:var(--gray)}
+.feature-img{position:relative;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg)}
+.feature-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
+.feat-illus{aspect-ratio:4/3;background:linear-gradient(140deg,#149AD7,#2D4585 70%,#1A2757);display:grid;place-items:center;position:relative;overflow:hidden}
+.feat-illus::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.5px,transparent 1.5px);background-size:22px 22px}
+.feat-illus svg{width:60%;max-width:280px;position:relative;z-index:1}
+.color-strip{position:relative;z-index:3}
+.color-strip{height:8px;display:flex}
+.color-strip i{flex:1;height:100%}
+.color-strip i:nth-child(1){background:var(--cian)}
+.color-strip i:nth-child(2){background:var(--magenta)}
+.color-strip i:nth-child(3){background:var(--amarillo)}
+.color-strip i:nth-child(4){background:var(--marino)}
+.color-strip i:nth-child(5){background:var(--rojo)}
+@media (max-width:860px){.feature .grid{grid-template-columns:1fr;gap:34px}.spec-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ============ GALLERY ============ */
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,220px);gap:16px}
+.g-item{position:relative;border-radius:16px;overflow:hidden;cursor:pointer;background:var(--ink)}
+.g-item:nth-child(1){grid-column:span 2;grid-row:span 2}
+.g-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.g-item:hover img{transform:scale(1.09)}
+.g-item::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(26,39,87,.75),transparent 55%);opacity:.85;transition:.3s}
+.g-item .g-tag{position:absolute;bottom:14px;left:14px;z-index:2;font-family:var(--mono);font-size:.68rem;letter-spacing:1px;color:#fff;background:rgba(0,0,0,.35);padding:6px 11px;border-radius:8px;backdrop-filter:blur(6px);font-weight:600}
+.g-item .g-zoom{position:absolute;top:14px;right:14px;z-index:2;width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.9);color:var(--profundo);display:grid;place-items:center;opacity:0;transform:scale(.6);transition:.3s}
+.g-item:hover .g-zoom{opacity:1;transform:scale(1)}
+@media (max-width:800px){.gallery-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,180px)}.g-item:nth-child(1){grid-column:span 2}}
+
+/* Lightbox */
+.lightbox{position:fixed;inset:0;background:rgba(10,15,30,.92);z-index:20000;display:flex;align-items:center;justify-content:center;padding:30px;opacity:0;visibility:hidden;transition:.35s}
+.lightbox.open{opacity:1;visibility:visible}
+.lightbox img{max-width:90vw;max-height:82vh;border-radius:14px;box-shadow:0 40px 100px -30px #000;transform:scale(.9);transition:.35s}
+.lightbox.open img{transform:scale(1)}
+.lightbox .lb-cap{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:#fff;font-family:var(--mono);font-size:.8rem;letter-spacing:1px}
+.lb-close{position:absolute;top:22px;right:26px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:1.5rem;display:grid;place-items:center;transition:.25s}
+.lb-close:hover{background:var(--rojo);transform:rotate(90deg)}
+
+/* ============ CATALOG ============ */
+.catalog{background:linear-gradient(180deg,var(--paper),var(--paper2))}
+.cat-toolbar{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;margin-bottom:30px}
+.filters{display:flex;flex-wrap:wrap;gap:9px}
+.filter{padding:9px 18px;border-radius:50px;font-size:.85rem;font-weight:600;background:var(--white);border:1.5px solid var(--line);color:var(--gray);transition:.25s}
+.filter:hover{color:var(--profundo)}
+.filter.active{color:#fff;border-color:transparent}
+.filter.active[data-cat="all"]{background:var(--profundo)}
+.filter.active[data-cat="suministros"]{background:var(--cian)}
+.filter.active[data-cat="publicidad"]{background:var(--magenta)}
+.filter.active[data-cat="telecom"]{background:var(--amarillo);color:var(--ink)}
+.filter.active[data-cat="comidas"]{background:var(--marino)}
+.search-box{position:relative;flex:1;min-width:240px;max-width:340px}
+.search-box input{width:100%;padding:12px 16px 12px 44px;border-radius:50px;border:1.5px solid var(--line);background:var(--white);font-family:inherit;font-size:.9rem;color:var(--ink);transition:.25s}
+.search-box input:focus{outline:none;border-color:var(--cian);box-shadow:0 0 0 4px rgba(20,154,215,.12)}
+.search-box .si{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--gray)}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.prod{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);display:flex;flex-direction:column;transition:transform .25s,box-shadow .3s}
+.prod:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.prod-img{aspect-ratio:16/11;position:relative;overflow:hidden;cursor:pointer}
+.prod-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.prod:hover .prod-img img{transform:scale(1.06)}
+.prod-ph{width:100%;height:100%;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;text-align:center;padding:16px;position:relative;overflow:hidden}
+.prod-ph::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.14) 1.3px,transparent 1.3px);background-size:16px 16px;opacity:.5}
+.prod-ph svg{width:58px;height:58px;position:relative;z-index:1;filter:drop-shadow(0 4px 10px rgba(0,0,0,.25))}
+.prod-ph span{position:relative;z-index:1;font-family:var(--anton);color:#fff;font-size:1.05rem;letter-spacing:.5px;line-height:1.15;text-transform:uppercase}
+.prod-cat{position:absolute;top:12px;left:12px;font-family:var(--mono);font-size:.62rem;letter-spacing:1px;text-transform:uppercase;color:#fff;padding:5px 10px;border-radius:7px;font-weight:700;backdrop-filter:blur(4px)}
+.quick{position:absolute;top:12px;right:12px;padding:7px 12px;font-size:.72rem;font-weight:600;background:rgba(255,255,255,.92);color:var(--profundo);border-radius:8px;opacity:0;transform:translateY(-6px);transition:.25s}
+.prod:hover .quick{opacity:1;transform:translateY(0)}
+.prod-body{padding:18px 20px;display:flex;flex-direction:column;flex:1}
+.prod-body h4{font-size:1.02rem;color:var(--profundo);margin-bottom:4px}
+.prod-body .spec-t{font-size:.82rem;color:var(--gray);margin-bottom:12px;flex:1}
+.prod-tag{display:inline-block;font-family:var(--mono);font-size:.64rem;letter-spacing:.5px;padding:4px 9px;border-radius:6px;background:var(--paper2);color:var(--marino);margin-bottom:14px;align-self:flex-start;font-weight:600}
+.prod .cotizar{width:100%;justify-content:center;background:var(--paper2);color:var(--profundo);font-weight:600;padding:11px;border-radius:12px;font-size:.88rem;transition:.25s;display:flex;align-items:center;gap:6px}
+.prod .cotizar:hover{background:linear-gradient(120deg,var(--cian),var(--magenta));color:#fff}
+.no-res{grid-column:1/-1;text-align:center;padding:50px;color:var(--gray)}
+.cat-foot{text-align:center;margin-top:36px}
+@media (max-width:900px){.cat-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.cat-grid{grid-template-columns:1fr}.search-box{max-width:100%}}
+
+/* Quick view modal */
+.modal{position:fixed;inset:0;background:rgba(10,15,30,.7);z-index:21000;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:.3s;backdrop-filter:blur(4px)}
+.modal.open{opacity:1;visibility:visible}
+.modal-card{background:var(--white);border-radius:22px;max-width:760px;width:100%;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;transform:scale(.92);transition:.3s;max-height:88vh}
+.modal.open .modal-card{transform:scale(1)}
+.modal-img{background:var(--ink)}
+.modal-img img,.modal-img .prod-ph{width:100%;height:100%;object-fit:cover;min-height:280px}
+.modal-info{padding:34px 30px;position:relative;overflow-y:auto}
+.modal-info .m-cat{font-family:var(--mono);font-size:.68rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:10px;display:inline-block}
+.modal-info h3{font-size:1.5rem;color:var(--profundo);margin-bottom:12px;letter-spacing:0}
+.modal-info p{color:var(--gray);font-size:.92rem;margin-bottom:8px}
+.modal-info .m-line{display:flex;gap:8px;font-size:.85rem;padding:8px 0;border-bottom:1px solid var(--line)}
+.modal-info .m-line span:first-child{color:var(--gray);min-width:110px}
+.modal-info .m-line span:last-child{color:var(--profundo);font-weight:600}
+.modal-close{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;background:var(--paper2);color:var(--ink);display:grid;place-items:center;font-size:1.3rem;transition:.25s;z-index:2}
+.modal-close:hover{background:var(--rojo);color:#fff;transform:rotate(90deg)}
+.modal-info .btn{margin-top:18px;width:100%;justify-content:center}
+@media (max-width:640px){.modal-card{grid-template-columns:1fr;max-height:90vh}.modal-img{max-height:200px}}
+
+/* ============ COTIZADOR / TICKET ============ */
+.quoter{background:var(--white)}
+.ticket{display:grid;grid-template-columns:1.3fr .9fr;border-radius:24px;overflow:hidden;box-shadow:var(--shadow-lg);position:relative;background:var(--white);border:1px solid var(--line)}
+.ticket-strip{height:8px;display:flex;background:linear-gradient(90deg,var(--cian),var(--magenta),var(--amarillo),var(--rojo));background-size:300% 100%;animation:slidegrad 6s linear infinite;grid-column:1/-1}
+@keyframes slidegrad{to{background-position:300% 0}}
+.ticket-form{padding:38px 40px}
+.ticket-form h3{font-size:1.5rem;color:var(--profundo);margin-bottom:6px;letter-spacing:0}
+.ticket-form .sub{color:var(--gray);font-size:.9rem;margin-bottom:24px}
+.fld{margin-bottom:22px}
+.fld label{display:block;font-size:.8rem;font-weight:600;color:var(--profundo);margin-bottom:8px;letter-spacing:.3px}
+.fld select,.fld input[type=text]{width:100%;padding:13px 15px;border-radius:12px;border:1.5px solid var(--line);background:var(--paper);font-family:inherit;font-size:.92rem;color:var(--ink)}
+.fld select:focus,.fld input:focus{outline:none;border-color:var(--cian);box-shadow:0 0 0 4px rgba(20,154,215,.1)}
+.qty-row{display:flex;align-items:center;gap:16px}
+.qty-badge{font-family:var(--anton);font-size:1.6rem;color:#fff;background:linear-gradient(120deg,var(--cian),var(--magenta));min-width:78px;text-align:center;padding:8px 12px;border-radius:12px;box-shadow:0 10px 20px -10px var(--magenta)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:20px;background:var(--paper2);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:4px solid var(--magenta);cursor:pointer;box-shadow:0 4px 12px -3px var(--magenta)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:4px solid var(--magenta);cursor:pointer}
+.save-wrap{margin-top:22px}
+.save-lbl{display:flex;justify-content:space-between;font-size:.78rem;color:var(--gray);margin-bottom:7px}
+.save-lbl b{color:var(--marino)}
+.save-bar{height:10px;border-radius:20px;background:var(--paper2);overflow:hidden}
+.save-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amarillo),var(--magenta));border-radius:20px;transition:width .4s cubic-bezier(.2,.8,.2,1)}
+/* stub */
+.ticket-stub{background:linear-gradient(160deg,var(--profundo),var(--dark));color:#fff;padding:38px 34px;position:relative}
+.ticket-stub::before{content:"";position:absolute;left:-11px;top:0;bottom:0;width:22px;background:radial-gradient(circle at left,transparent 0 10px,var(--profundo) 10px);background-size:22px 26px;background-repeat:repeat-y;background-position:left center}
+.stub-tag{font-family:var(--mono);font-size:.68rem;letter-spacing:2px;color:var(--amarillo);text-transform:uppercase}
+.stub-title{font-family:var(--anton);font-size:1.7rem;margin:8px 0 22px;letter-spacing:1px}
+.stub-line{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px dashed rgba(255,255,255,.18);font-size:.86rem}
+.stub-line span:first-child{color:rgba(255,255,255,.55)}
+.stub-line span:last-child{font-weight:600;text-align:right}
+.stub-note{font-size:.7rem;color:rgba(255,255,255,.4);margin-top:18px;line-height:1.5}
+.ticket-form .btn{width:100%;justify-content:center;margin-top:8px}
+@media (max-width:800px){.ticket{grid-template-columns:1fr}.ticket-stub::before{display:none}}
+
+/* ============ TELECOM ============ */
+.telecom{background:radial-gradient(900px 500px at 20% 0%,#243a76,var(--profundo));color:#fff;overflow:hidden}
+.telecom::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.08) 1.5px,transparent 1.5px);background-size:26px 26px;opacity:.5;pointer-events:none}
+.telecom .grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;position:relative;z-index:2}
+.telecom h2{color:#fff}
+.telecom .sec-lead{color:rgba(255,255,255,.72)}
+.tag-cloud{display:flex;flex-wrap:wrap;gap:12px}
+.tag-cloud span{font-weight:600;border-radius:50px;padding:11px 20px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(6px);cursor:default;transition:.3s}
+.tag-cloud span:hover{transform:translateY(-4px);border-color:var(--amarillo);color:var(--amarillo)}
+.tag-cloud span:nth-child(odd){font-size:1.05rem}
+.tag-cloud span:nth-child(3n){font-size:1.2rem;color:#8fd6f5}
+.tag-cloud span:nth-child(5n){color:#f8a3cd}
+@media (max-width:800px){.telecom .grid{grid-template-columns:1fr;gap:30px}}
+
+/* ============ PROCESO ============ */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;counter-reset:step}
+.step{background:var(--white);border-radius:var(--radius);padding:30px 24px;box-shadow:var(--shadow);position:relative;border:1px solid var(--line)}
+.step .num{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;font-family:var(--anton);font-size:1.5rem;color:#fff;margin-bottom:18px}
+.step:nth-child(1) .num{background:linear-gradient(135deg,var(--cian),#0d6fa5)}
+.step:nth-child(2) .num{background:linear-gradient(135deg,var(--magenta),#a81e63)}
+.step:nth-child(3) .num{background:linear-gradient(135deg,var(--amarillo),#c9a800);color:var(--ink)}
+.step:nth-child(4) .num{background:linear-gradient(135deg,var(--marino),#1a2757)}
+.step h4{color:var(--profundo);font-size:1.08rem;margin-bottom:8px;letter-spacing:0}
+.step p{font-size:.86rem;color:var(--gray)}
+.step .arrow{position:absolute;right:-16px;top:52px;color:var(--line);font-size:1.5rem;z-index:2}
+.step:last-child .arrow{display:none}
+@media (max-width:900px){.steps{grid-template-columns:repeat(2,1fr)}.step .arrow{display:none}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+
+/* ============ TESTIMONIALS ============ */
+.testi{background:var(--white)}
+.testi-carousel{position:relative;max-width:820px;margin:0 auto;overflow:hidden;border-radius:24px}
+.testi-track{display:flex;transition:transform .55s cubic-bezier(.6,0,.2,1)}
+.testi-slide{min-width:100%;padding:44px 50px;text-align:center}
+.testi-quote{font-size:1.25rem;color:var(--profundo);line-height:1.6;font-weight:500;margin-bottom:26px;position:relative}
+.testi-quote::before{content:"\201C";font-family:var(--anton);font-size:4rem;color:var(--line);position:absolute;top:-30px;left:50%;transform:translateX(-50%)}
+.testi-who{display:flex;flex-direction:column;align-items:center;gap:4px}
+.testi-av{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;font-family:var(--anton);color:#fff;font-size:1.4rem;margin-bottom:8px}
+.testi-who b{color:var(--profundo)}
+.testi-who span{font-size:.82rem;color:var(--gray)}
+.stars{color:var(--amarillo);margin-bottom:8px;letter-spacing:2px}
+.testi-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:26px}
+.testi-arrow{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);color:var(--profundo);display:grid;place-items:center;font-size:1.2rem;transition:.25s}
+.testi-arrow:hover{background:var(--profundo);color:#fff;border-color:var(--profundo)}
+.testi-dots{display:flex;gap:8px}
+.testi-dots i{width:9px;height:9px;border-radius:50%;background:var(--line);cursor:pointer;transition:.25s}
+.testi-dots i.active{background:var(--magenta);width:26px;border-radius:20px}
+@media (max-width:560px){.testi-slide{padding:36px 24px}.testi-quote{font-size:1.05rem}}
+
+/* ============ CTA BAND ============ */
+.cta-band{background:linear-gradient(120deg,var(--rojo),var(--magenta));background-size:200% 200%;animation:ctaGrad 8s ease infinite;color:#fff;text-align:center}
+@keyframes ctaGrad{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+.cta-band h2{font-family:var(--anton);font-size:clamp(2rem,5vw,3.4rem);text-transform:uppercase;color:#fff;letter-spacing:1px}
+.cta-band p{color:rgba(255,255,255,.85);max-width:560px;margin:16px auto 30px;font-size:1.05rem}
+.cta-band .btn-solid{background:#fff;color:var(--magenta)}
+.cta-band .btn-solid:hover{background:var(--profundo);color:#fff}
+.cta-band .btn-ghost{border-color:rgba(255,255,255,.6);color:#fff}
+.cta-band .btn-ghost:hover{background:rgba(255,255,255,.15);color:#fff}
+.cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* ============ FOOTER ============ */
+footer{background:var(--dark);color:rgba(255,255,255,.7)}
+.foot-strip{height:6px;display:flex}
+.foot-strip i{flex:1}
+.foot-strip i:nth-child(1){background:var(--cian)}
+.foot-strip i:nth-child(2){background:var(--magenta)}
+.foot-strip i:nth-child(3){background:var(--amarillo)}
+.foot-strip i:nth-child(4){background:var(--marino)}
+.foot-strip i:nth-child(5){background:var(--rojo)}
+.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:36px;padding:60px 0 40px}
+.foot-brand .brand{margin-bottom:16px}
+.foot-brand .brand-txt strong{color:#fff}
+.foot-brand p{font-size:.86rem;line-height:1.7;margin-bottom:16px}
+.legal-box{font-family:var(--mono);font-size:.72rem;line-height:1.9;color:rgba(255,255,255,.55);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 16px}
+.legal-box b{color:var(--amarillo)}
+footer h5{color:#fff;font-size:.95rem;margin-bottom:16px;letter-spacing:.5px}
+footer ul li{margin-bottom:10px}
+footer ul a{font-size:.86rem;transition:.2s}
+footer ul a:hover{color:var(--cian);padding-left:4px}
+.foot-contact li{display:flex;gap:10px;font-size:.86rem;margin-bottom:12px;align-items:flex-start}
+.foot-contact .fi{color:var(--cian);flex-shrink:0;margin-top:2px}
+.socials{display:flex;gap:10px;margin-top:8px}
+.socials a{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.06);display:grid;place-items:center;color:#fff;transition:.25s}
+.socials a:hover{transform:translateY(-4px)}
+.socials a.fb:hover{background:#1877f2}
+.socials a.ig:hover{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
+.socials a.wa:hover{background:var(--wa)}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.08);padding:22px 0;text-align:center;font-size:.8rem;color:rgba(255,255,255,.45)}
+@media (max-width:880px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.foot-grid{grid-template-columns:1fr}}
+
+/* ============ WHATSAPP FLOAT + BACK TO TOP ============ */
+.wa-float{position:fixed;bottom:26px;right:26px;width:60px;height:60px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;z-index:8000;box-shadow:0 14px 30px -8px rgba(37,211,102,.6);transition:transform .25s}
+.wa-float:hover{transform:scale(1.1)}
+.wa-float::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--wa);animation:pulse 2s ease-out infinite;z-index:-1}
+@keyframes pulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.9);opacity:0}}
+.wa-float svg{width:32px;height:32px}
+.to-top{position:fixed;bottom:98px;right:32px;width:48px;height:48px;border-radius:14px;background:var(--profundo);color:#fff;display:grid;place-items:center;z-index:8000;opacity:0;visibility:hidden;transform:translateY(15px);transition:.3s;box-shadow:var(--shadow)}
+.to-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.to-top:hover{background:var(--magenta)}
+
+/* ============ TOAST ============ */
+.toast-wrap{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:30000;display:flex;flex-direction:column;gap:10px;align-items:center;pointer-events:none}
+.toast{background:var(--profundo);color:#fff;padding:13px 22px;border-radius:50px;font-size:.88rem;font-weight:500;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:10px;opacity:0;transform:translateY(20px);transition:.35s;border-left:4px solid var(--cian)}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast .ti{width:20px;height:20px;flex-shrink:0}
+
+/* confetti */
+.confetti-piece{position:fixed;width:10px;height:10px;z-index:31000;pointer-events:none;top:0}
+
+/* reduced motion */
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .blob,.particles,.wa-float::before{animation:none!important}
+}
+/* reveal base */
+.reveal{opacity:0;transform:translateY(34px)}
+</style>
 </head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="logo">TECINTEK</div>
-        <ul class="nav-links">
-            <li><a href="#inicio">Inicio</a></li>
-            <li><a href="#servicios">Servicios</a></li>
-            <li><a href="#portafolio">Portafolio</a></li>
-            <li><a href="#contacto" class="nav-cta">Contratar Premium</a></li>
-        </ul>
-        <div class="hamburger"><i class="fas fa-bars"></i></div>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- PRELOADER -->
+<div class="preloader" id="preloader">
+  <div class="pre-rings"><span></span><span></span><span></span></div>
+  <div class="pre-word" id="preWord"></div>
+  <div class="pre-bar"><i id="preBar"></i></div>
+  <div class="pre-sub">Cargando experiencia...</div>
+</div>
+
+<!-- HEADER -->
+<header id="header" class="top">
+  <div class="bar">
+    <a href="#hero" class="brand" aria-label="TECINTEK S.A.S. inicio">
+      <div class="brand-logo"><img src="assets/logo-tck.png" alt="Logo TECINTEK" onerror="this.parentNode.textContent='T'"></div>
+      <div class="brand-txt">
+        <strong>TECINTEK S.A.S.</strong>
+        <small>· Desde 2010</small>
+      </div>
+    </a>
+    <nav class="menu">
+      <a class="navlink" href="#lineas">Líneas</a>
+      <a class="navlink" href="#catalogo">Catálogo</a>
+      <a class="navlink" href="#cotizar">Cotizar</a>
+      <a class="navlink" href="#proceso">Proceso</a>
+      <a class="navlink" href="#contacto">Contacto</a>
     </nav>
-    <section id="hero-3d">
-        <canvas id="three-canvas"></canvas>
-        <div class="hero-overlay">
-            <div class="hero-content-premium">
-                <span class="hero-badge-premium">Agencia de Publicidad Digital</span>
-                <h1 class="hero-title-premium">Experiencias <br><span class="gold">Digitales Premium</span></h1>
-                <p class="hero-subtitle-premium">Impulsamos marcas exclusivas mediante tecnología de vanguardia, diseños inmersivos tridimensionales y estrategias de marketing de alto impacto.</p>
-                <div class="hero-buttons">
-                    <a href="#contacto" class="btn-premium btn-gold">Iniciar Proyecto <i class="fas fa-arrow-right"></i></a>
-                    <a href="#portafolio" class="btn-premium btn-outline">Ver Portafolio</a>
-                </div>
-            </div>
+    <div class="head-actions">
+      <a class="btn btn-ghost" href="assets/catalogo-tecintek.pdf" download>Catálogo PDF</a>
+      <a class="btn btn-solid" href="https://wa.me/573135797472?text=Hola%20TECINTEK%2C%20quiero%20cotizar." target="_blank" rel="noopener" data-confetti>Cotizar ahora</a>
+      <button class="hamb" id="hamb" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#lineas">Líneas</a>
+  <a href="#catalogo">Catálogo</a>
+  <a href="#cotizar">Cotizar</a>
+  <a href="#proceso">Proceso</a>
+  <a href="#contacto">Contacto</a>
+  <a class="btn btn-wa" href="https://wa.me/573135797472" target="_blank" rel="noopener">WhatsApp 313 579 7472</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="blob b1" data-speed="30"></div>
+  <div class="blob b2" data-speed="-25"></div>
+  <div class="blob b3" data-speed="18"></div>
+  <div class="particles" id="particles"></div>
+  <div class="wrap">
+    <div class="hero-text">
+      <span class="chip c-mag" style="letter-spacing:2px">EMPRESA S.A.S. · DESDE 2010</span>
+      <h1 class="reveal">Suministramos <br><span class="grad-text">lo que necesitas</span></h1>
+      <div class="hero-badges reveal">
+        <span class="chip c-cian">Comercio G4690</span>
+        <span class="chip c-mag">Publicidad M7310</span>
+        <span class="chip c-ama">Telecom J6190</span>
+        <span class="chip c-mar">Comidas I5629</span>
+      </div>
+      <p class="lead reveal">Comercio al por mayor y al detal. Suministros empresariales, publicidad e imprenta, telecomunicaciones y servicios de comidas. Producción propia, precios competitivos y entrega a nivel nacional.</p>
+      <div class="hero-cta reveal">
+        <a class="btn btn-wa btn-lg" href="https://wa.me/573135797472?text=Hola%20TECINTEK%2C%20quiero%20solicitar%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener" data-confetti>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.2s-.8 1-.9 1.1c-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5s0-.4 0-.5c-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2z"/></svg>
+          Solicitar cotización
+        </a>
+        <a class="btn btn-ghost btn-lg" href="#catalogo" style="color:#fff;border-color:rgba(255,255,255,.35)">Ver nuestro catálogo</a>
+      </div>
+      <div class="hero-stats reveal">
+        <div class="stat"><b class="count" data-to="4">0</b><span>Líneas de negocio</span></div>
+        <div class="stat"><b class="count" data-to="50" data-suffix="+">0</b><span>Productos y servicios</span></div>
+        <div class="stat"><b class="count" data-to="2010">0</b><span>Años de trayectoria</span></div>
+        <div class="stat"><b class="count" data-to="1" data-suffix="+">0</b><span>Unidad mínima</span></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="hero-card" id="heroCard">
+        <div class="hero-illus" aria-hidden="true">
+          <svg viewBox="0 0 320 400" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+            <!-- caja de suministros -->
+            <path d="M70 250 L160 220 L250 250 L250 340 L160 370 L70 340 Z" fill="rgba(255,255,255,.08)"/>
+            <path d="M70 250 L160 280 L250 250 M160 280 L160 370"/>
+            <path d="M110 236 L200 266" opacity=".7"/>
+            <!-- hoja / impreso -->
+            <rect x="96" y="70" width="128" height="150" rx="8" fill="rgba(255,255,255,.12)"/>
+            <path d="M120 104 h80 M120 128 h80 M120 152 h56"/>
+            <rect x="120" y="176" width="52" height="20" rx="4" fill="#FEDA02" stroke="none"/>
+            <!-- etiqueta / tag -->
+            <path d="M232 120 l40 8 4 34 -30 22 -22 -30 z" fill="rgba(255,255,255,.1)"/>
+            <circle cx="256" cy="140" r="6" fill="#FEDA02" stroke="none"/>
+            <!-- pantalla digital pequeña -->
+            <rect x="40" y="150" width="70" height="52" rx="8" fill="rgba(255,255,255,.1)"/>
+            <path d="M54 196 h42" opacity=".8"/>
+            <path d="M56 168 l10 10 14 -18" stroke="#FEDA02"/>
+          </svg>
         </div>
-        <div class="scroll-indicator"><span>Explorar</span><div class="mouse"></div></div>
-    </section>
-    <script>
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) { nav.classList.add('scrolled'); } else { nav.classList.remove('scrolled'); }
-        });
-        const canvas = document.getElementById('three-canvas');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 5;
-        const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        const geometry = new THREE.TorusKnotGeometry(1.5, 0.4, 120, 16);
-        const material = new THREE.MeshBasicMaterial({ color: 0xD4AF37, wireframe: true, transparent: true, opacity: 0.4 });
-        const torusKnot = new THREE.Mesh(geometry, material);
-        scene.add(torusKnot);
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 300;
-        const posArray = new Float32Array(particlesCount * 3);
-        for(let i=0; i<particlesCount * 3; i++) { posArray[i] = (Math.random() - 0.5) * 10; }
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const particlesMaterial = new THREE.PointsMaterial({ size: 0.03, color: 0x00D4FF });
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-        let mouseX = 0, mouseY = 0;
-        window.addEventListener('mousemove', (e) => { mouseX = (e.clientX / window.innerWidth) - 0.5; mouseY = (e.clientY / window.innerHeight) - 0.5; });
-        const animate = () => { requestAnimationFrame(animate); torusKnot.rotation.x += 0.003; torusKnot.rotation.y += 0.005; particlesMesh.rotation.y = mouseX * 0.5; particlesMesh.rotation.x = -mouseY * 0.5; renderer.render(scene, camera); };
-        animate();
-        window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
-        gsap.from('.hero-badge-premium', { opacity: 0, y: -30, duration: 1, delay: 0.2 });
-        gsap.from('.hero-title-premium', { opacity: 0, y: 30, duration: 1.2, delay: 0.4 });
-        gsap.from('.hero-subtitle-premium', { opacity: 0, y: 20, duration: 1.2, delay: 0.6 });
+        <img src="assets/tarjetas-mockup.jpg" alt="Suministros y piezas TECINTEK" onerror="this.remove()">
+      </div>
+      <div class="float-badge fb1"><div class="ic" style="background:var(--cian)">★</div><div>Producción<br>propia</div></div>
+      <div class="float-badge fb2"><div class="ic" style="background:var(--magenta)">%</div><div>Precio por<br>volumen</div></div>
+      <div class="float-badge fb3"><div class="ic" style="background:var(--amarillo);color:#1b2440">▲</div><div>Entrega a<br>nivel nacional</div></div>
+    </div>
+  </div>
+  <div class="hero-waves">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none">
+      <path fill="#149AD7" fill-opacity=".9" d="M0,50 C240,90 480,10 720,40 C960,70 1200,20 1440,55 L1440,90 L0,90 Z"/>
+      <path fill="#E0378A" fill-opacity=".85" d="M0,62 C240,30 520,80 760,55 C1000,30 1220,70 1440,45 L1440,90 L0,90 Z"/>
+      <path fill="#f6f8fc" d="M0,74 C260,58 520,88 780,72 C1040,56 1240,84 1440,70 L1440,90 L0,90 Z"/>
+    </svg>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<section class="trust">
+  <div class="wrap">
+    <div class="grid">
+      <div class="trust-item reveal"><div class="ic" style="background:var(--cian)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20" opacity="0"/><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      </div><div><b>Desde 2010</b><span>15+ años de trayectoria</span></div></div>
+      <div class="trust-item reveal"><div class="ic" style="background:var(--magenta)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M6 21V8l6-4 6 4v13M9 21v-6h6v6"/></svg>
+      </div><div><b>S.A.S.</b><span>Persona jurídica constituida</span></div></div>
+      <div class="trust-item reveal"><div class="ic" style="background:var(--marino)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V11l4-2 4 2 4-2 2 1v11M9 21v-4h4v4M9 13h.01M13 13h.01"/></svg>
+      </div><div><b>Producción propia</b><span>Precios por volumen</span></div></div>
+      <div class="trust-item reveal"><div class="ic truck-ic" style="background:var(--rojo)">
+        <svg class="truck-svg" viewBox="0 0 48 30" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="6" width="26" height="14" rx="1.5"/>
+          <path d="M28 10h8l6 5v5H28z"/>
+          <g class="wheel"><circle cx="12" cy="23" r="3.6"/><path d="M12 20v6M9 23h6"/></g>
+          <g class="wheel"><circle cx="35" cy="23" r="3.6"/><path d="M35 20v6M32 23h6"/></g>
+        </svg>
+      </div><div><b>Entrega rápida</b><span>A nivel nacional</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS LINES -->
+<section class="pad" id="lineas">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Nuestras 4 líneas de negocio</span>
+      <h2 class="h-sec">Todo lo que su empresa necesita</h2>
+      <p class="sec-lead">Cuatro actividades económicas registradas ante la Cámara de Comercio, con el mismo compromiso de calidad, cumplimiento y precios por volumen. Haga clic en una línea para filtrar el catálogo.</p>
+    </div>
+    <div class="lines-grid">
+      <article class="line-card tilt reveal" data-cat="suministros" style="--c:var(--cian)">
+        <div style="position:absolute;top:0;left:0;width:100%;height:5px;background:var(--cian)"></div>
+        <span class="tag-role" style="color:var(--cian)">Principal</span>
+        <div class="lic" style="background:var(--cian)">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-6 9 6v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 21V12h6v9"/></svg>
+        </div>
+        <h3>Suministros &amp; Comercio</h3>
+        <p>Comercio al por mayor no especializado: abarrotes, electrodomésticos, ferretería, artículos institucionales, dotaciones y regalos corporativos.</p>
+        <div class="line-meta"><div class="cnt"><span data-cnt="suministros">0</span><small>productos</small></div><span class="ciiu">G4690</span></div>
+      </article>
+      <article class="line-card tilt reveal" data-cat="publicidad" style="--c:var(--magenta)">
+        <div style="position:absolute;top:0;left:0;width:100%;height:5px;background:var(--magenta)"></div>
+        <span class="tag-role" style="color:var(--magenta)">Secundaria</span>
+        <div class="lic" style="background:var(--magenta)">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3zM3 11v3M11.5 12.5V17a2 2 0 004 0v-3"/></svg>
+        </div>
+        <h3>Publicidad &amp; Imprenta</h3>
+        <p>Imprenta y litografía: volantes, afiches, pendones, tarjetas, dotaciones textiles, sublimación, DTF UV, bordado, grabado láser y gigantografía.</p>
+        <div class="line-meta"><div class="cnt"><span data-cnt="publicidad">0</span><small>productos</small></div><span class="ciiu">M7310</span></div>
+      </article>
+      <article class="line-card tilt reveal" data-cat="telecom" style="--c:var(--amarillo)">
+        <div style="position:absolute;top:0;left:0;width:100%;height:5px;background:var(--amarillo)"></div>
+        <span class="tag-role" style="color:#b39400">Otras</span>
+        <div class="lic" style="background:var(--amarillo);color:#1b2440">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12a15 15 0 0120 0M5 15a10 10 0 0114 0M8.5 18a5 5 0 017 0"/><circle cx="12" cy="20.5" r="1"/></svg>
+        </div>
+        <h3>Telecomunicaciones</h3>
+        <p>Alquiler y venta de equipos de comunicaciones, asesoría en telecomunicaciones, diseño web, marketing digital y consultoría en licitaciones.</p>
+        <div class="line-meta"><div class="cnt"><span data-cnt="telecom">0</span><small>productos</small></div><span class="ciiu">J6190</span></div>
+      </article>
+      <article class="line-card tilt reveal" data-cat="comidas" style="--c:var(--marino)">
+        <div style="position:absolute;top:0;left:0;width:100%;height:5px;background:var(--marino)"></div>
+        <span class="tag-role" style="color:var(--marino)">Otras</span>
+        <div class="lic" style="background:var(--marino)">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 3v7a3 3 0 006 0V3M7 3v18M17 3c-1.5 0-3 1.5-3 5s1.5 4 3 4v9"/></svg>
+        </div>
+        <h3>Servicios de Comidas</h3>
+        <p>Organización de eventos, fiestas infantiles y corporativas, y servicios de comidas para eventos empresariales, familiares, privados y públicos.</p>
+        <div class="line-meta"><div class="cnt"><span data-cnt="comidas">0</span><small>servicios</small></div><span class="ciiu">I5629</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED SUMINISTROS -->
+<section class="feature pad">
+  <div class="wrap">
+    <div class="grid">
+      <div class="reveal">
+        <span class="kicker">Lo más pedido</span>
+        <h2 class="h-sec">Suministros empresariales al por mayor</h2>
+        <p class="sec-lead">Como comercializadores al por mayor no especializados (CIIU G4690), abastecemos a empresas, instituciones y comercios con un solo proveedor confiable: desde insumos y dotaciones hasta artículos publicitarios y regalos corporativos, con precios que mejoran según la cantidad.</p>
+        <ul class="check-list">
+          <li><span class="ck" style="background:var(--cian)">✓</span> Abarrotes, bebidas, electrodomésticos y ferretería</li>
+          <li><span class="ck" style="background:var(--magenta)">✓</span> Artículos institucionales, domésticos y dotación textil</li>
+          <li><span class="ck" style="background:var(--amarillo);color:#1b2440">✓</span> Regalos corporativos, incentivos navideños y personalizados</li>
+          <li><span class="ck" style="background:var(--marino)">✓</span> Alquiler y venta de artículos de comunicaciones</li>
+        </ul>
+        <div class="spec-grid">
+          <div class="spec" style="border-top-color:var(--cian)"><b>1+</b><span>Unidad mínima flexible</span></div>
+          <div class="spec" style="border-top-color:var(--magenta)"><b>Mayor</b><span>Precios por volumen</span></div>
+          <div class="spec" style="border-top-color:var(--amarillo)"><b>2010</b><span>Proveedor establecido</span></div>
+          <div class="spec" style="border-top-color:var(--marino)"><b>Cund.</b><span>Cobertura regional</span></div>
+        </div>
+      </div>
+      <div class="feature-img reveal" id="featImg">
+        <div class="feat-illus" aria-hidden="true">
+          <svg viewBox="0 0 300 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- escritorio / oficina -->
+            <rect x="40" y="150" width="220" height="12" rx="4" fill="#fff" opacity=".95"/>
+            <rect x="55" y="162" width="10" height="40" fill="#fff" opacity=".55"/>
+            <rect x="235" y="162" width="10" height="40" fill="#fff" opacity=".55"/>
+            <!-- monitor -->
+            <rect x="70" y="70" width="90" height="60" rx="6" stroke="#fff" stroke-width="4"/>
+            <rect x="82" y="82" width="66" height="10" rx="3" fill="#FEDA02"/>
+            <rect x="82" y="98" width="46" height="7" rx="3" fill="#fff" opacity=".7"/>
+            <rect x="108" y="130" width="14" height="16" fill="#fff" opacity=".6"/>
+            <!-- resma / papeles -->
+            <rect x="176" y="112" width="56" height="14" rx="2" fill="#fff"/>
+            <rect x="180" y="100" width="56" height="14" rx="2" fill="#E0378A"/>
+            <rect x="184" y="88" width="56" height="14" rx="2" fill="#fff"/>
+            <!-- lapicero -->
+            <rect x="200" y="60" width="26" height="30" rx="4" stroke="#fff" stroke-width="4"/>
+            <line x1="208" y1="60" x2="208" y2="44" stroke="#FEDA02" stroke-width="4" stroke-linecap="round"/>
+            <line x1="218" y1="60" x2="218" y2="48" stroke="#E0378A" stroke-width="4" stroke-linecap="round"/>
+            <!-- caja suministros -->
+            <path d="M60 128 h44 v24 h-44z" stroke="#fff" stroke-width="4"/>
+            <path d="M60 128 l8 -10 h28 l8 10" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <img src="assets/suministros-oficina.jpg" alt="Suministros para oficina e institucionales TECINTEK" onerror="this.remove()">
+        <div class="color-strip"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="pad" id="galeria" style="background:var(--paper2)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Piezas reales</span>
+      <h2 class="h-sec">Galería de producción</h2>
+      <p class="sec-lead">Una muestra de trabajos reales impresos y producidos en nuestros talleres. Haga clic en cualquier imagen para ampliarla.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="g-item reveal" data-src="assets/pieza-volante-1.jpg" data-cap="Volantes publicitarios full color">
+        <img src="assets/pieza-volante-1.jpg" alt="Volantes publicitarios" onerror="this.parentNode.style.background='linear-gradient(135deg,#149AD7,#2D4585)'">
+        <span class="g-tag">Publicidad · Volantes</span>
+        <span class="g-zoom">⤢</span>
+      </div>
+      <div class="g-item reveal" data-src="assets/carnets-lanyards.jpg" data-cap="Carnets y lanyards institucionales">
+        <img src="assets/carnets-lanyards.jpg" alt="Carnets y lanyards" onerror="this.parentNode.style.background='linear-gradient(135deg,#E0378A,#2D4585)'">
+        <span class="g-tag">Dotación · Carnets</span>
+        <span class="g-zoom">⤢</span>
+      </div>
+      <div class="g-item reveal" data-src="assets/reglas-publicitarias.jpg" data-cap="Reglas y artículos publicitarios">
+        <img src="assets/reglas-publicitarias.jpg" alt="Reglas publicitarias" onerror="this.parentNode.style.background='linear-gradient(135deg,#FEDA02,#E0378A)'">
+        <span class="g-tag">Publicidad · Merchandising</span>
+        <span class="g-zoom">⤢</span>
+      </div>
+      <div class="g-item reveal" data-src="assets/gorras-fila.jpg" data-cap="Gorras personalizadas y bordadas">
+        <img src="assets/gorras-fila.jpg" alt="Gorras personalizadas" onerror="this.parentNode.style.background='linear-gradient(135deg,#2D4585,#149AD7)'">
+        <span class="g-tag">Dotación · Bordado</span>
+        <span class="g-zoom">⤢</span>
+      </div>
+      <div class="g-item reveal" data-src="assets/pieza-volante-2.jpg" data-cap="Piezas impresas a gran escala">
+        <img src="assets/pieza-volante-2.jpg" alt="Piezas impresas" onerror="this.parentNode.style.background='linear-gradient(135deg,#E00C1B,#E0378A)'">
+        <span class="g-tag">Imprenta · Litografía</span>
+        <span class="g-zoom">⤢</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATALOG -->
+<section class="catalog pad" id="catalogo">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Catálogo completo</span>
+      <h2 class="h-sec">Explore nuestros productos y servicios</h2>
+      <p class="sec-lead">Filtre por línea de negocio o busque lo que necesita. Todo se cotiza a la medida por cantidad — solicite su cotización sin compromiso.</p>
+    </div>
+    <div class="cat-toolbar reveal">
+      <div class="filters" id="filters">
+        <button class="filter active" data-cat="all">Todos</button>
+        <button class="filter" data-cat="suministros">Suministros</button>
+        <button class="filter" data-cat="publicidad">Publicidad</button>
+        <button class="filter" data-cat="telecom">Telecom</button>
+        <button class="filter" data-cat="comidas">Comidas</button>
+      </div>
+      <div class="search-box">
+        <span class="si"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></span>
+        <input type="text" id="catSearch" placeholder="Buscar producto o servicio..." aria-label="Buscar en el catálogo">
+      </div>
+    </div>
+    <div class="cat-grid" id="catGrid"></div>
+    <div class="cat-foot reveal">
+      <a class="btn btn-ghost btn-lg" href="assets/catalogo-tecintek.pdf" download>Descargar catálogo PDF completo</a>
+    </div>
+  </div>
+</section>
+
+<!-- COTIZADOR -->
+<section class="quoter pad" id="cotizar">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Cotizador rápido</span>
+      <h2 class="h-sec">Arme su orden de trabajo</h2>
+      <p class="sec-lead">Seleccione un producto, indique la cantidad y envíenos la orden por WhatsApp. Confirmamos precio final y tiempos de entrega al instante.</p>
+    </div>
+    <div class="ticket reveal">
+      <div class="ticket-strip"></div>
+      <div class="ticket-form">
+        <h3>Orden de trabajo</h3>
+        <p class="sub">TECINTEK S.A.S. · Orden de trabajo</p>
+        <div class="fld">
+          <label for="qProd">Producto o servicio</label>
+          <select id="qProd"></select>
+        </div>
+        <div class="fld">
+          <label for="qQty">Cantidad</label>
+          <div class="qty-row">
+            <input type="range" id="qQty" min="1" max="1000" value="100">
+            <div class="qty-badge" id="qtyBadge">100</div>
+          </div>
+        </div>
+        <div class="save-wrap">
+          <div class="save-lbl"><span>Ahorro por volumen</span><b id="saveTxt">Estándar</b></div>
+          <div class="save-bar"><i id="saveBar"></i></div>
+        </div>
+        <a class="btn btn-wa btn-lg" id="qSend" href="#" target="_blank" rel="noopener" style="margin-top:24px">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.2s-.8 1-.9 1.1c-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5s0-.4 0-.5c-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2z"/></svg>
+          Enviar orden por WhatsApp
+        </a>
+      </div>
+      <div class="ticket-stub">
+        <div class="stub-tag">Resumen · Orden</div>
+        <div class="stub-title">TECINTEK</div>
+        <div class="stub-line"><span>Producto</span><span id="stubProd">—</span></div>
+        <div class="stub-line"><span>Especificación</span><span id="stubSpec">—</span></div>
+        <div class="stub-line"><span>Línea</span><span id="stubCat">—</span></div>
+        <div class="stub-line"><span>Cantidad</span><span id="stubQty">100 und</span></div>
+        <div class="stub-line"><span>Entrega estimada</span><span id="stubTime">3–5 días hábiles</span></div>
+        <p class="stub-note">* Estimado orientativo. Precio final y tiempos se confirman por WhatsApp según cantidad, acabados y disponibilidad. Cobertura a nivel nacional.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TELECOM -->
+<section class="telecom pad">
+  <div class="wrap">
+    <div class="grid">
+      <div class="reveal">
+        <span class="kicker" style="color:var(--amarillo)">Telecomunicaciones &amp; Digital · J6190</span>
+        <h2 class="h-sec">Conectamos su marca con resultados</h2>
+        <p class="sec-lead">Más allá del producto físico, ofrecemos alquiler y venta de equipos de comunicaciones, asesoría en telecomunicaciones, diseño web, marketing digital y consultoría en licitaciones. Llevamos su empresa a los medios donde están sus clientes.</p>
+        <a class="btn btn-wa btn-lg" href="https://wa.me/573135797472?text=Hola%20TECINTEK%2C%20me%20interesa%20el%20%C3%A1rea%20de%20telecomunicaciones%20y%20marketing%20digital." target="_blank" rel="noopener" style="margin-top:24px" data-confetti>Hablar con un asesor</a>
+      </div>
+      <div class="reveal">
+        <div class="tag-cloud">
+          <span>Medios digitales</span>
+          <span>Redes sociales</span>
+          <span>Televisión</span>
+          <span>Marcas publicitarias</span>
+          <span>Consumidores</span>
+          <span>Resultados</span>
+          <span>Diseño web</span>
+          <span>Licitaciones</span>
+          <span>Equipos de comunicación</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section class="pad" id="proceso">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Cómo trabajamos</span>
+      <h2 class="h-sec">Un proceso simple y transparente</h2>
+      <p class="sec-lead">Del requerimiento a la entrega en cuatro pasos, siempre con acompañamiento directo.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="num">1</div><h4>Nos cuentas qué necesitas</h4><p>Escríbenos por WhatsApp o correo con tu requerimiento: producto, cantidad y uso.</p><span class="arrow">→</span></div>
+      <div class="step reveal"><div class="num">2</div><h4>Cotizamos según cantidad</h4><p>Preparamos una propuesta con el mejor precio por volumen y tiempos de entrega.</p><span class="arrow">→</span></div>
+      <div class="step reveal"><div class="num">3</div><h4>Producimos o surtimos</h4><p>Con producción propia y proveedores aliados, fabricamos o abastecemos tu pedido.</p><span class="arrow">→</span></div>
+      <div class="step reveal"><div class="num">4</div><h4>Entrega oportuna</h4><p>Coordinamos la entrega a nivel nacional, con cumplimiento en los tiempos acordados.</p><span class="arrow">→</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi pad">
+  <div class="wrap">
+    <div class="sec-head reveal" style="text-align:center">
+      <span class="kicker" style="justify-content:center">Lo que dicen nuestros clientes</span>
+      <h2 class="h-sec">Confianza construida durante años</h2>
+    </div>
+    <div class="testi-carousel reveal">
+      <div class="testi-track" id="testiTrack">
+        <div class="testi-slide">
+          <div class="stars">★★★★★</div>
+          <p class="testi-quote">Llevamos años pidiendo la dotación y los volantes de nuestro colegio con TECINTEK. Siempre cumplen con los tiempos y el precio por cantidad es imbatible.</p>
+          <div class="testi-who"><div class="testi-av" style="background:var(--cian)">MC</div><b>María Camila Torres</b><span>Coordinadora administrativa · Colombia</span></div>
+        </div>
+        <div class="testi-slide">
+          <div class="stars">★★★★★</div>
+          <p class="testi-quote">Necesitábamos pendones, carnets y regalos corporativos para un evento corporativo. Un solo proveedor nos resolvió todo con excelente calidad de impresión.</p>
+          <div class="testi-who"><div class="testi-av" style="background:var(--magenta)">JR</div><b>Jorge Rincón</b><span>Gerente comercial · Colombia</span></div>
+        </div>
+        <div class="testi-slide">
+          <div class="stars">★★★★★</div>
+          <p class="testi-quote">Como empresa constituida nos daba tranquilidad trabajar con otra empresa formal, con matrícula y facturación en regla. Serios y cumplidos.</p>
+          <div class="testi-who"><div class="testi-av" style="background:var(--marino)">LG</div><b>Laura Gómez</b><span>Compras institucionales · Colombia</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-nav">
+      <button class="testi-arrow" id="testiPrev" aria-label="Anterior">‹</button>
+      <div class="testi-dots" id="testiDots"></div>
+      <button class="testi-arrow" id="testiNext" aria-label="Siguiente">›</button>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band pad">
+  <div class="wrap reveal">
+    <h2>¿Listo para suministrar tu empresa?</h2>
+    <p>Cotiza sin compromiso. Te respondemos rápido con la mejor propuesta por volumen para tu proyecto.</p>
+    <div class="cta-actions">
+      <a class="btn btn-solid btn-lg" href="https://wa.me/573135797472?text=Hola%20TECINTEK%2C%20quiero%20cotizar%20un%20pedido." target="_blank" rel="noopener" data-confetti>Escribir por WhatsApp</a>
+      <a class="btn btn-ghost btn-lg" href="mailto:tecintek@gmail.com?subject=Cotización%20TECINTEK">Enviar un correo</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contacto">
+  <div class="foot-strip"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#hero" class="brand">
+          <div class="brand-logo"><img src="assets/logo-tck.png" alt="Logo TECINTEK" onerror="this.parentNode.textContent='T'"></div>
+          <div class="brand-txt"><strong>TECINTEK S.A.S.</strong><small style="color:rgba(255,255,255,.6)">· Desde 2010</small></div>
+        </a>
+        <p>Empresa legalmente constituida desde 2010 que suministra al por mayor y al detal, produce publicidad e impresos, ofrece telecomunicaciones y organiza eventos con servicios de comidas.</p>
+      </div>
+      <div>
+        <h5>Servicios</h5>
+        <ul>
+          <li><a href="#lineas">Suministros &amp; Comercio</a></li>
+          <li><a href="#lineas">Publicidad &amp; Imprenta</a></li>
+          <li><a href="#lineas">Telecomunicaciones</a></li>
+          <li><a href="#lineas">Servicios de Comidas</a></li>
+          <li><a href="#catalogo">Catálogo completo</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Empresa</h5>
+        <ul>
+          <li><a href="#lineas">Líneas de negocio</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#proceso">Cómo trabajamos</a></li>
+          <li><a href="#cotizar">Cotizar</a></li>
+          <li><a href="assets/catalogo-tecintek.pdf" download>Catálogo PDF</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contacto</h5>
+        <ul class="foot-contact">
+          <li><a href="https://wa.me/573135797472" target="_blank" rel="noopener"><span class="fi"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.2s-.8 1-.9 1.1c-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5s0-.4 0-.5c-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2z"/></svg></span><span>WhatsApp: 313 579 7472</span></a></li>
+          <li><a href="mailto:tecintek@gmail.com"><span class="fi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 6l10 7 10-7"/></svg></span><span>tecintek@gmail.com</span></a></li>
+        </ul>
+        <div class="socials">
+          <a class="fb" href="#" data-soon aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2 0-3 1-3 3v2H9v3h2v6h3v-6h2.5l.5-3H14v-1.5c0-.6.4-.5 0-.5z"/></svg></a>
+          <a class="ig" href="#" data-soon aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a class="wa" href="https://wa.me/573135797472" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.2s-.8 1-.9 1.1c-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5s0-.4 0-.5c-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2z"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">© 2026 TECINTEK S.A.S. — Colombia. Todos los derechos reservados.</div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a class="wa-float" href="https://wa.me/573135797472?text=Hola%20TECINTEK%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.2s-.8 1-.9 1.1c-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5s0-.4 0-.5c-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2z"/></svg>
+</a>
+
+<!-- BACK TO TOP -->
+<button class="to-top" id="toTop" aria-label="Volver arriba">↑</button>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose" aria-label="Cerrar">×</button>
+  <img src="" alt="" id="lbImg">
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<!-- QUICK VIEW MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <div class="modal-img" id="mImg"></div>
+    <div class="modal-info">
+      <button class="modal-close" id="mClose" aria-label="Cerrar">×</button>
+      <span class="m-cat" id="mCat"></span>
+      <h3 id="mName"></h3>
+      <p id="mDesc"></p>
+      <div class="m-line"><span>Especificación</span><span id="mSpec"></span></div>
+      <div class="m-line"><span>Línea CIIU</span><span id="mCiiu"></span></div>
+      <div class="m-line"><span>Entrega estimada</span><span id="mTime"></span></div>
+      <a class="btn btn-wa" id="mCotizar" href="#" target="_blank" rel="noopener">Cotizar este producto</a>
+    </div>
+  </div>
+</div>
+
+<!-- TOASTS -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- SCRIPTS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script>
+(function(){
+"use strict";
+var WA="573135797472";
+var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var isTouch=window.matchMedia("(hover: none), (pointer: coarse)").matches;
+if(isTouch) document.body.classList.add("touch");
+function waLink(msg){return "https://wa.me/"+WA+"?text="+encodeURIComponent(msg);}
+function catLabel(c){return {suministros:"Suministros & Comercio",publicidad:"Publicidad & Imprenta",telecom:"Telecomunicaciones",comidas:"Servicios de Comidas"}[c]||c;}
+function ciiuOf(c){return {suministros:"G4690",publicidad:"M7310",telecom:"J6190",comidas:"I5629"}[c]||"";}
+function catColor(c){return {suministros:"#149AD7",publicidad:"#E0378A",telecom:"#FEDA02",comidas:"#2D4585"}[c]||"#1A2757";}
+
+/* ===== ICONOS SVG (para productos sin foto) ===== */
+var ICONS={
+ box:'<rect x="4" y="8" width="16" height="12" rx="1.5"/><path d="M4 8l2-4h12l2 4M12 8v12M4 12h16"/>',
+ office:'<path d="M12 20h8"/><path d="M15.5 4.5a2.1 2.1 0 013 3L8 18l-4 1 1-4z"/><path d="M14 6l3 3"/>',
+ paper:'<rect x="4" y="4" width="16" height="4" rx="1"/><rect x="4" y="10" width="16" height="4" rx="1"/><rect x="4" y="16" width="16" height="4" rx="1"/>',
+ printer:'<path d="M6 9V3h12v6"/><rect x="4" y="9" width="16" height="8" rx="2"/><rect x="8" y="14" width="8" height="6"/><path d="M17 12h.01"/>',
+ desk:'<rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/><path d="M6 8h5"/>',
+ archive:'<path d="M3 7l2-3h14l2 3"/><rect x="3" y="7" width="18" height="13" rx="1.5"/><path d="M9 12h6"/>',
+ cart:'<circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M2 3h3l2.2 11.5a1.5 1.5 0 001.5 1.2h8a1.5 1.5 0 001.5-1.2L21 7H6"/>',
+ appliance:'<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M6 10h12M9 5v2M9 13v3"/>',
+ wrench:'<path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4l-2.6 2.6-2-2 2.6-2.6z"/>',
+ clean:'<path d="M4 21l6-6"/><path d="M13 4l7 7-3 2-6-6z"/><path d="M9 9l-2 2"/>',
+ shirt:'<path d="M16 3l5 4-3 3-1-1v12H7V9L6 10 3 7l5-4 2 2h4z"/>',
+ cap:'<path d="M4 14a8 8 0 0116 0"/><rect x="2" y="14" width="20" height="3" rx="1.5"/>',
+ id:'<rect x="6" y="3" width="12" height="18" rx="2"/><path d="M12 3V1"/><circle cx="12" cy="10" r="2"/><path d="M9 17c0-2 6-2 6 0"/>',
+ gift:'<rect x="4" y="9" width="16" height="12" rx="1"/><path d="M2 9h20v3H2z"/><path d="M12 9v12"/><path d="M12 9a3 3 0 10-3-3c0 2 3 3 3 3zM12 9a3 3 0 013-3c0 2-3 3-3 3z"/>',
+ radio:'<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M10 5h4M9 18h6"/><circle cx="12" cy="12" r="2"/>',
+ antenna:'<circle cx="12" cy="13" r="1.5"/><path d="M8.8 9.8a5 5 0 000 6.4M15.2 9.8a5 5 0 010 6.4M6 7a9 9 0 000 12M18 7a9 9 0 010 12"/>',
+ web:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M6 7h.01M8.5 7h.01"/>',
+ mega:'<path d="M3 11v2l14 5V6L3 11z"/><path d="M3 11H2v2h1"/><path d="M17 8a4 4 0 010 8"/>',
+ doc:'<path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/><path d="M9 14l2 2 4-4"/>',
+ event:'<path d="M12 3l2.5 5 5.5.8-4 4 1 5.5L12 16l-5 2.3 1-5.5-4-4 5.5-.8z"/>',
+ catering:'<path d="M6 3v8a2 2 0 004 0V3M8 11v10"/><path d="M16 3c-1.5 0-2 2-2 5s.5 4 2 4v9"/>'
+};
+
+/* ===== PRODUCT DATA (solo actividades CIIU reales) ===== */
+var PRODUCTS=[
+ /* --- PUBLICIDAD & IMPRENTA (M7310) --- */
+ {n:"Volantes publicitarios",cat:"publicidad",spec:"Full color, media/carta, 4x4 tintas",tag:"Imprenta",img:"assets/volantes-mejores.jpg",ic:"paper",time:"2–4 días hábiles"},
+ {n:"Tarjetas de presentación",cat:"publicidad",spec:"Propalcote 300g, laminado mate/brillo",tag:"Papelería",img:"assets/tarjetas-mockup.jpg",ic:"id",time:"3–5 días hábiles"},
+ {n:"Afiches y pósters",cat:"publicidad",spec:"Full color, formatos hasta 70x100 cm",tag:"Gran formato",img:"assets/afiche-noche-talentos.jpg",ic:"web",time:"3–5 días hábiles"},
+ {n:"Pendones publicitarios",cat:"publicidad",spec:"Lona banner + estructura araña",tag:"Gran formato",img:"assets/pendones-calle.jpg",ic:"web",time:"2–4 días hábiles"},
+ {n:"Pendón urbano gran formato",cat:"publicidad",spec:"Lona reforzada exterior + ojales",tag:"Gigantografía",img:"assets/pendon-urbana.jpg",ic:"web",time:"3–6 días hábiles"},
+ {n:"Abanicos publicitarios",cat:"publicidad",spec:"Cartón/plástico personalizado",tag:"Merchandising",img:"assets/abanico-imprenta.jpg",ic:"box",time:"4–7 días hábiles"},
+ {n:"Banderines",cat:"publicidad",spec:"Tela o papel, cordón continuo",tag:"Eventos",img:"assets/banderines.jpg",ic:"event",time:"3–5 días hábiles"},
+ {n:"Avisos y señalización comercial",cat:"publicidad",spec:"Acrílico, PVC o metálico personalizado",tag:"Señalización",img:"assets/aviso-sushiwok.jpg",ic:"web",time:"5–10 días hábiles"},
+ {n:"Caja de luz / gigantografía",cat:"publicidad",spec:"Estructura + iluminación LED",tag:"Publicidad exterior",img:"assets/caja-luz-abastos.jpg",ic:"web",time:"7–12 días hábiles"},
+ {n:"Plegables y brochures",cat:"publicidad",spec:"Tríptico/díptico full color",tag:"Imprenta",img:"assets/plegables-mockup.jpg",ic:"paper",time:"3–5 días hábiles"},
+ {n:"Facturero / talonario",cat:"publicidad",spec:"Numerado, original y copias",tag:"Papelería comercial",img:"assets/facturero-elcielo.jpg",ic:"doc",time:"4–6 días hábiles"},
+ {n:"Impresión de periódicos y prensa",cat:"publicidad",spec:"Rotativo, tiraje por volumen",tag:"Litografía",img:"assets/periodicos.jpg",ic:"paper",time:"5–8 días hábiles"},
+ {n:"Señalización institucional",cat:"publicidad",spec:"Set de señales normativas",tag:"Señalización",img:"assets/senalizacion-grid.jpg",ic:"web",time:"5–10 días hábiles"},
+ {n:"Etiquetas para ropa",cat:"publicidad",spec:"Tela tejida o estampada",tag:"Textil",img:"assets/etiquetas-ropa.jpg",ic:"box",time:"6–10 días hábiles"},
+
+ /* --- SUMINISTROS & COMERCIO (G4690) — enfoque oficina e institucional --- */
+ {n:"Papelería y útiles de oficina",cat:"suministros",spec:"Bolígrafos, cuadernos, grapas, archivadores",tag:"Oficina",img:"",ic:"office",time:"1–3 días hábiles"},
+ {n:"Resmas de papel",cat:"suministros",spec:"Carta y oficio, 75g — por caja/volumen",tag:"Oficina",img:"",ic:"paper",time:"1–3 días hábiles"},
+ {n:"Tóner y cartuchos de impresión",cat:"suministros",spec:"Originales y compatibles, varias marcas",tag:"Oficina",img:"",ic:"printer",time:"1–4 días hábiles"},
+ {n:"Mobiliario de oficina",cat:"suministros",spec:"Escritorios, sillas ergonómicas, mesas",tag:"Institucional",img:"",ic:"desk",time:"A convenir"},
+ {n:"Archivadores y carpetas",cat:"suministros",spec:"AZ, legajadores, cajas de archivo",tag:"Oficina",img:"",ic:"archive",time:"1–3 días hábiles"},
+ {n:"Abarrotes y bebidas institucionales",cat:"suministros",spec:"Surtido para cafetería y casino por volumen",tag:"Comercio mayorista",img:"",ic:"cart",time:"A convenir"},
+ {n:"Electrodomésticos",cat:"suministros",spec:"Línea doméstica e institucional",tag:"Comercio mayorista",img:"",ic:"appliance",time:"A convenir"},
+ {n:"Ferretería y herramientas",cat:"suministros",spec:"Insumos, herramienta menor y eléctrica",tag:"Comercio mayorista",img:"",ic:"wrench",time:"A convenir"},
+ {n:"Aseo y cafetería institucional",cat:"suministros",spec:"Insumos de limpieza y desechables",tag:"Institucional",img:"",ic:"clean",time:"1–4 días hábiles"},
+ {n:"Dotación y uniformes institucionales",cat:"suministros",spec:"Camisetas y uniformes por cantidad",tag:"Dotación",img:"assets/camiseta-campana.jpg",ic:"shirt",time:"5–8 días hábiles"},
+ {n:"Polos institucionales",cat:"suministros",spec:"Tipo piqué, bordado o estampado",tag:"Dotación",img:"assets/polos-fila.jpg",ic:"shirt",time:"6–10 días hábiles"},
+ {n:"Gorras institucionales",cat:"suministros",spec:"Bordado o estampado del logo",tag:"Dotación",img:"assets/gorras-fila.jpg",ic:"cap",time:"6–10 días hábiles"},
+ {n:"Carnets y lanyards",cat:"suministros",spec:"PVC + cinta institucional",tag:"Identificación",img:"assets/carnets-lanyards.jpg",ic:"id",time:"3–6 días hábiles"},
+ {n:"Regalos corporativos",cat:"suministros",spec:"Mugs, kits y detalles personalizados",tag:"Regalos corporativos",img:"assets/mugs-colores.jpg",ic:"gift",time:"4–7 días hábiles"},
+ {n:"Incentivos y detalles navideños",cat:"suministros",spec:"Kits corporativos de fin de año",tag:"Regalos corporativos",img:"",ic:"gift",time:"A convenir"},
+
+ /* --- TELECOMUNICACIONES & DIGITAL (J6190) --- */
+ {n:"Alquiler de equipos de comunicación",cat:"telecom",spec:"Radios y equipos para eventos",tag:"Alquiler",img:"",ic:"radio",time:"A convenir"},
+ {n:"Venta de equipos de comunicaciones",cat:"telecom",spec:"Equipos y accesorios telecom",tag:"Venta",img:"",ic:"radio",time:"A convenir"},
+ {n:"Diseño web",cat:"telecom",spec:"Sitios corporativos responsivos",tag:"Digital",img:"",ic:"web",time:"A convenir"},
+ {n:"Marketing digital",cat:"telecom",spec:"Redes sociales y campañas online",tag:"Digital",img:"",ic:"mega",time:"A convenir"},
+ {n:"Asesoría en telecomunicaciones",cat:"telecom",spec:"Consultoría técnica especializada",tag:"Consultoría",img:"",ic:"antenna",time:"A convenir"},
+ {n:"Consultoría en licitaciones",cat:"telecom",spec:"Acompañamiento en procesos",tag:"Consultoría",img:"",ic:"doc",time:"A convenir"},
+
+ /* --- SERVICIOS DE COMIDAS (I5629) --- */
+ {n:"Organización de eventos",cat:"comidas",spec:"Empresariales, privados y públicos",tag:"Eventos",img:"",ic:"event",time:"A convenir"},
+ {n:"Fiestas infantiles y corporativas",cat:"comidas",spec:"Logística y ambientación",tag:"Eventos",img:"",ic:"event",time:"A convenir"},
+ {n:"Servicios de comidas para eventos",cat:"comidas",spec:"Catering familiar y empresarial",tag:"Catering",img:"",ic:"catering",time:"A convenir"}
+];
+
+/* ===== PRELOADER ===== */
+(function(){
+ var pre=document.getElementById("preloader");
+ var word=document.getElementById("preWord");
+ var bar=document.getElementById("preBar");
+ "TECINTEK".split("").forEach(function(ch){var s=document.createElement("span");s.textContent=ch;word.appendChild(s);});
+ function finish(){
+   pre.classList.add("done");
+   document.body.style.overflow="";
+   revealHero();
+ }
+ document.body.style.overflow="hidden";
+ setTimeout(function(){if(!pre.classList.contains("done"))finish();},6000); // failsafe
+ if(reduce){ bar.style.width="100%"; setTimeout(finish,300); return; }
+ if(window.anime){
+   anime.timeline().add({targets:"#preWord span",opacity:[0,1],translateY:[40,0],rotateX:[-90,0],delay:anime.stagger(70),duration:700,easing:"easeOutExpo"});
+ }else{ Array.prototype.forEach.call(word.children,function(s){s.style.opacity=1;s.style.transform="none";}); }
+ var p=0;
+ var iv=setInterval(function(){
+   p+=Math.random()*16+6; if(p>=100){p=100;clearInterval(iv);setTimeout(finish,450);}
+   bar.style.width=p+"%";
+ },160);
+ setTimeout(function(){clearInterval(iv);bar.style.width="100%";},3500);
+})();
+
+function revealHero(){
+ if(reduce||!window.gsap){document.querySelectorAll(".hero .reveal").forEach(function(e){e.style.opacity=1;e.style.transform="none";});runCounters();return;}
+ gsap.to(".hero .reveal",{opacity:1,y:0,duration:.9,stagger:.12,ease:"power3.out",onComplete:runCounters});
+ setTimeout(runCounters,1500);
+}
+
+/* ===== CUSTOM CURSOR ===== */
+if(!isTouch){
+ var dot=document.querySelector(".cursor-dot"),ring=document.querySelector(".cursor-ring");
+ var mx=0,my=0,rx=0,ry=0;
+ window.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;dot.style.left=mx+"px";dot.style.top=my+"px";});
+ (function loop(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;ring.style.left=rx+"px";ring.style.top=ry+"px";requestAnimationFrame(loop);})();
+ document.addEventListener("mouseover",function(e){
+   if(e.target.closest("a,button,.line-card,.g-item,.prod,input,select,.testi-arrow,.filter")) ring.classList.add("hover");
+ });
+ document.addEventListener("mouseout",function(e){
+   if(e.target.closest("a,button,.line-card,.g-item,.prod,input,select,.testi-arrow,.filter")) ring.classList.remove("hover");
+ });
+}
+
+/* ===== SCROLL PROGRESS + HEADER + TO TOP ===== */
+var header=document.getElementById("header"),prog=document.getElementById("scrollProgress"),toTop=document.getElementById("toTop");
+function onScroll(){
+ var st=window.pageYOffset||document.documentElement.scrollTop;
+ var h=document.documentElement.scrollHeight-window.innerHeight;
+ prog.style.width=(h>0?(st/h*100):0)+"%";
+ if(st>60){header.classList.add("stuck");header.classList.remove("top");}else{header.classList.remove("stuck");header.classList.add("top");}
+ if(st>500){toTop.classList.add("show");}else{toTop.classList.remove("show");}
+}
+window.addEventListener("scroll",onScroll,{passive:true});onScroll();
+toTop.addEventListener("click",function(){window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});});
+
+/* ===== MOBILE MENU ===== */
+var hamb=document.getElementById("hamb"),mm=document.getElementById("mobileMenu");
+function closeMenu(){hamb.classList.remove("open");mm.classList.remove("open");document.body.style.overflow="";}
+hamb.addEventListener("click",function(){var o=hamb.classList.toggle("open");mm.classList.toggle("open",o);document.body.style.overflow=o?"hidden":"";});
+mm.querySelectorAll("a").forEach(function(a){a.addEventListener("click",closeMenu);});
+
+/* ===== SMOOTH SCROLL ===== */
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+ a.addEventListener("click",function(e){
+   var id=a.getAttribute("href"); if(id.length<2)return;
+   var t=document.querySelector(id); if(!t)return;
+   e.preventDefault();
+   var y=t.getBoundingClientRect().top+window.pageYOffset-70;
+   window.scrollTo({top:y,behavior:reduce?"auto":"smooth"});
+ });
+});
+
+/* ===== HERO PARALLAX BLOBS + PARTICLES ===== */
+(function(){
+ var particles=document.getElementById("particles");
+ for(var i=0;i<26;i++){var s=document.createElement("i");s.style.left=Math.random()*100+"%";s.style.top=Math.random()*100+"%";s.style.animationDelay=(Math.random()*7)+"s";s.style.animationDuration=(5+Math.random()*5)+"s";var c=["#149AD7","#E0378A","#FEDA02","#ffffff"][Math.floor(Math.random()*4)];s.style.background=c;particles.appendChild(s);}
+ if(reduce||isTouch)return;
+ var hero=document.getElementById("hero");
+ hero.addEventListener("mousemove",function(e){
+   var cx=(e.clientX/window.innerWidth-.5),cy=(e.clientY/window.innerHeight-.5);
+   document.querySelectorAll(".blob").forEach(function(b){var sp=parseFloat(b.getAttribute("data-speed"))||20;b.style.transform="translate("+(cx*sp)+"px,"+(cy*sp)+"px)";});
+ });
+})();
+
+/* ===== HERO 3D TILT CARD ===== */
+(function(){
+ var card=document.getElementById("heroCard"); if(!card||isTouch||reduce)return;
+ var v=card.parentNode;
+ v.addEventListener("mousemove",function(e){
+   var r=card.getBoundingClientRect();var px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
+   card.style.transform="rotateY("+(px*12)+"deg) rotateX("+(-py*12)+"deg)";
+ });
+ v.addEventListener("mouseleave",function(){card.style.transform="";});
+})();
+
+/* ===== COUNTERS ===== */
+var countersDone=false;
+function runCounters(){
+ if(countersDone)return;countersDone=true;
+ document.querySelectorAll(".count").forEach(function(el){
+   var to=+el.getAttribute("data-to"),suf=el.getAttribute("data-suffix")||"";
+   if(reduce){el.textContent=to+suf;return;}
+   var o={v:0};
+   if(window.anime){anime({targets:o,v:to,round:1,duration:1600,easing:"easeOutExpo",update:function(){el.textContent=o.v+suf;}});}
+   else{el.textContent=to+suf;}
+ });
+}
+
+/* ===== TILT ON LINE CARDS ===== */
+if(!isTouch&&!reduce){
+ document.querySelectorAll(".tilt").forEach(function(c){
+   c.addEventListener("mousemove",function(e){var r=c.getBoundingClientRect();var px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;c.style.transform="perspective(800px) rotateY("+(px*8)+"deg) rotateX("+(-py*8)+"deg) translateY(-4px)";});
+   c.addEventListener("mouseleave",function(){c.style.transform="";});
+ });
+}
+
+/* ===== MAGNETIC BUTTONS ===== */
+if(!isTouch&&!reduce){
+ document.querySelectorAll(".btn-solid,.btn-wa,.wa-float").forEach(function(b){
+   b.addEventListener("mousemove",function(e){var r=b.getBoundingClientRect();var x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;b.style.transform="translate("+(x*.25)+"px,"+(y*.35)+"px)";});
+   b.addEventListener("mouseleave",function(){b.style.transform="";});
+ });
+}
+
+/* ===== TOAST ===== */
+var toastWrap=document.getElementById("toastWrap");
+function toast(msg,color){
+ var t=document.createElement("div");t.className="toast";t.style.borderLeftColor=color||"#149AD7";
+ t.innerHTML='<span class="ti">✓</span>'+msg;
+ toastWrap.appendChild(t);
+ requestAnimationFrame(function(){t.classList.add("show");});
+ setTimeout(function(){t.classList.remove("show");setTimeout(function(){t.remove();},400);},3000);
+}
+
+/* ===== CONFETTI ===== */
+function confetti(x,y){
+ if(reduce)return;
+ var colors=["#149AD7","#E0378A","#FEDA02","#2D4585","#E00C1B"];
+ for(var i=0;i<36;i++){
+   var p=document.createElement("i");p.className="confetti-piece";
+   p.style.left=x+"px";p.style.top=y+"px";
+   p.style.background=colors[i%colors.length];
+   if(i%3===0)p.style.borderRadius="50%";
+   document.body.appendChild(p);
+   var ang=Math.random()*Math.PI*2,dist=80+Math.random()*160;
+   if(window.anime){
+     anime({targets:p,translateX:Math.cos(ang)*dist,translateY:Math.sin(ang)*dist+Math.random()*200,rotate:Math.random()*720,opacity:[1,0],scale:[1,.3],duration:1100+Math.random()*600,easing:"easeOutCubic",complete:function(a){a.animatables[0].target.remove();}});
+   }else{setTimeout(function(){p.remove();},1200);}
+ }
+}
+document.querySelectorAll("[data-confetti]").forEach(function(el){
+ el.addEventListener("click",function(e){confetti(e.clientX,e.clientY);});
+});
+
+/* ===== SOCIAL "PRÓXIMAMENTE" ===== */
+document.querySelectorAll("[data-soon]").forEach(function(el){
+ el.addEventListener("click",function(e){e.preventDefault();toast("Próximamente en redes sociales","#E0378A");});
+});
+
+/* ===== RENDER CATALOG ===== */
+var catGrid=document.getElementById("catGrid");
+function illusTile(p){
+ var g="linear-gradient(140deg,"+catColor(p.cat)+",#1A2757)";
+ var ic=ICONS[p.ic]||ICONS.box;
+ return '<div class="prod-ph" style="background:'+g+'"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg><span>'+p.n+'</span></div>';
+}
+function prodImgHTML(p){
+ if(p.img){var i=PRODUCTS.indexOf(p);return '<img src="'+p.img+'" alt="'+p.n+'" loading="lazy" onerror="this.parentNode.innerHTML=window.__illus('+i+')">';}
+ return illusTile(p);
+}
+window.__illus=function(i){return illusTile(PRODUCTS[i]);};
+function renderCatalog(list){
+ catGrid.innerHTML="";
+ if(!list.length){catGrid.innerHTML='<div class="no-res">No encontramos productos con ese criterio. Prueba otra búsqueda o escríbenos por WhatsApp.</div>';return;}
+ list.forEach(function(p,i){
+   var card=document.createElement("article");card.className="prod";
+   card.innerHTML=
+     '<div class="prod-img" data-quick="'+PRODUCTS.indexOf(p)+'">'+prodImgHTML(p)+
+       '<span class="prod-cat" style="background:'+catColor(p.cat)+(p.cat==="telecom"?";color:#1b2440":"")+'">'+ciiuOf(p.cat)+'</span>'+
+       '<span class="quick">Vista rápida</span>'+
+     '</div>'+
+     '<div class="prod-body">'+
+       '<h4>'+p.n+'</h4>'+
+       '<p class="spec-t">'+p.spec+'</p>'+
+       '<span class="prod-tag">'+p.tag+'</span>'+
+       '<button class="cotizar" data-cot="'+PRODUCTS.indexOf(p)+'">Cotizar <span>→</span></button>'+
+     '</div>';
+   catGrid.appendChild(card);
+ });
+ bindCards();
+ if(window.gsap&&!reduce){gsap.from(".prod",{opacity:0,y:24,duration:.5,stagger:.05,ease:"power2.out"});}
+}
+function bindCards(){
+ catGrid.querySelectorAll("[data-quick]").forEach(function(el){el.addEventListener("click",function(){openModal(PRODUCTS[+el.getAttribute("data-quick")]);});});
+ catGrid.querySelectorAll("[data-cot]").forEach(function(el){el.addEventListener("click",function(e){
+   var p=PRODUCTS[+el.getAttribute("data-cot")];
+   window.open(waLink("Hola TECINTEK, quiero cotizar: "+p.n+" ("+p.spec+"). ¿Me ayudan con precio y tiempos?"),"_blank");
+   toast("Producto enviado a cotización","#25D366");confetti(e.clientX,e.clientY);
+ });});
+}
+var curFilter="all",curSearch="";
+function applyFilter(){
+ var list=PRODUCTS.filter(function(p){
+   var okCat=curFilter==="all"||p.cat===curFilter;
+   var q=curSearch.toLowerCase();
+   var okQ=!q||(p.n+" "+p.spec+" "+p.tag+" "+catLabel(p.cat)).toLowerCase().indexOf(q)>-1;
+   return okCat&&okQ;
+ });
+ renderCatalog(list);
+}
+document.querySelectorAll("#filters .filter").forEach(function(f){
+ f.addEventListener("click",function(){
+   document.querySelectorAll("#filters .filter").forEach(function(x){x.classList.remove("active");});
+   f.classList.add("active");curFilter=f.getAttribute("data-cat");applyFilter();
+ });
+});
+document.getElementById("catSearch").addEventListener("input",function(e){curSearch=e.target.value;applyFilter();});
+/* line cards -> filter catalog */
+document.querySelectorAll(".line-card").forEach(function(lc){
+ lc.addEventListener("click",function(){
+   var cat=lc.getAttribute("data-cat");
+   document.querySelectorAll("#filters .filter").forEach(function(x){x.classList.toggle("active",x.getAttribute("data-cat")===cat);});
+   curFilter=cat;curSearch="";document.getElementById("catSearch").value="";applyFilter();
+   var y=document.getElementById("catalogo").getBoundingClientRect().top+window.pageYOffset-70;
+   window.scrollTo({top:y,behavior:reduce?"auto":"smooth"});
+   toast("Filtrando: "+catLabel(cat),catColor(cat));
+ });
+});
+/* counts per line */
+["suministros","publicidad","telecom","comidas"].forEach(function(c){
+ var n=PRODUCTS.filter(function(p){return p.cat===c;}).length;
+ var el=document.querySelector('[data-cnt="'+c+'"]');if(el)el.setAttribute("data-final",n);
+});
+renderCatalog(PRODUCTS);
+
+/* ===== QUICK VIEW MODAL ===== */
+var modal=document.getElementById("modal");
+function openModal(p){
+ var mi=PRODUCTS.indexOf(p);
+ document.getElementById("mImg").innerHTML=p.img?'<img src="'+p.img+'" alt="'+p.n+'" onerror="this.parentNode.innerHTML=window.__illus('+mi+')">':illusTile(p);
+ var mc=document.getElementById("mCat");mc.textContent=catLabel(p.cat);mc.style.color=catColor(p.cat);
+ document.getElementById("mName").textContent=p.n;
+ document.getElementById("mDesc").textContent="Producto de nuestra línea "+catLabel(p.cat)+". Se cotiza a la medida según cantidad, acabados y disponibilidad.";
+ document.getElementById("mSpec").textContent=p.spec;
+ document.getElementById("mCiiu").textContent=ciiuOf(p.cat)+" · "+p.tag;
+ document.getElementById("mTime").textContent=p.time;
+ document.getElementById("mCotizar").href=waLink("Hola TECINTEK, vengo del catálogo y quiero cotizar: "+p.n+" ("+p.spec+").");
+ modal.classList.add("open");document.body.style.overflow="hidden";
+}
+function closeModal(){modal.classList.remove("open");document.body.style.overflow="";}
+document.getElementById("mClose").addEventListener("click",closeModal);
+modal.addEventListener("click",function(e){if(e.target===modal)closeModal();});
+document.getElementById("mCotizar").addEventListener("click",function(e){confetti(e.clientX,e.clientY);toast("Abriendo WhatsApp...","#25D366");});
+
+/* ===== LIGHTBOX ===== */
+var lb=document.getElementById("lightbox"),lbImg=document.getElementById("lbImg"),lbCap=document.getElementById("lbCap");
+document.querySelectorAll(".g-item").forEach(function(g){
+ g.addEventListener("click",function(){lbImg.src=g.getAttribute("data-src");lbImg.alt=g.getAttribute("data-cap");lbCap.textContent=g.getAttribute("data-cap");lb.classList.add("open");document.body.style.overflow="hidden";});
+});
+function closeLb(){lb.classList.remove("open");document.body.style.overflow="";}
+document.getElementById("lbClose").addEventListener("click",closeLb);
+lb.addEventListener("click",function(e){if(e.target===lb)closeLb();});
+
+/* ===== ESCAPE KEY ===== */
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeModal();closeLb();closeMenu();}});
+
+/* ===== COTIZADOR ===== */
+var qProd=document.getElementById("qProd"),qQty=document.getElementById("qQty"),qtyBadge=document.getElementById("qtyBadge");
+var saveBar=document.getElementById("saveBar"),saveTxt=document.getElementById("saveTxt"),qSend=document.getElementById("qSend");
+PRODUCTS.forEach(function(p,i){var o=document.createElement("option");o.value=i;o.textContent=p.n+" — "+catLabel(p.cat);qProd.appendChild(o);});
+function updateQuoter(){
+ var p=PRODUCTS[+qProd.value],qty=+qQty.value;
+ qtyBadge.textContent=qty;
+ document.getElementById("stubProd").textContent=p.n;
+ document.getElementById("stubSpec").textContent=p.spec;
+ document.getElementById("stubCat").textContent=catLabel(p.cat)+" ("+ciiuOf(p.cat)+")";
+ document.getElementById("stubQty").textContent=qty+" und";
+ document.getElementById("stubTime").textContent=p.time;
+ var pct=Math.min(100,Math.round(qty/1000*100));
+ saveBar.style.width=pct+"%";
+ var lvl= qty>=500?"Máximo ahorro":qty>=200?"Ahorro alto":qty>=50?"Ahorro medio":"Estándar";
+ saveTxt.textContent=lvl;
+ qSend.href=waLink("Hola TECINTEK, quiero una ORDEN DE TRABAJO:\n• Producto: "+p.n+"\n• Especificación: "+p.spec+"\n• Línea: "+catLabel(p.cat)+" ("+ciiuOf(p.cat)+")\n• Cantidad: "+qty+" unidades\n¿Me confirman precio y tiempo de entrega?");
+}
+qProd.addEventListener("change",function(){updateQuoter();toast("Producto seleccionado: "+PRODUCTS[+qProd.value].n,catColor(PRODUCTS[+qProd.value].cat));});
+qQty.addEventListener("input",updateQuoter);
+qSend.addEventListener("click",function(e){confetti(e.clientX,e.clientY);toast("Orden enviada a WhatsApp","#25D366");});
+updateQuoter();
+
+/* ===== TESTIMONIALS ===== */
+(function(){
+ var track=document.getElementById("testiTrack"),slides=track.children.length,idx=0;
+ var dotsWrap=document.getElementById("testiDots");
+ for(var i=0;i<slides;i++){var d=document.createElement("i");if(i===0)d.classList.add("active");(function(k){d.addEventListener("click",function(){go(k);});})(i);dotsWrap.appendChild(d);}
+ function go(n){idx=(n+slides)%slides;track.style.transform="translateX("+(-idx*100)+"%)";dotsWrap.querySelectorAll("i").forEach(function(x,k){x.classList.toggle("active",k===idx);});}
+ document.getElementById("testiNext").addEventListener("click",function(){go(idx+1);reset();});
+ document.getElementById("testiPrev").addEventListener("click",function(){go(idx-1);reset();});
+ var auto=setInterval(function(){go(idx+1);},6000);
+ function reset(){clearInterval(auto);auto=setInterval(function(){go(idx+1);},6000);}
+})();
+
+/* ===== SCROLL REVEAL (GSAP) ===== */
+if(window.gsap&&window.ScrollTrigger){
+ gsap.registerPlugin(ScrollTrigger);
+ if(reduce){
+   document.querySelectorAll(".reveal").forEach(function(e){e.style.opacity=1;e.style.transform="none";});
+ }else{
+   document.querySelectorAll(".reveal").forEach(function(el){
+     if(el.closest(".hero"))return; // hero handled by preloader
+     gsap.fromTo(el,{opacity:0,y:34},{opacity:1,y:0,duration:.8,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 88%"}});
+   });
+   /* line counts animate on view */
+   ScrollTrigger.create({trigger:"#lineas",start:"top 70%",once:true,onEnter:function(){
+     document.querySelectorAll("[data-cnt]").forEach(function(el){
+       var f=+el.getAttribute("data-final")||0;var o={v:0};
+       if(window.anime){anime({targets:o,v:f,round:1,duration:1200,easing:"easeOutExpo",update:function(){el.textContent=o.v;}});}else{el.textContent=f;}
+     });
+   }});
+   /* parallax featured image */
+   gsap.to("#featImg img",{yPercent:-12,ease:"none",scrollTrigger:{trigger:"#featImg",start:"top bottom",end:"bottom top",scrub:true}});
+ }
+}else{
+ document.querySelectorAll(".reveal").forEach(function(e){e.style.opacity=1;e.style.transform="none";});
+ document.querySelectorAll("[data-cnt]").forEach(function(el){el.textContent=el.getAttribute("data-final")||0;});
+}
+
+})();
+</script>
+</body>
+</html>
