@@ -16,7 +16,8 @@ archivo con el nombre correspondiente **tal cual** aparece abajo.
 | Archivo | Uso | Recomendado |
 |---|---|---|
 | `tarjetas-mockup.jpg` | Imagen principal del hero (tilt 3D) | JPG vertical ~4:5, 800×1000 px |
-| `volantes-mejores.jpg` | Imagen del bloque "Suministros" | JPG horizontal ~4:3, 1000×750 px |
+| `suministros-oficina.jpg` | Imagen del bloque "Suministros" (opcional; si falta se muestra una ilustración de oficina) | JPG horizontal ~4:3, 1000×750 px |
+| `volantes-mejores.jpg` | Producto "Volantes publicitarios" en el catálogo | JPG horizontal ~4:3, 1000×750 px |
 
 ## Galería (clic para ampliar en lightbox)
 | Archivo | Etiqueta mostrada |
@@ -46,12 +47,14 @@ archivo con el nombre correspondiente **tal cual** aparece abajo.
 | `etiquetas-ropa.jpg` | Etiquetas para ropa |
 | `camiseta-campana.jpg` | Camisetas para campañas |
 | `polos-fila.jpg` | Polos institucionales |
-| `mugs-colores.jpg` | Mugs y regalos corporativos |
+| `mugs-colores.jpg` | Regalos corporativos |
 
-> Los productos de las líneas **Telecomunicaciones (J6190)** y **Servicios de Comidas
-> (I5629)**, además de algunos de comercio mayorista, usan placeholder con degradado a
-> propósito (no requieren imagen). Puedes agregarles foto luego si lo deseas, añadiendo
-> la ruta en el arreglo `PRODUCTS` dentro de `index.html`.
+> **Suministros de oficina** (papelería, resmas, tóner, mobiliario, archivadores,
+> abarrotes, electrodomésticos, ferretería, aseo…), **Telecomunicaciones (J6190)** y
+> **Servicios de Comidas (I5629)** usan **ilustraciones SVG integradas** en lugar de
+> foto — no necesitan archivo y **no se ven vacíos**. Si quieres ponerles una foto real,
+> agrega la ruta en el campo `img` del producto dentro del arreglo `PRODUCTS` en
+> `index.html`.
 
 ## Consejos
 - Formato recomendado: **JPG** para fotos (ligero), **PNG** para el logo.
