@@ -48,6 +48,9 @@ def validar_guion(g: dict) -> list[str]:
         errores.append("descripcion supera 5000 bytes")
     if any(c in g["descripcion"] for c in "<>"):
         errores.append("descripcion no puede contener < ni >")
+    hashtags = [w for w in g["descripcion"].split() if w.startswith("#")]
+    if len(hashtags) > 15:
+        errores.append(f"descripcion tiene {len(hashtags)} hashtags; máximo 15 (si no, YouTube los ignora todos)")
     if not isinstance(g["tags"], list) or not g["tags"]:
         errores.append("tags debe ser una lista no vacía")
     elif sum(len(t) + 2 for t in g["tags"]) > 500:

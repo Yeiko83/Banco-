@@ -54,6 +54,11 @@ Cuando te pidan el "MODO DIARIO":
    - Si ninguna sirve, elige un tema atemporal relacionado con alguna tendencia.
 3. Investiga con WebSearch/WebFetch (2 a 4 fuentes confiables) antes de escribir. Usa solo datos confirmados. Si algo no está claro, no lo afirmes.
 4. Haz la FASE 1 con un video de unos 60 a 90 segundos. Agrega al JSON la clave `tema_tendencia` con el texto exacto de la tendencia elegida. En la descripción incluye 1 o 2 fuentes.
+   - **Los videos se publican como PÚBLICOS sin revisión humana**, así que:
+     - El título debe ser llamativo pero veraz. Nada de "secreto", "confirmado" o "última hora" si no lo es. Un rumor se presenta como rumor ("¿Volverá…?").
+     - No afirmes nada sobre personas reales que no esté confirmado por las fuentes.
+   - **Hashtags de tendencia:** termina la descripción con una línea de entre 8 y 12 hashtags (máximo 15; si hay más, YouTube los ignora todos). Los 3 primeros son los más importantes, porque YouTube los muestra sobre el título: #TemaElegido y dos más del tema. Luego agrega hashtags de otras tendencias de hoy de la lista de `tendencias.py` que tengan relación con el video, y cierra con 1 o 2 genéricos del país (ej. #Colombia #Tendencias). Sin espacios ni tildes dentro de cada hashtag.
+   - Incluye en `tags` la tendencia elegida y otras tendencias relacionadas de hoy.
 5. Ejecuta `python scripts/pipeline.py` y aplica las reglas de autocorrección.
 6. Termina imprimiendo la tendencia elegida, por qué la elegiste y la URL.
 7. Las imágenes no deben representar a personas reales identificables (usa escenas, objetos o siluetas).

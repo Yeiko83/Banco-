@@ -73,6 +73,8 @@ jobs:
       - name: Crear y subir el video
         env:
           CI: "true"
+          # Los videos se publican directamente como públicos
+          YOUTUBE_PRIVACY: public
           # Opcional: clave gratuita de pollinations.ai para evitar los límites (HTTP 402)
           POLLINATIONS_TOKEN: ${{ secrets.POLLINATIONS_TOKEN }}
         run: |
