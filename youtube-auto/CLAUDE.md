@@ -47,6 +47,7 @@ Si el usuario pide "sin subir", usa `python scripts/pipeline.py --sin-subir`.
 ## MODO DIARIO (tendencias, sin intervención)
 Cuando te pidan el "MODO DIARIO":
 1. Ejecuta `python scripts/tendencias.py`. Devuelve las búsquedas en auge de hoy (ya sin las usadas antes, según `historial.json`) con sus noticias relacionadas.
+   - Si el script falla (por ejemplo, Google bloquea la petición), busca con WebSearch "tendencias hoy Colombia" y descarta los temas que ya aparecen en `historial.json`.
 2. Elige UNA tendencia con este orden de preferencia:
    - Sirve para un video explicativo útil o curioso: tecnología, ciencia, deportes, entretenimiento, lanzamientos, fenómenos, fechas especiales.
    - DESCARTA: muertes, tragedias, crímenes, accidentes, víctimas, temas médicos sensibles, acusaciones contra personas reales, política partidista y cualquier cosa que no puedas verificar.

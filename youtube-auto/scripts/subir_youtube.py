@@ -1,5 +1,6 @@
 """FASE 5: sube video_final.mp4 + miniatura a YouTube con la API oficial (OAuth2)."""
 import json
+import os
 import sys
 import time
 from datetime import date
@@ -32,6 +33,9 @@ def credenciales() -> Credentials:
             print("El token venció; se pedirá iniciar sesión de nuevo en el navegador.")
             creds = None
     if not creds or not creds.valid:
+        if os.getenv("CI"):
+            sys.exit("ERROR: token.json inválido o vencido en el servidor. Genera uno nuevo en tu PC "
+                     "y actualiza el secreto YOUTUBE_TOKEN en GitHub.")
         flow = InstalledAppFlow.from_client_secrets_file(str(secretos), SCOPES)
         creds = flow.run_local_server(port=0, prompt="consent")
     TOKEN.write_text(creds.to_json(), encoding="utf-8")
