@@ -1,6 +1,7 @@
 """FASE 5: sube video_final.mp4 + miniatura a YouTube con la API oficial (OAuth2)."""
 import json
 import os
+import socket
 import sys
 import time
 from datetime import date
@@ -43,20 +44,29 @@ def credenciales() -> Credentials:
 
 
 def subir(youtube, cuerpo: dict, video) -> str:
-    media = MediaFileUpload(str(video), mimetype="video/mp4", chunksize=8 * 1024 * 1024, resumable=True)
+    # Trozos de 2 MB: en conexiones lentas o inestables cada trozo termina antes del tiempo límite.
+    media = MediaFileUpload(str(video), mimetype="video/mp4", chunksize=2 * 1024 * 1024, resumable=True)
     peticion = youtube.videos().insert(part="snippet,status", body=cuerpo, media_body=media)
     respuesta, errores = None, 0
     while respuesta is None:
         try:
-            estado, respuesta = peticion.next_chunk()
+            estado, respuesta = peticion.next_chunk(num_retries=3)
+            errores = 0
             if estado:
                 print(f"  subiendo... {int(estado.progress() * 100)}%")
         except HttpError as e:
-            if e.resp.status in (500, 502, 503, 504) and errores < 5:
-                errores += 1
-                time.sleep(2 ** errores)
-                continue
-            raise
+            if e.resp.status not in (500, 502, 503, 504) or errores >= 8:
+                raise
+            errores += 1
+            print(f"  error {e.resp.status} de YouTube, reintento {errores}/8...")
+            time.sleep(min(2 ** errores, 60))
+        except (OSError, TimeoutError, ConnectionError) as e:
+            # WinError 10060/10054, cortes de red, etc. La subida continúa donde iba.
+            if errores >= 8:
+                raise
+            errores += 1
+            print(f"  problema de conexión ({e}), reintento {errores}/8...")
+            time.sleep(min(2 ** errores, 60))
     return respuesta["id"]
 
 
@@ -66,7 +76,8 @@ def main() -> None:
     if not video.exists():
         sys.exit("ERROR: no existe video_final.mp4 (ejecuta la Fase 4).")
 
-    youtube = build("youtube", "v3", credentials=credenciales())
+    socket.setdefaulttimeout(300)  # 5 min por petición en vez de cortar enseguida
+    youtube = build("youtube", "v3", credentials=credenciales(), num_retries=3)
     cuerpo = {
         "snippet": {
             "title": guion["titulo"][:100],
