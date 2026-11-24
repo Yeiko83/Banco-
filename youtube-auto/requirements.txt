@@ -1,0 +1,7 @@
+edge-tts>=6.1.10
+python-dotenv>=1.0
+mutagen>=1.47
+requests>=2.31
+google-api-python-client>=2.100
+google-auth-oauthlib>=1.2
+google-auth-httplib2>=0.2

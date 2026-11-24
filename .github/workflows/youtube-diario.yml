@@ -1,0 +1,89 @@
+# Crea y sube 3 videos diarios sobre tendencias, en los servidores de GitHub (el PC puede estar apagado).
+# Horas en UTC. Colombia = UTC-5. Empieza ~20 min antes para que el video quede arriba a la hora:
+#   22:40 UTC = 5:40 pm COT -> listo ~6 pm
+#   23:40 UTC = 6:40 pm COT -> listo ~7 pm
+#   00:40 UTC = 7:40 pm COT -> listo ~8 pm
+# GitHub puede retrasar los horarios programados unos minutos.
+name: YouTube diario (tendencias)
+
+on:
+  schedule:
+    - cron: "40 22 * * *"
+    - cron: "40 23 * * *"
+    - cron: "40 0 * * *"
+  workflow_dispatch: {}   # botón "Run workflow" para probar a mano
+
+concurrency:
+  group: youtube-diario
+  cancel-in-progress: false
+
+permissions:
+  contents: write   # para guardar historial.json y no repetir temas
+
+jobs:
+  video:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    defaults:
+      run:
+        working-directory: youtube-auto
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Instalar FFmpeg, librerías y Claude Code
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          python -m pip install -q -r requirements.txt
+          npm install -g @anthropic-ai/claude-code
+
+      - name: Preparar configuración y credenciales
+        env:
+          YOUTUBE_CLIENT_SECRETS: ${{ secrets.YOUTUBE_CLIENT_SECRETS }}
+          YOUTUBE_TOKEN: ${{ secrets.YOUTUBE_TOKEN }}
+        run: |
+          cp .env.example .env
+          printf '%s' "$YOUTUBE_CLIENT_SECRETS" > client_secrets.json
+          printf '%s' "$YOUTUBE_TOKEN" > token.json
+          test -s client_secrets.json || { echo "Falta el secreto YOUTUBE_CLIENT_SECRETS"; exit 1; }
+          test -s token.json || { echo "Falta el secreto YOUTUBE_TOKEN"; exit 1; }
+
+      - name: Claude crea y sube el video
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          CI: "true"
+        run: |
+          claude -p "Ejecuta el MODO DIARIO de CLAUDE.md: elige la mejor tendencia de hoy, investígala, crea el video y súbelo. Termina imprimiendo la URL de YouTube o el error exacto." \
+            --allowedTools "Bash(python scripts/*)" "Bash(python -m pip install *)" "Bash(ffmpeg *)" \
+                           "Read" "Write" "Edit" "Glob" "Grep" "WebSearch" "WebFetch"
+          test -f proyecto_actual/url_youtube.txt || { echo "No se subió ningún video"; exit 1; }
+          echo "VIDEO: $(cat proyecto_actual/url_youtube.txt)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Guardar historial
+        if: always()
+        run: |
+          [ -f historial.json ] || exit 0
+          git config user.name "youtube-auto-bot"
+          git config user.email "youtube-auto-bot@users.noreply.github.com"
+          git add -f historial.json
+          git commit -m "historial: nuevo video" || exit 0
+          git pull --rebase -q && git push -q
+
+      - name: Guardar el video como descarga (7 días)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-${{ github.run_id }}
+          path: |
+            youtube-auto/proyecto_actual/video_final.mp4
+            youtube-auto/proyecto_actual/miniatura.jpg
+            youtube-auto/proyecto_actual/guion.json
+          retention-days: 7
+          if-no-files-found: ignore
