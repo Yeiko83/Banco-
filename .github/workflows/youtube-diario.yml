@@ -66,12 +66,15 @@ jobs:
           python scripts/limpiar.py
           claude -p "Haz SOLO los pasos 1 a 4 del MODO DIARIO de CLAUDE.md: ejecuta python scripts/tendencias.py, elige una tendencia, investígala y escribe proyecto_actual/guion.json. Luego ejecuta python scripts/validar_guion.py y corrige el JSON hasta que sea válido. NO ejecutes pipeline.py ni generes voz, imágenes o video: eso lo hace el siguiente paso. Termina indicando la tendencia elegida." \
             --allowedTools "Bash(python scripts/limpiar.py*)" "Bash(python scripts/tendencias.py*)" "Bash(python scripts/validar_guion.py*)" \
+                           "Bash(python3 scripts/tendencias.py*)" "Bash(python3 scripts/validar_guion.py*)" \
                            "Read" "Write" "Edit" "Glob" "Grep" "WebSearch" "WebFetch"
           python scripts/validar_guion.py
 
       - name: Crear y subir el video
         env:
           CI: "true"
+          # Opcional: clave gratuita de pollinations.ai para evitar los límites (HTTP 402)
+          POLLINATIONS_TOKEN: ${{ secrets.POLLINATIONS_TOKEN }}
         run: |
           python scripts/pipeline.py
           echo "VIDEO: $(cat proyecto_actual/url_youtube.txt)" >> "$GITHUB_STEP_SUMMARY"

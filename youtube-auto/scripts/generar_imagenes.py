@@ -12,7 +12,7 @@ from comun import PROYECTO, cargar_guion, env, ruta_escena
 URL = "https://image.pollinations.ai/prompt/{prompt}?width={w}&height={h}&nologo=true&seed={seed}"
 ESTILO = ", cinematic photorealistic, dramatic lighting, 8k, highly detailed, no text, no letters, no watermark"
 MIN_BYTES = 15 * 1024
-INTENTOS = 4
+INTENTOS = 6
 # El acceso anónimo de Pollinations admite ~1 petición cada 15 s; más rápido devuelve 429.
 PAUSA = float(env("POLLINATIONS_PAUSA", "16"))
 TOKEN = env("POLLINATIONS_TOKEN", "")  # opcional: clave gratuita de pollinations.ai
@@ -35,6 +35,9 @@ def descargar(prompt: str, destino: Path, w: int, h: int, seed: int) -> bool:
                 time.sleep(PAUSA)
                 return True
             print(f"  {destino.name}: respuesta inválida (HTTP {r.status_code}, {len(r.content)} bytes)")
+            if r.status_code in (402, 429):
+                # Límite del acceso gratuito: esperar más antes de reintentar.
+                time.sleep(PAUSA * 2)
         except requests.RequestException as e:
             print(f"  {destino.name}: error de red: {e}")
         time.sleep(max(3, PAUSA))
