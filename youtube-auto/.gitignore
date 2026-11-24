@@ -1,0 +1,9 @@
+# Secretos: NUNCA subir a GitHub
+.env
+client_secrets.json
+token.json
+
+# Salidas generadas
+proyecto_actual/
+__pycache__/
+*.pyc
