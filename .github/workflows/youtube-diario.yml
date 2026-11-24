@@ -40,7 +40,10 @@ jobs:
 
       - name: Instalar FFmpeg, librerías y Claude Code
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          # FFmpeg estático desde GitHub (apt-get tardaba más de 10 minutos)
+          curl -sL https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz \
+            | tar -xJ -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/ffmpeg-master-latest-linux64-gpl/bin" >> "$GITHUB_PATH"
           python -m pip install -q -r requirements.txt
           npm install -g @anthropic-ai/claude-code
 
@@ -55,15 +58,22 @@ jobs:
           test -s client_secrets.json || { echo "Falta el secreto YOUTUBE_CLIENT_SECRETS"; exit 1; }
           test -s token.json || { echo "Falta el secreto YOUTUBE_TOKEN"; exit 1; }
 
-      - name: Claude crea y sube el video
+      - name: Claude elige la tendencia y escribe el guion
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           CI: "true"
         run: |
-          claude -p "Ejecuta el MODO DIARIO de CLAUDE.md: elige la mejor tendencia de hoy, investígala, crea el video y súbelo. Termina imprimiendo la URL de YouTube o el error exacto." \
-            --allowedTools "Bash(python scripts/*)" "Bash(python -m pip install *)" "Bash(ffmpeg *)" \
+          python scripts/limpiar.py
+          claude -p "Haz SOLO los pasos 1 a 4 del MODO DIARIO de CLAUDE.md: ejecuta python scripts/tendencias.py, elige una tendencia, investígala y escribe proyecto_actual/guion.json. Luego ejecuta python scripts/validar_guion.py y corrige el JSON hasta que sea válido. NO ejecutes pipeline.py ni generes voz, imágenes o video: eso lo hace el siguiente paso. Termina indicando la tendencia elegida." \
+            --allowedTools "Bash(python scripts/limpiar.py*)" "Bash(python scripts/tendencias.py*)" "Bash(python scripts/validar_guion.py*)" \
                            "Read" "Write" "Edit" "Glob" "Grep" "WebSearch" "WebFetch"
-          test -f proyecto_actual/url_youtube.txt || { echo "No se subió ningún video"; exit 1; }
+          python scripts/validar_guion.py
+
+      - name: Crear y subir el video
+        env:
+          CI: "true"
+        run: |
+          python scripts/pipeline.py
           echo "VIDEO: $(cat proyecto_actual/url_youtube.txt)" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Guardar historial
