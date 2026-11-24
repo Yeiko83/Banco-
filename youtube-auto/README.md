@@ -48,6 +48,14 @@ Prompt:
 
 Para revisar el video antes de subirlo, pide "sin subir". Cuando te guste, ejecuta `python scripts/pipeline.py --desde subir`.
 
+## Un video diario automático con tendencias
+
+1. Prueba primero un video a mano (sección Uso) para que se cree `token.json`.
+2. Prueba el modo diario una vez: `powershell -ExecutionPolicy Bypass -File .\diario.ps1`
+3. Prográmalo: `powershell -ExecutionPolicy Bypass -File .\instalar_tarea_diaria.ps1 -Hora "18:00"`
+
+Cada día: Google Trends (`TENDENCIAS_PAIS` en `.env`) → Claude elige un tema seguro, lo investiga en la web y escribe el guion → video → subida. Los temas usados quedan en `historial.json` y los registros en `logs\`. El PC debe estar encendido (o se ejecuta al encenderlo) y con la sesión de `claude` iniciada.
+
 ## ⚠️ Correcciones importantes a la guía original
 
 1. **Los videos pueden quedar bloqueados en privado.** Google restringe a "privado" todo video subido con `videos.insert` desde un proyecto de API **no verificado** creado después de julio de 2020. Es posible que no puedas cambiarlo a Público en YouTube Studio. Para quitar la restricción hay que pedir la auditoría de cumplimiento de la API de YouTube (es gratis, pero tarda). Mientras tanto, la Fase 4 funciona igual y puedes subir `proyecto_actual\video_final.mp4` a mano desde YouTube Studio.

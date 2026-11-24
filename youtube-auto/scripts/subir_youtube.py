@@ -1,6 +1,8 @@
 """FASE 5: sube video_final.mp4 + miniatura a YouTube con la API oficial (OAuth2)."""
+import json
 import sys
 import time
+from datetime import date
 
 from google.auth.exceptions import RefreshError
 from google.auth.transport.requests import Request
@@ -98,6 +100,11 @@ def main() -> None:
 
     url = f"https://youtu.be/{video_id}"
     (PROYECTO / "url_youtube.txt").write_text(url, encoding="utf-8")
+    historial = RAIZ / "historial.json"
+    datos = json.loads(historial.read_text(encoding="utf-8")) if historial.exists() else []
+    datos.append({"fecha": date.today().isoformat(), "tema": guion.get("tema_tendencia", guion["titulo"]),
+                  "titulo": guion["titulo"], "url": url})
+    historial.write_text(json.dumps(datos, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\nURL DEL VIDEO: {url}")
 
 

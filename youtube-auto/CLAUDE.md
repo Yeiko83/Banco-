@@ -8,7 +8,7 @@ Eres un agente de producción audiovisual. Cuando el usuario te dé un tema, com
 - En Windows el intérprete es `python`; en Linux/macOS, `python3`.
 
 ## FASE 1: Guion (la haces tú, Claude)
-1. Si existe `proyecto_actual/`, borra su contenido. Si no existe, créala.
+1. Ejecuta `python scripts/limpiar.py` (vacía `proyecto_actual/`; si no, se reutilizarían las imágenes del video anterior).
 2. Escribe `proyecto_actual/guion.json` en UTF-8 con exactamente estas claves:
    - `titulo`: magnético, máximo 60 caracteres, sin `<` ni `>`.
    - `descripcion`: optimizada para SEO, con palabras clave, 3 a 5 hashtags al final y un llamado a suscribirse. Sin `<` ni `>`.
@@ -43,3 +43,16 @@ Si el usuario pide "sin subir", usa `python scripts/pipeline.py --sin-subir`.
 - Si una imagen quedó como fondo de respaldo, bórrala y reejecuta `--desde imagenes` una vez (el script reutiliza las que ya están bien).
 - Nunca muestres, copies ni subas a git el contenido de `.env`, `client_secrets.json` ni `token.json`.
 - Al terminar, entrega al usuario la URL que imprime el script (`https://youtu.be/...`).
+
+## MODO DIARIO (tendencias, sin intervención)
+Cuando te pidan el "MODO DIARIO":
+1. Ejecuta `python scripts/tendencias.py`. Devuelve las búsquedas en auge de hoy (ya sin las usadas antes, según `historial.json`) con sus noticias relacionadas.
+2. Elige UNA tendencia con este orden de preferencia:
+   - Sirve para un video explicativo útil o curioso: tecnología, ciencia, deportes, entretenimiento, lanzamientos, fenómenos, fechas especiales.
+   - DESCARTA: muertes, tragedias, crímenes, accidentes, víctimas, temas médicos sensibles, acusaciones contra personas reales, política partidista y cualquier cosa que no puedas verificar.
+   - Si ninguna sirve, elige un tema atemporal relacionado con alguna tendencia.
+3. Investiga con WebSearch/WebFetch (2 a 4 fuentes confiables) antes de escribir. Usa solo datos confirmados. Si algo no está claro, no lo afirmes.
+4. Haz la FASE 1 con un video de unos 60 a 90 segundos. Agrega al JSON la clave `tema_tendencia` con el texto exacto de la tendencia elegida. En la descripción incluye 1 o 2 fuentes.
+5. Ejecuta `python scripts/pipeline.py` y aplica las reglas de autocorrección.
+6. Termina imprimiendo la tendencia elegida, por qué la elegiste y la URL.
+7. Las imágenes no deben representar a personas reales identificables (usa escenas, objetos o siluetas).

@@ -7,3 +7,5 @@ token.json
 proyecto_actual/
 __pycache__/
 *.pyc
+logs/
+historial.json
