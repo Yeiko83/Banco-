@@ -21,6 +21,21 @@ SCOPES = ["https://www.googleapis.com/auth/youtube.upload",
 TOKEN = RAIZ / "token.json"
 
 
+# En algunas redes (frecuente en Windows) IPv6 no funciona y httplib2 se queda esperando
+# hasta dar WinError 10060, aunque el navegador y curl sí conectan. Se prefiere IPv4.
+_getaddrinfo_original = socket.getaddrinfo
+
+
+def _preferir_ipv4(host, *args, **kwargs):
+    resultados = _getaddrinfo_original(host, *args, **kwargs)
+    ipv4 = [r for r in resultados if r[0] == socket.AF_INET]
+    return ipv4 or resultados
+
+
+if os.getenv("YOUTUBE_PERMITIR_IPV6", "").lower() not in ("1", "true", "si"):
+    socket.getaddrinfo = _preferir_ipv4
+
+
 def credenciales() -> Credentials:
     secretos = RAIZ / env("YOUTUBE_CLIENT_SECRETS_FILE", "client_secrets.json")
     if not secretos.exists():
