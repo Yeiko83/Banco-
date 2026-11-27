@@ -1,0 +1,42 @@
+# Tecintek FlowChat — DocumentRoot (LiteSpeed / Apache compatible)
+Options -Indexes -MultiViews
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Forzar HTTPS (Meta exige HTTPS para webhooks)
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Pasar la cabecera Authorization a PHP (API REST con Bearer token)
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Bloquear archivos ocultos (.env, .git, etc.)
+    RewriteRule (^|/)\. - [F,L]
+
+    # Archivos estáticos existentes se sirven directo; el resto al front controller
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L,QSA]
+</IfModule>
+
+# Caché agresiva para assets compilados (Flow Builder /dist, widget)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 7 days"
+    ExpiresByType application/javascript "access plus 7 days"
+    ExpiresByType image/svg+xml "access plus 30 days"
+    ExpiresByType image/png "access plus 30 days"
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    # El widget se embebe en tecintek.com: permitir CORS sólo para widget.js
+    <FilesMatch "^widget\.js$">
+        Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+</IfModule>

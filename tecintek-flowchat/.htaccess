@@ -1,0 +1,24 @@
+# -----------------------------------------------------------------------------
+# Salvavidas para hosting compartido.
+# Lo ideal es que el DocumentRoot del (sub)dominio apunte a /public.
+# Si Hostinger no te deja cambiarlo y subes el proyecto completo dentro de
+# public_html, este archivo redirige todo a /public y bloquea /app, /storage, etc.
+# -----------------------------------------------------------------------------
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Bloquear acceso directo a carpetas y archivos sensibles
+    RewriteRule ^(app|bin|config|database|storage|vendor)(/|$) - [F,L]
+    RewriteRule (^|/)\.(env|git) - [F,L]
+    RewriteRule ^(composer\.(json|lock)|README\.md)$ - [F,L]
+
+    # Todo lo demás vive en /public
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>

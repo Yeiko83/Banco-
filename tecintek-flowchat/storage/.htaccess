@@ -1,0 +1,4 @@
+# Nada en /storage debe ser accesible vía web (logs, uploads, sesiones, caché).
+# Los archivos multimedia se sirven a Meta mediante /media/{token} firmado desde PHP.
+Require all denied
+Deny from all

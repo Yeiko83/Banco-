@@ -1,0 +1,15 @@
+.env
+/vendor/
+/storage/logs/*
+/storage/cache/*
+/storage/uploads/*
+/storage/tmp/*
+/storage/sessions/*
+!/storage/**/.gitkeep
+!/storage/.htaccess
+/public/dist/*
+!/public/dist/.gitkeep
+/storage/installed.lock
+.DS_Store
+.idea/
+.vscode/
